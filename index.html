@@ -227,13 +227,13 @@
             <a href="#api-ile-odeme-almak" class="toc-h1 toc-link" data-title="API ile Ödeme Almak">API ile Ödeme Almak</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#istek-request-parametreleri" class="toc-h2 toc-link" data-title="API ile Ödeme Almak">İstek(Request) Parametreleri</a>
+                    <a href="#istek-parametreleri" class="toc-h2 toc-link" data-title="API ile Ödeme Almak">İstek Parametreleri</a>
                   </li>
                   <li>
                     <a href="#hash-hesaplama" class="toc-h2 toc-link" data-title="API ile Ödeme Almak">Hash Hesaplama</a>
                   </li>
                   <li>
-                    <a href="#yanit-response" class="toc-h2 toc-link" data-title="API ile Ödeme Almak">Yanıt (Response)</a>
+                    <a href="#yanit-parametreleri" class="toc-h2 toc-link" data-title="API ile Ödeme Almak">Yanıt Parametreleri</a>
                   </li>
               </ul>
           </li>
@@ -282,7 +282,7 @@
 <blockquote>
 <p>İşlem İsteği Göndermek için:</p>
 </blockquote>
-<h1 id='api-ile-odeme-almak'>API ile Ödeme Almak</h1><h2 id='istek-request-parametreleri'>İstek(Request) Parametreleri</h2><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<h1 id='api-ile-odeme-almak'>API ile Ödeme Almak</h1><h2 id='istek-parametreleri'>İstek Parametreleri</h2><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">hmac</span>
 <span class="kn">import</span> <span class="nn">hashlib</span>
@@ -735,7 +735,7 @@ ORDER_PNAME, ORDER_PCODE, ORDER_PINFO, ORDER_PRICE and ORDER_QTY parametreleri k
 <li><p>Adım: Parametre değerlerinin başına uzunlukları eklenerek HASH string oluşturulmalı (UTF-8 Bayt olarak).</p></li>
 <li><p>Adım: Oluşturulan dizi PayU üye işyeri hesabınızın Hesap Yönetimi / Hesap Ayarları bölümünde yer alan kodlama anahtarı bilgisi kullanılarak HMAC_MD5 algoritması ile hashlenmeli.</p></li>
 </ol>
-<h2 id='yanit-response'>Yanıt (Response)</h2>
+<h2 id='yanit-parametreleri'>Yanıt Parametreleri</h2>
 <p>PayU sistemi, yapılan isteğe   XML formatında bir yanıt dönmektedir. 
 Bu yanıt;</p>
 
@@ -744,7 +744,7 @@ Bu yanıt;</p>
 <li><p>İşyeri XML formatındaki bu datayı ayrıştırıp kendi sisteminde işlemelidir.</p></li>
 <li><p>3D işlem yapılması durumunda aynı data HTTP POST ile BACK_REF url’ine gönderilmektedir.</p></li>
 </ul>
-<h3 id='yanit-parametreleri'>Yanıt Parametreleri</h3>
+<h3 id='yanit-parametreleri-2'>Yanıt Parametreleri</h3>
 <aside class="notice">
     ÖNEMLİ NOT:
 Ekstra parametre olarak işaretlenen parametrelerin aktifleştirilmesi için üye işyeri satış temsilciniz ile iletişime geçebilir veya destek@payu.com.tr adresinden bizler ile iletişime geçerek talep edebilirsiniz.</aside>
