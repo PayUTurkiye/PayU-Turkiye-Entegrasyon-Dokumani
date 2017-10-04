@@ -225,16 +225,19 @@
             <a href="#baslamadan-once" class="toc-h1 toc-link" data-title="Başlamadan Önce">Başlamadan Önce</a>
           </li>
           <li>
-            <a href="#api-ile-odeme-almak" class="toc-h1 toc-link" data-title="API ile Ödeme Almak">API ile Ödeme Almak</a>
+            <a href="#api-ile-odeme-alma" class="toc-h1 toc-link" data-title="API ile Ödeme Alma">API ile Ödeme Alma</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#istek-parametreleri" class="toc-h2 toc-link" data-title="API ile Ödeme Almak">İstek Parametreleri</a>
+                    <a href="#istek-parametreleri" class="toc-h2 toc-link" data-title="API ile Ödeme Alma">İstek Parametreleri</a>
                   </li>
                   <li>
-                    <a href="#hash-hesaplama" class="toc-h2 toc-link" data-title="API ile Ödeme Almak">Hash Hesaplama</a>
+                    <a href="#yanit-parametreleri" class="toc-h2 toc-link" data-title="API ile Ödeme Alma">Yanıt Parametreleri</a>
                   </li>
                   <li>
-                    <a href="#yanit-parametreleri" class="toc-h2 toc-link" data-title="API ile Ödeme Almak">Yanıt Parametreleri</a>
+                    <a href="#hash-hesaplama" class="toc-h2 toc-link" data-title="API ile Ödeme Alma">Hash Hesaplama</a>
+                  </li>
+                  <li>
+                    <a href="#3d-entegrasyonu" class="toc-h2 toc-link" data-title="API ile Ödeme Alma">3D Entegrasyonu</a>
                   </li>
               </ul>
           </li>
@@ -254,7 +257,7 @@
           </li>
       </div>
         <ul class="toc-footer">
-            <li><a>Doküman:v1.0.0.4</a></li>
+            <li><a>Doküman:v1.0.0.7</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -275,7 +278,7 @@
 <li>API entegrasyonunda hata bilgisi konsolide şekilde dönebildiği gibi, PayU tarafından aktifleştirilmesi durumunda banka cevabı doğrudan PROCRETURNCODE ve ERRORMESSAGE içerisinde belirtilmektedir.</li>
 <li>ORDER_DATE parametresi ile İşlem / sipariş saati UTC/GMT formatında gönderilmelidir. Sipariş saati (ORDER_DATE) kaynaklı saat (REQUEST_EXPIRED) hatasının önüne geçebilmek için; saat fonksiyonu UTC/GMT formatı ile ayarlanmalı ve Türkiye saatine göre 3 saat geri olacak şekilde gönderilmelidir.</li>
 </ol>
-<h1 id='api-ile-odeme-almak'>API ile Ödeme Almak</h1><h2 id='istek-parametreleri'>İstek Parametreleri</h2>
+<h1 id='api-ile-odeme-alma'>API ile Ödeme Alma</h1><h2 id='istek-parametreleri'>İstek Parametreleri</h2>
 <blockquote>
 <p>İşlem İsteği Göndermek için:</p>
 </blockquote>
@@ -870,6 +873,846 @@
 <td>Hayır</td>
 </tr>
 </tbody></table>
+<h2 id='yanit-parametreleri'>Yanıt Parametreleri</h2>
+<p>PayU sistemi, yapılan isteğe   XML formatında bir yanıt dönmektedir. 
+Bu yanıt;</p>
+
+<ul>
+<li><p>İşlemin başarılı olup olmadığını,başarılı olmadıysa sebebini ve ek bilgileri içermektedir.</p></li>
+<li><p>İşyeri XML formatındaki bu datayı ayrıştırıp kendi sisteminde işlemelidir.</p></li>
+<li><p>3D işlem yapılması durumunda aynı data HTTP POST ile BACK_REF url’ine gönderilmektedir.</p></li>
+</ul>
+
+<blockquote>
+<p><strong>Başarılı İşlem Cevap Örneği</strong></p>
+</blockquote>
+<pre class="highlight xml tab-xml"><code><span class="nt">&lt;EPAYMENT&gt;</span>
+  <span class="nt">&lt;REFNO&gt;</span>41652325<span class="nt">&lt;/REFNO&gt;</span>
+  <span class="nt">&lt;ALIAS&gt;</span>3a9d9b9663a50a9ed0f545152320c9fb<span class="nt">&lt;/ALIAS&gt;</span>
+  <span class="nt">&lt;STATUS&gt;</span>SUCCESS<span class="nt">&lt;/STATUS&gt;</span>
+  <span class="nt">&lt;RETURN_CODE&gt;</span>AUTHORIZED<span class="nt">&lt;/RETURN_CODE&gt;</span>
+  <span class="nt">&lt;RETURN_MESSAGE&gt;</span>Authorized.<span class="nt">&lt;/RETURN_MESSAGE&gt;</span>
+  <span class="nt">&lt;DATE&gt;</span>2017-10-04 16:38:11<span class="nt">&lt;/DATE&gt;</span>
+  <span class="nt">&lt;AMOUNT&gt;</span>10.9<span class="nt">&lt;/AMOUNT&gt;</span>
+  <span class="nt">&lt;CURRENCY&gt;</span>TRY<span class="nt">&lt;/CURRENCY&gt;</span>
+  <span class="nt">&lt;INSTALLMENTS_NO&gt;</span>1<span class="nt">&lt;/INSTALLMENTS_NO&gt;</span>
+  <span class="nt">&lt;CARD_PROGRAM_NAME&gt;</span>AXESS<span class="nt">&lt;/CARD_PROGRAM_NAME&gt;</span>
+  <span class="nt">&lt;ORDER_REF&gt;</span>84525<span class="nt">&lt;/ORDER_REF&gt;</span>
+  <span class="nt">&lt;AUTH_CODE&gt;</span>342871<span class="nt">&lt;/AUTH_CODE&gt;</span>
+  <span class="nt">&lt;RRN&gt;</span>727716199932<span class="nt">&lt;/RRN&gt;</span>
+  <span class="nt">&lt;ERRORMESSAGE&gt;</span>Approved.<span class="nt">&lt;/ERRORMESSAGE&gt;</span>
+  <span class="nt">&lt;PROCRETURNCODE&gt;</span>00<span class="nt">&lt;/PROCRETURNCODE&gt;</span>
+  <span class="nt">&lt;BANK_MERCHANT_ID&gt;</span>100100000<span class="nt">&lt;/BANK_MERCHANT_ID&gt;</span>
+  <span class="nt">&lt;PAN&gt;</span>4355-xxxx-xxxx-4358<span class="nt">&lt;/PAN&gt;</span>
+  <span class="nt">&lt;EXPYEAR&gt;</span>18<span class="nt">&lt;/EXPYEAR&gt;</span>
+  <span class="nt">&lt;EXPMONTH&gt;</span>12<span class="nt">&lt;/EXPMONTH&gt;</span>
+  <span class="nt">&lt;CLIENTID&gt;</span>100100000<span class="nt">&lt;/CLIENTID&gt;</span>
+  <span class="nt">&lt;HOSTREFNUM&gt;</span>727716199932<span class="nt">&lt;/HOSTREFNUM&gt;</span>
+  <span class="nt">&lt;OID&gt;</span>41652325<span class="nt">&lt;/OID&gt;</span>
+  <span class="nt">&lt;RESPONSE&gt;</span>Approved<span class="nt">&lt;/RESPONSE&gt;</span>
+  <span class="nt">&lt;TERMINAL_BANK&gt;</span>AKBA<span class="nt">&lt;/TERMINAL_BANK&gt;</span>
+  <span class="nt">&lt;MDSTATUS&gt;&lt;/MDSTATUS&gt;</span>
+  <span class="nt">&lt;MDERRORMSG&gt;&lt;/MDERRORMSG&gt;</span>
+  <span class="nt">&lt;TXSTATUS&gt;&lt;/TXSTATUS&gt;</span>
+  <span class="nt">&lt;XID&gt;&lt;/XID&gt;</span>
+  <span class="nt">&lt;ECI&gt;&lt;/ECI&gt;</span>
+  <span class="nt">&lt;CAVV&gt;&lt;/CAVV&gt;</span>
+  <span class="nt">&lt;TRANSID&gt;</span>17277QmKG10275<span class="nt">&lt;/TRANSID&gt;</span>
+  <span class="nt">&lt;HASH&gt;</span>f1c2e330b1ecad927969b679097d647c<span class="nt">&lt;/HASH&gt;</span>
+<span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="nt">&lt;EPAYMENT&gt;</span>
+  <span class="nt">&lt;REFNO&gt;</span>41652325<span class="nt">&lt;/REFNO&gt;</span>
+  <span class="nt">&lt;ALIAS&gt;</span>3a9d9b9663a50a9ed0f545152320c9fb<span class="nt">&lt;/ALIAS&gt;</span>
+  <span class="nt">&lt;STATUS&gt;</span>SUCCESS<span class="nt">&lt;/STATUS&gt;</span>
+  <span class="nt">&lt;RETURN</span><span class="na">_CODE</span><span class="nt">&gt;</span>AUTHORIZED<span class="err">&lt;</span>/RETURN_CODE&gt;
+  <span class="nt">&lt;RETURN</span><span class="na">_MESSAGE</span><span class="nt">&gt;</span>Authorized.<span class="err">&lt;</span>/RETURN_MESSAGE&gt;
+  <span class="nt">&lt;DATE&gt;</span>2017-10-04 16:38:11<span class="nt">&lt;/DATE&gt;</span>
+  <span class="nt">&lt;AMOUNT&gt;</span>10.9<span class="nt">&lt;/AMOUNT&gt;</span>
+  <span class="nt">&lt;CURRENCY&gt;</span>TRY<span class="nt">&lt;/CURRENCY&gt;</span>
+  <span class="nt">&lt;INSTALLMENTS</span><span class="na">_NO</span><span class="nt">&gt;</span>1<span class="err">&lt;</span>/INSTALLMENTS_NO&gt;
+  <span class="nt">&lt;CARD</span><span class="na">_PROGRAM_NAME</span><span class="nt">&gt;</span>AXESS<span class="err">&lt;</span>/CARD_PROGRAM_NAME&gt;
+  <span class="nt">&lt;ORDER</span><span class="na">_REF</span><span class="nt">&gt;</span>84525<span class="err">&lt;</span>/ORDER_REF&gt;
+  <span class="nt">&lt;AUTH</span><span class="na">_CODE</span><span class="nt">&gt;</span>342871<span class="err">&lt;</span>/AUTH_CODE&gt;
+  <span class="nt">&lt;RRN&gt;</span>727716199932<span class="nt">&lt;/RRN&gt;</span>
+  <span class="nt">&lt;ERRORMESSAGE&gt;</span>Approved.<span class="nt">&lt;/ERRORMESSAGE&gt;</span>
+  <span class="nt">&lt;PROCRETURNCODE&gt;</span>00<span class="nt">&lt;/PROCRETURNCODE&gt;</span>
+  <span class="nt">&lt;BANK</span><span class="na">_MERCHANT_ID</span><span class="nt">&gt;</span>100100000<span class="err">&lt;</span>/BANK_MERCHANT_ID&gt;
+  <span class="nt">&lt;PAN&gt;</span>4355-xxxx-xxxx-4358<span class="nt">&lt;/PAN&gt;</span>
+  <span class="nt">&lt;EXPYEAR&gt;</span>18<span class="nt">&lt;/EXPYEAR&gt;</span>
+  <span class="nt">&lt;EXPMONTH&gt;</span>12<span class="nt">&lt;/EXPMONTH&gt;</span>
+  <span class="nt">&lt;CLIENTID&gt;</span>100100000<span class="nt">&lt;/CLIENTID&gt;</span>
+  <span class="nt">&lt;HOSTREFNUM&gt;</span>727716199932<span class="nt">&lt;/HOSTREFNUM&gt;</span>
+  <span class="nt">&lt;OID&gt;</span>41652325<span class="nt">&lt;/OID&gt;</span>
+  <span class="nt">&lt;RESPONSE&gt;</span>Approved<span class="nt">&lt;/RESPONSE&gt;</span>
+  <span class="nt">&lt;TERMINAL</span><span class="na">_BANK</span><span class="nt">&gt;</span>AKBA<span class="err">&lt;</span>/TERMINAL_BANK&gt;
+  <span class="nt">&lt;MDSTATUS&gt;&lt;/MDSTATUS&gt;</span>
+  <span class="nt">&lt;MDERRORMSG&gt;&lt;/MDERRORMSG&gt;</span>
+  <span class="nt">&lt;TXSTATUS&gt;&lt;/TXSTATUS&gt;</span>
+  <span class="nt">&lt;XID&gt;&lt;/XID&gt;</span>
+  <span class="nt">&lt;ECI&gt;&lt;/ECI&gt;</span>
+  <span class="nt">&lt;CAVV&gt;&lt;/CAVV&gt;</span>
+  <span class="nt">&lt;TRANSID&gt;</span>17277QmKG10275<span class="nt">&lt;/TRANSID&gt;</span>
+  <span class="nt">&lt;HASH&gt;</span>f1c2e330b1ecad927969b679097d647c<span class="nt">&lt;/HASH&gt;</span>
+<span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="o">&lt;</span><span class="n">EPAYMENT</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">REFNO</span><span class="o">&gt;</span><span class="mi">41652325</span><span class="o">&lt;/</span><span class="n">REFNO</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">ALIAS</span><span class="o">&gt;</span><span class="mi">3</span><span class="n">a9d9b9663a50a9ed0f545152320c9fb</span><span class="o">&lt;/</span><span class="n">ALIAS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">STATUS</span><span class="o">&gt;</span><span class="n">SUCCESS</span><span class="o">&lt;/</span><span class="n">STATUS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">RETURN_CODE</span><span class="o">&gt;</span><span class="n">AUTHORIZED</span><span class="o">&lt;/</span><span class="n">RETURN_CODE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">RETURN_MESSAGE</span><span class="o">&gt;</span><span class="n">Authorized</span><span class="o">.&lt;/</span><span class="n">RETURN_MESSAGE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">DATE</span><span class="o">&gt;</span><span class="mi">2017</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">04</span> <span class="mi">16</span><span class="p">:</span><span class="mi">38</span><span class="p">:</span><span class="mi">11</span><span class="o">&lt;/</span><span class="n">DATE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">AMOUNT</span><span class="o">&gt;</span><span class="mf">10.9</span><span class="o">&lt;/</span><span class="n">AMOUNT</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">CURRENCY</span><span class="o">&gt;</span><span class="n">TRY</span><span class="o">&lt;/</span><span class="n">CURRENCY</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">INSTALLMENTS_NO</span><span class="o">&gt;</span><span class="mi">1</span><span class="o">&lt;/</span><span class="n">INSTALLMENTS_NO</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">CARD_PROGRAM_NAME</span><span class="o">&gt;</span><span class="n">AXESS</span><span class="o">&lt;/</span><span class="n">CARD_PROGRAM_NAME</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">ORDER_REF</span><span class="o">&gt;</span><span class="mi">84525</span><span class="o">&lt;/</span><span class="n">ORDER_REF</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">AUTH_CODE</span><span class="o">&gt;</span><span class="mi">342871</span><span class="o">&lt;/</span><span class="n">AUTH_CODE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">RRN</span><span class="o">&gt;</span><span class="mi">727716199932</span><span class="o">&lt;/</span><span class="n">RRN</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">ERRORMESSAGE</span><span class="o">&gt;</span><span class="n">Approved</span><span class="o">.&lt;/</span><span class="n">ERRORMESSAGE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">PROCRETURNCODE</span><span class="o">&gt;</span><span class="mo">00</span><span class="o">&lt;/</span><span class="n">PROCRETURNCODE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">BANK_MERCHANT_ID</span><span class="o">&gt;</span><span class="mi">100100000</span><span class="o">&lt;/</span><span class="n">BANK_MERCHANT_ID</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">PAN</span><span class="o">&gt;</span><span class="mi">4355</span><span class="o">-</span><span class="n">xxxx</span><span class="o">-</span><span class="n">xxxx</span><span class="o">-</span><span class="mi">4358</span><span class="o">&lt;/</span><span class="n">PAN</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">EXPYEAR</span><span class="o">&gt;</span><span class="mi">18</span><span class="o">&lt;/</span><span class="n">EXPYEAR</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">EXPMONTH</span><span class="o">&gt;</span><span class="mi">12</span><span class="o">&lt;/</span><span class="n">EXPMONTH</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">CLIENTID</span><span class="o">&gt;</span><span class="mi">100100000</span><span class="o">&lt;/</span><span class="n">CLIENTID</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">HOSTREFNUM</span><span class="o">&gt;</span><span class="mi">727716199932</span><span class="o">&lt;/</span><span class="n">HOSTREFNUM</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">OID</span><span class="o">&gt;</span><span class="mi">41652325</span><span class="o">&lt;/</span><span class="n">OID</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">RESPONSE</span><span class="o">&gt;</span><span class="n">Approved</span><span class="o">&lt;/</span><span class="n">RESPONSE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">TERMINAL_BANK</span><span class="o">&gt;</span><span class="n">AKBA</span><span class="o">&lt;/</span><span class="n">TERMINAL_BANK</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">MDSTATUS</span><span class="o">&gt;&lt;/</span><span class="n">MDSTATUS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">MDERRORMSG</span><span class="o">&gt;&lt;/</span><span class="n">MDERRORMSG</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">TXSTATUS</span><span class="o">&gt;&lt;/</span><span class="n">TXSTATUS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">XID</span><span class="o">&gt;&lt;/</span><span class="n">XID</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">ECI</span><span class="o">&gt;&lt;/</span><span class="n">ECI</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">CAVV</span><span class="o">&gt;&lt;/</span><span class="n">CAVV</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">TRANSID</span><span class="o">&gt;</span><span class="mi">17277</span><span class="n">QmKG10275</span><span class="o">&lt;/</span><span class="n">TRANSID</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">HASH</span><span class="o">&gt;</span><span class="n">f1c2e330b1ecad927969b679097d647c</span><span class="o">&lt;/</span><span class="n">HASH</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">EPAYMENT</span><span class="o">&gt;</span>
+</code></pre>
+<blockquote>
+<p><strong>STATUS Parametresinin alabileceği değerler</strong></p>
+
+<p>SUCCESS – Başarılı otorizasyon işlem sonucu</p>
+</blockquote>
+<pre class="highlight xml tab-xml"><code><span class="nt">&lt;STATUS&gt;</span>SUCCESS<span class="nt">&lt;/STATUS&gt;</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="nt">&lt;STATUS&gt;</span>SUCCESS<span class="nt">&lt;/STATUS&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="o">&lt;</span><span class="n">STATUS</span><span class="o">&gt;</span><span class="n">SUCCESS</span><span class="o">&lt;/</span><span class="n">STATUS</span><span class="o">&gt;</span>
+</code></pre>
+<blockquote>
+<p>FAILED – Otorizasyonun başarı ile yapılamadığı durumlarda dönen değerdir.(Yetersiz bakiye,fraud vb.)</p>
+</blockquote>
+<pre class="highlight xml tab-xml"><code><span class="nt">&lt;STATUS&gt;</span>FAILED<span class="nt">&lt;/STATUS&gt;</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="nt">&lt;STATUS&gt;</span>FAILED<span class="nt">&lt;/STATUS&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="o">&lt;</span><span class="n">STATUS</span><span class="o">&gt;</span><span class="n">FAILED</span><span class="o">&lt;/</span><span class="n">STATUS</span><span class="o">&gt;</span>
+</code></pre>
+<blockquote>
+<p>INPUT_ERROR – Request gönderilirken zorunlu parametrelerin eksik veya hatalı gönderilmesinden kaynaklanan bir hatadır.</p>
+</blockquote>
+<pre class="highlight xml tab-xml"><code><span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="o">&lt;</span><span class="n">STATUS</span><span class="o">&gt;</span><span class="n">INPUT_ERROR</span><span class="o">&lt;/</span><span class="n">STATUS</span><span class="o">&gt;</span>
+</code></pre>
+<blockquote>
+<p><strong>RETURN_CODE Parametresinin alabileceği değerler</strong></p>
+
+<p>AUTHORIZED – Otorizasyonun başarı ile tamamlandığını belirtilen işlem sonucu**</p>
+</blockquote>
+<pre class="highlight xml tab-xml"><code><span class="nt">&lt;EPAYMENT&gt;</span>
+    <span class="nt">&lt;REFNO&gt;</span>41464560<span class="nt">&lt;/REFNO&gt;</span>
+    <span class="nt">&lt;ALIAS&gt;</span>9592b7736c9e277fea8cc79c2e5b5a23<span class="nt">&lt;/ALIAS&gt;</span>
+    <span class="nt">&lt;STATUS&gt;</span>SUCCESS<span class="nt">&lt;/STATUS&gt;</span>
+    <span class="nt">&lt;RETURN_CODE&gt;</span>AUTHORIZED<span class="nt">&lt;/RETURN_CODE&gt;</span>
+    <span class="nt">&lt;RETURN_MESSAGE&gt;</span>Authorized.<span class="nt">&lt;/RETURN_MESSAGE&gt;</span>
+    <span class="nt">&lt;DATE&gt;</span>2017-10-04 15:20:21<span class="nt">&lt;/DATE&gt;</span>
+    <span class="nt">&lt;ORDER_REF&gt;</span>7305<span class="nt">&lt;/ORDER_REF&gt;</span>
+    <span class="nt">&lt;AUTH_CODE&gt;</span>13157TUlA15117<span class="nt">&lt;/AUTH_CODE&gt;</span>
+    <span class="nt">&lt;HASH&gt;</span>b560a38e2b3e7bcbac328bbd6218bc60<span class="nt">&lt;/HASH&gt;</span>
+<span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="nt">&lt;EPAYMENT&gt;</span>
+    <span class="nt">&lt;REFNO&gt;</span>41464560<span class="nt">&lt;/REFNO&gt;</span>
+    <span class="nt">&lt;ALIAS&gt;</span>9592b7736c9e277fea8cc79c2e5b5a23<span class="nt">&lt;/ALIAS&gt;</span>
+    <span class="nt">&lt;STATUS&gt;</span>SUCCESS<span class="nt">&lt;/STATUS&gt;</span>
+    <span class="nt">&lt;RETURN</span><span class="na">_CODE</span><span class="nt">&gt;</span>AUTHORIZED<span class="err">&lt;</span>/RETURN_CODE&gt;
+    <span class="nt">&lt;RETURN</span><span class="na">_MESSAGE</span><span class="nt">&gt;</span>Authorized.<span class="err">&lt;</span>/RETURN_MESSAGE&gt;
+    <span class="nt">&lt;DATE&gt;</span>2017-10-04 15:20:21<span class="nt">&lt;/DATE&gt;</span>
+    <span class="nt">&lt;ORDER</span><span class="na">_REF</span><span class="nt">&gt;</span>7305<span class="err">&lt;</span>/ORDER_REF&gt;
+    <span class="nt">&lt;AUTH</span><span class="na">_CODE</span><span class="nt">&gt;</span>13157TUlA15117<span class="err">&lt;</span>/AUTH_CODE&gt;
+    <span class="nt">&lt;HASH&gt;</span>b560a38e2b3e7bcbac328bbd6218bc60<span class="nt">&lt;/HASH&gt;</span>
+<span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="o">&lt;</span><span class="n">EPAYMENT</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">REFNO</span><span class="o">&gt;</span><span class="mi">41464560</span><span class="o">&lt;/</span><span class="n">REFNO</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">ALIAS</span><span class="o">&gt;</span><span class="mi">9592</span><span class="n">b7736c9e277fea8cc79c2e5b5a23</span><span class="o">&lt;/</span><span class="n">ALIAS</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">STATUS</span><span class="o">&gt;</span><span class="n">SUCCESS</span><span class="o">&lt;/</span><span class="n">STATUS</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">RETURN_CODE</span><span class="o">&gt;</span><span class="n">AUTHORIZED</span><span class="o">&lt;/</span><span class="n">RETURN_CODE</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">RETURN_MESSAGE</span><span class="o">&gt;</span><span class="n">Authorized</span><span class="o">.&lt;/</span><span class="n">RETURN_MESSAGE</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">DATE</span><span class="o">&gt;</span><span class="mi">2017</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">04</span> <span class="mi">15</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mi">21</span><span class="o">&lt;/</span><span class="n">DATE</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">ORDER_REF</span><span class="o">&gt;</span><span class="mi">7305</span><span class="o">&lt;/</span><span class="n">ORDER_REF</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">AUTH_CODE</span><span class="o">&gt;</span><span class="mi">13157</span><span class="n">TUlA15117</span><span class="o">&lt;/</span><span class="n">AUTH_CODE</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">HASH</span><span class="o">&gt;</span><span class="n">b560a38e2b3e7bcbac328bbd6218bc60</span><span class="o">&lt;/</span><span class="n">HASH</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">EPAYMENT</span><span class="o">&gt;</span>
+</code></pre>
+<blockquote>
+<p>3DS_ENROLLED – Otorizasyonun tamamlanablilmesi için işlemi 3D Secure sayfasına yönlendirecek olan <url_3ds> parametresini dönen fonksiyonun değeridir.</p>
+</blockquote>
+<pre class="highlight xml tab-xml"><code><span class="nt">&lt;EPAYMENT&gt;</span>
+  <span class="nt">&lt;REFNO&gt;</span>41464560<span class="nt">&lt;/REFNO&gt;</span>
+  <span class="nt">&lt;ALIAS&gt;</span>848a62efa487d6b75a0eca5654cc4099<span class="nt">&lt;/ALIAS&gt;</span>
+  <span class="nt">&lt;STATUS&gt;</span>SUCCESS<span class="nt">&lt;/STATUS&gt;</span>
+  <span class="nt">&lt;RETURN_CODE&gt;</span>3DS_ENROLLED<span class="nt">&lt;/RETURN_CODE&gt;</span>
+  <span class="nt">&lt;RETURN_MESSAGE&gt;</span>3DS Enrolled Card.<span class="nt">&lt;/RETURN_MESSAGE&gt;</span>
+  <span class="nt">&lt;DATE&gt;</span>2017-10-04 15:20:21<span class="nt">&lt;/DATE&gt;</span>
+  <span class="nt">&lt;URL_3DS&gt;</span>https://secure.payu.com.tr/order/3ds/begin/refno/41464560/sign/b2968234be8cd88a63b0f5999b07d783/<span class="nt">&lt;/URL_3DS&gt;</span>
+  <span class="nt">&lt;HASH&gt;</span>46b1dcfcda8166ea33582fa2d3da6abb<span class="nt">&lt;/HASH&gt;</span>
+<span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="nt">&lt;EPAYMENT&gt;</span>
+  <span class="nt">&lt;REFNO&gt;</span>41464560<span class="nt">&lt;/REFNO&gt;</span>
+  <span class="nt">&lt;ALIAS&gt;</span>848a62efa487d6b75a0eca5654cc4099<span class="nt">&lt;/ALIAS&gt;</span>
+  <span class="nt">&lt;STATUS&gt;</span>SUCCESS<span class="nt">&lt;/STATUS&gt;</span>
+  <span class="nt">&lt;RETURN</span><span class="na">_CODE</span><span class="nt">&gt;</span>3DS_ENROLLED<span class="err">&lt;</span>/RETURN_CODE&gt;
+  <span class="nt">&lt;RETURN</span><span class="na">_MESSAGE</span><span class="nt">&gt;</span>3DS Enrolled Card.<span class="err">&lt;</span>/RETURN_MESSAGE&gt;
+  <span class="nt">&lt;DATE&gt;</span>2017-10-04 15:20:21<span class="nt">&lt;/DATE&gt;</span>
+  <span class="nt">&lt;URL</span><span class="na">_3DS</span><span class="nt">&gt;</span>https://secure.payu.com.tr/order/3ds/begin/refno/41464560/sign/b2968234be8cd88a63b0f5999b07d783/<span class="err">&lt;</span>/URL_3DS&gt;
+  <span class="nt">&lt;HASH&gt;</span>46b1dcfcda8166ea33582fa2d3da6abb<span class="nt">&lt;/HASH&gt;</span>
+<span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="o">&lt;</span><span class="n">EPAYMENT</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">REFNO</span><span class="o">&gt;</span><span class="mi">41464560</span><span class="o">&lt;/</span><span class="n">REFNO</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">ALIAS</span><span class="o">&gt;</span><span class="mi">848</span><span class="n">a62efa487d6b75a0eca5654cc4099</span><span class="o">&lt;/</span><span class="n">ALIAS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">STATUS</span><span class="o">&gt;</span><span class="n">SUCCESS</span><span class="o">&lt;/</span><span class="n">STATUS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">RETURN_CODE</span><span class="o">&gt;</span><span class="mi">3</span><span class="n">DS_ENROLLED</span><span class="o">&lt;/</span><span class="n">RETURN_CODE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">RETURN_MESSAGE</span><span class="o">&gt;</span><span class="mi">3</span><span class="n">DS</span> <span class="n">Enrolled</span> <span class="n">Card</span><span class="o">.&lt;/</span><span class="n">RETURN_MESSAGE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">DATE</span><span class="o">&gt;</span><span class="mi">2017</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">04</span> <span class="mi">15</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mi">21</span><span class="o">&lt;/</span><span class="n">DATE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">URL_3DS</span><span class="o">&gt;</span><span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">secure</span><span class="o">.</span><span class="n">payu</span><span class="o">.</span><span class="n">com</span><span class="o">.</span><span class="n">tr</span><span class="o">/</span><span class="n">order</span><span class="o">/</span><span class="mi">3</span><span class="n">ds</span><span class="o">/</span><span class="n">begin</span><span class="o">/</span><span class="n">refno</span><span class="o">/</span><span class="mi">41464560</span><span class="o">/</span><span class="n">sign</span><span class="o">/</span><span class="n">b2968234be8cd88a63b0f5999b07d783</span><span class="o">/&lt;/</span><span class="n">URL_3DS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">HASH</span><span class="o">&gt;</span><span class="mi">46</span><span class="n">b1dcfcda8166ea33582fa2d3da6abb</span><span class="o">&lt;/</span><span class="n">HASH</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">EPAYMENT</span><span class="o">&gt;</span>
+</code></pre>
+<blockquote>
+<p>INVALID_ACCOUNT – Üye işyeri isminin (Merchant ID) hatalı ya da eksik gönderilmesi durumunda dönen değerdir.</p>
+</blockquote>
+<pre class="highlight xml tab-xml"><code><span class="nt">&lt;EPAYMENT&gt;</span>
+  <span class="nt">&lt;REFNO&gt;&lt;/REFNO&gt;</span>
+  <span class="nt">&lt;ALIAS&gt;&lt;/ALIAS&gt;</span>
+  <span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
+  <span class="nt">&lt;RETURN_CODE&gt;</span>INVALID_ACCOUNT<span class="nt">&lt;/RETURN_CODE&gt;</span>
+  <span class="nt">&lt;RETURN_MESSAGE&gt;</span>Invalid account: 3DTRTEST<span class="nt">&lt;/RETURN_MESSAGE&gt;</span>
+  <span class="nt">&lt;DATE&gt;</span>2017-10-04 15:20:21<span class="nt">&lt;/DATE&gt;</span>
+  <span class="nt">&lt;ORDER_REF&gt;&lt;/ORDER_REF&gt;</span>
+  <span class="nt">&lt;AUTH_CODE&gt;&lt;/AUTH_CODE&gt;</span>
+  <span class="nt">&lt;RRN&gt;&lt;/RRN&gt;</span>
+  <span class="nt">&lt;HASH&gt;&lt;/HASH&gt;</span>
+<span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="nt">&lt;EPAYMENT&gt;</span>
+  <span class="nt">&lt;REFNO&gt;&lt;/REFNO&gt;</span>
+  <span class="nt">&lt;ALIAS&gt;&lt;/ALIAS&gt;</span>
+  <span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
+  <span class="nt">&lt;RETURN</span><span class="na">_CODE</span><span class="nt">&gt;</span>INVALID_ACCOUNT<span class="err">&lt;</span>/RETURN_CODE&gt;
+  <span class="nt">&lt;RETURN</span><span class="na">_MESSAGE</span><span class="nt">&gt;</span>Invalid account: 3DTRTEST<span class="err">&lt;</span>/RETURN_MESSAGE&gt;
+  <span class="nt">&lt;DATE&gt;</span>2017-10-04 15:20:21<span class="nt">&lt;/DATE&gt;</span>
+  <span class="nt">&lt;ORDER</span><span class="na">_REF</span><span class="nt">&gt;</span><span class="err">&lt;</span>/ORDER_REF&gt;
+  <span class="nt">&lt;AUTH</span><span class="na">_CODE</span><span class="nt">&gt;</span><span class="err">&lt;</span>/AUTH_CODE&gt;
+  <span class="nt">&lt;RRN&gt;&lt;/RRN&gt;</span>
+  <span class="nt">&lt;HASH&gt;&lt;/HASH&gt;</span>
+<span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="o">&lt;</span><span class="n">EPAYMENT</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">REFNO</span><span class="o">&gt;&lt;/</span><span class="n">REFNO</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">ALIAS</span><span class="o">&gt;&lt;/</span><span class="n">ALIAS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">STATUS</span><span class="o">&gt;</span><span class="n">INPUT_ERROR</span><span class="o">&lt;/</span><span class="n">STATUS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">RETURN_CODE</span><span class="o">&gt;</span><span class="n">INVALID_ACCOUNT</span><span class="o">&lt;/</span><span class="n">RETURN_CODE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">RETURN_MESSAGE</span><span class="o">&gt;</span><span class="n">Invalid</span> <span class="n">account</span><span class="p">:</span> <span class="mi">3</span><span class="n">DTRTEST</span><span class="o">&lt;/</span><span class="n">RETURN_MESSAGE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">DATE</span><span class="o">&gt;</span><span class="mi">2017</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">04</span> <span class="mi">15</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mi">21</span><span class="o">&lt;/</span><span class="n">DATE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">ORDER_REF</span><span class="o">&gt;&lt;/</span><span class="n">ORDER_REF</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">AUTH_CODE</span><span class="o">&gt;&lt;/</span><span class="n">AUTH_CODE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">RRN</span><span class="o">&gt;&lt;/</span><span class="n">RRN</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">HASH</span><span class="o">&gt;&lt;/</span><span class="n">HASH</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">EPAYMENT</span><span class="o">&gt;</span>
+</code></pre>
+<blockquote>
+<p>HASH_MISMATCH – Üye işyeri tarafında yanlış hash hesaplama sonucu PayU tarafındaki hash ile eşleşmemesi sonucunda alınan hatadır.</p>
+</blockquote>
+<pre class="highlight xml tab-xml"><code><span class="nt">&lt;EPAYMENT&gt;</span>
+  <span class="nt">&lt;REFNO&gt;&lt;/REFNO&gt;</span>
+  <span class="nt">&lt;ALIAS&gt;&lt;/ALIAS&gt;</span>
+  <span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
+  <span class="nt">&lt;RETURN_CODE&gt;</span>HASH_MISMATCH<span class="nt">&lt;/RETURN_CODE&gt;</span>
+  <span class="nt">&lt;RETURN_MESSAGE&gt;</span>Hash mismatch<span class="nt">&lt;/RETURN_MESSAGE&gt;</span>
+  <span class="nt">&lt;DATE&gt;</span>2017-10-04 15:20:21<span class="nt">&lt;/DATE&gt;</span>
+  <span class="nt">&lt;ORDER_REF&gt;&lt;/ORDER_REF&gt;</span>
+  <span class="nt">&lt;AUTH_CODE&gt;&lt;/AUTH_CODE&gt;</span>
+  <span class="nt">&lt;RRN&gt;&lt;/RRN&gt;</span>
+  <span class="nt">&lt;PROCRETURNCODE&gt;&lt;/PROCRETURNCODE&gt;</span>
+  <span class="nt">&lt;ERRORMESSAGE&gt;&lt;/ERRORMESSAGE&gt;</span>
+  <span class="nt">&lt;BANK_MERCHANT_ID&gt;&lt;/BANK_MERCHANT_ID&gt;</span>
+  <span class="nt">&lt;PAN&gt;&lt;/PAN&gt;</span>
+  <span class="nt">&lt;EXPYEAR&gt;&lt;/EXPYEAR&gt;</span>
+  <span class="nt">&lt;EXPMONTH&gt;&lt;/EXPMONTH&gt;</span>
+  <span class="nt">&lt;CLIENTID&gt;&lt;/CLIENTID&gt;</span>
+  <span class="nt">&lt;HOSTREFNUM&gt;&lt;/HOSTREFNUM&gt;</span>
+  <span class="nt">&lt;OID&gt;&lt;/OID&gt;</span>
+  <span class="nt">&lt;RESPONSE&gt;&lt;/RESPONSE&gt;</span>
+  <span class="nt">&lt;TERMINAL_BANK&gt;&lt;/TERMINAL_BANK&gt;</span>
+  <span class="nt">&lt;MDSTATUS&gt;&lt;/MDSTATUS&gt;</span>
+  <span class="nt">&lt;MDERRORMSG&gt;&lt;/MDERRORMSG&gt;</span>
+  <span class="nt">&lt;TXSTATUS&gt;&lt;/TXSTATUS&gt;</span>
+  <span class="nt">&lt;XID&gt;&lt;/XID&gt;</span>
+  <span class="nt">&lt;ECI&gt;&lt;/ECI&gt;</span>
+  <span class="nt">&lt;CAVV&gt;&lt;/CAVV&gt;</span>
+  <span class="nt">&lt;TRANSID&gt;&lt;/TRANSID&gt;</span>
+  <span class="nt">&lt;HASH&gt;&lt;/HASH&gt;</span>
+<span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="nt">&lt;EPAYMENT&gt;</span>
+  <span class="nt">&lt;REFNO&gt;&lt;/REFNO&gt;</span>
+  <span class="nt">&lt;ALIAS&gt;&lt;/ALIAS&gt;</span>
+  <span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
+  <span class="nt">&lt;RETURN</span><span class="na">_CODE</span><span class="nt">&gt;</span>HASH_MISMATCH<span class="err">&lt;</span>/RETURN_CODE&gt;
+  <span class="nt">&lt;RETURN</span><span class="na">_MESSAGE</span><span class="nt">&gt;</span>Hash mismatch<span class="err">&lt;</span>/RETURN_MESSAGE&gt;
+  <span class="nt">&lt;DATE&gt;</span>2017-10-04 15:20:21<span class="nt">&lt;/DATE&gt;</span>
+  <span class="nt">&lt;ORDER</span><span class="na">_REF</span><span class="nt">&gt;</span><span class="err">&lt;</span>/ORDER_REF&gt;
+  <span class="nt">&lt;AUTH</span><span class="na">_CODE</span><span class="nt">&gt;</span><span class="err">&lt;</span>/AUTH_CODE&gt;
+  <span class="nt">&lt;RRN&gt;&lt;/RRN&gt;</span>
+  <span class="nt">&lt;PROCRETURNCODE&gt;&lt;/PROCRETURNCODE&gt;</span>
+  <span class="nt">&lt;ERRORMESSAGE&gt;&lt;/ERRORMESSAGE&gt;</span>
+  <span class="nt">&lt;BANK</span><span class="na">_MERCHANT_ID</span><span class="nt">&gt;</span><span class="err">&lt;</span>/BANK_MERCHANT_ID&gt;
+  <span class="nt">&lt;PAN&gt;&lt;/PAN&gt;</span>
+  <span class="nt">&lt;EXPYEAR&gt;&lt;/EXPYEAR&gt;</span>
+  <span class="nt">&lt;EXPMONTH&gt;&lt;/EXPMONTH&gt;</span>
+  <span class="nt">&lt;CLIENTID&gt;&lt;/CLIENTID&gt;</span>
+  <span class="nt">&lt;HOSTREFNUM&gt;&lt;/HOSTREFNUM&gt;</span>
+  <span class="nt">&lt;OID&gt;&lt;/OID&gt;</span>
+  <span class="nt">&lt;RESPONSE&gt;&lt;/RESPONSE&gt;</span>
+  <span class="nt">&lt;TERMINAL</span><span class="na">_BANK</span><span class="nt">&gt;</span><span class="err">&lt;</span>/TERMINAL_BANK&gt;
+  <span class="nt">&lt;MDSTATUS&gt;&lt;/MDSTATUS&gt;</span>
+  <span class="nt">&lt;MDERRORMSG&gt;&lt;/MDERRORMSG&gt;</span>
+  <span class="nt">&lt;TXSTATUS&gt;&lt;/TXSTATUS&gt;</span>
+  <span class="nt">&lt;XID&gt;&lt;/XID&gt;</span>
+  <span class="nt">&lt;ECI&gt;&lt;/ECI&gt;</span>
+  <span class="nt">&lt;CAVV&gt;&lt;/CAVV&gt;</span>
+  <span class="nt">&lt;TRANSID&gt;&lt;/TRANSID&gt;</span>
+  <span class="nt">&lt;HASH&gt;&lt;/HASH&gt;</span>
+<span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="o">&lt;</span><span class="n">EPAYMENT</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">REFNO</span><span class="o">&gt;&lt;/</span><span class="n">REFNO</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">ALIAS</span><span class="o">&gt;&lt;/</span><span class="n">ALIAS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">STATUS</span><span class="o">&gt;</span><span class="n">INPUT_ERROR</span><span class="o">&lt;/</span><span class="n">STATUS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">RETURN_CODE</span><span class="o">&gt;</span><span class="n">HASH_MISMATCH</span><span class="o">&lt;/</span><span class="n">RETURN_CODE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">RETURN_MESSAGE</span><span class="o">&gt;</span><span class="n">Hash</span> <span class="n">mismatch</span><span class="o">&lt;/</span><span class="n">RETURN_MESSAGE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">DATE</span><span class="o">&gt;</span><span class="mi">2017</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">04</span> <span class="mi">15</span><span class="p">:</span><span class="mi">20</span><span class="p">:</span><span class="mi">21</span><span class="o">&lt;/</span><span class="n">DATE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">ORDER_REF</span><span class="o">&gt;&lt;/</span><span class="n">ORDER_REF</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">AUTH_CODE</span><span class="o">&gt;&lt;/</span><span class="n">AUTH_CODE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">RRN</span><span class="o">&gt;&lt;/</span><span class="n">RRN</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">PROCRETURNCODE</span><span class="o">&gt;&lt;/</span><span class="n">PROCRETURNCODE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">ERRORMESSAGE</span><span class="o">&gt;&lt;/</span><span class="n">ERRORMESSAGE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">BANK_MERCHANT_ID</span><span class="o">&gt;&lt;/</span><span class="n">BANK_MERCHANT_ID</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">PAN</span><span class="o">&gt;&lt;/</span><span class="n">PAN</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">EXPYEAR</span><span class="o">&gt;&lt;/</span><span class="n">EXPYEAR</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">EXPMONTH</span><span class="o">&gt;&lt;/</span><span class="n">EXPMONTH</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">CLIENTID</span><span class="o">&gt;&lt;/</span><span class="n">CLIENTID</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">HOSTREFNUM</span><span class="o">&gt;&lt;/</span><span class="n">HOSTREFNUM</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">OID</span><span class="o">&gt;&lt;/</span><span class="n">OID</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">RESPONSE</span><span class="o">&gt;&lt;/</span><span class="n">RESPONSE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">TERMINAL_BANK</span><span class="o">&gt;&lt;/</span><span class="n">TERMINAL_BANK</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">MDSTATUS</span><span class="o">&gt;&lt;/</span><span class="n">MDSTATUS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">MDERRORMSG</span><span class="o">&gt;&lt;/</span><span class="n">MDERRORMSG</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">TXSTATUS</span><span class="o">&gt;&lt;/</span><span class="n">TXSTATUS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">XID</span><span class="o">&gt;&lt;/</span><span class="n">XID</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">ECI</span><span class="o">&gt;&lt;/</span><span class="n">ECI</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">CAVV</span><span class="o">&gt;&lt;/</span><span class="n">CAVV</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">TRANSID</span><span class="o">&gt;&lt;/</span><span class="n">TRANSID</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">HASH</span><span class="o">&gt;&lt;/</span><span class="n">HASH</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">EPAYMENT</span><span class="o">&gt;</span>
+</code></pre>
+<blockquote>
+<p>ORDER_TOO_OLD – Daha önce başarılı / başarısız işlem yapılmış bir ORDER_REF parametresi ile işlem denenmesi durumunda meydana gelmektedir.</p>
+</blockquote>
+<pre class="highlight xml tab-xml"><code><span class="nt">&lt;EPAYMENT&gt;</span>
+  <span class="nt">&lt;REFNO&gt;&lt;/REFNO&gt;</span>
+  <span class="nt">&lt;ALIAS&gt;&lt;/ALIAS&gt;</span>
+  <span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
+  <span class="nt">&lt;RETURN_CODE&gt;</span>ORDER_TOO_OLD<span class="nt">&lt;/RETURN_CODE&gt;</span>
+  <span class="nt">&lt;RETURN_MESSAGE&gt;</span>Order is older than a week (2015-06-18 13:24:08)!<span class="nt">&lt;/RETURN_MESSAGE&gt;</span>
+  <span class="nt">&lt;DATE&gt;</span>2017-10-04 15:21:50<span class="nt">&lt;/DATE&gt;</span>
+  <span class="nt">&lt;ORDER_REF&gt;</span>123<span class="nt">&lt;/ORDER_REF&gt;</span>
+  <span class="nt">&lt;AUTH_CODE&gt;&lt;/AUTH_CODE&gt;</span>
+  <span class="nt">&lt;RRN&gt;&lt;/RRN&gt;</span>
+  <span class="nt">&lt;PROCRETURNCODE&gt;&lt;/PROCRETURNCODE&gt;</span>
+  <span class="nt">&lt;ERRORMESSAGE&gt;&lt;/ERRORMESSAGE&gt;</span>
+  <span class="nt">&lt;BANK_MERCHANT_ID&gt;&lt;/BANK_MERCHANT_ID&gt;</span>
+  <span class="nt">&lt;PAN&gt;&lt;/PAN&gt;</span>
+  <span class="nt">&lt;EXPYEAR&gt;&lt;/EXPYEAR&gt;</span>
+  <span class="nt">&lt;EXPMONTH&gt;&lt;/EXPMONTH&gt;</span>
+  <span class="nt">&lt;CLIENTID&gt;&lt;/CLIENTID&gt;</span>
+  <span class="nt">&lt;HOSTREFNUM&gt;&lt;/HOSTREFNUM&gt;</span>
+  <span class="nt">&lt;OID&gt;&lt;/OID&gt;</span>
+  <span class="nt">&lt;RESPONSE&gt;&lt;/RESPONSE&gt;</span>
+  <span class="nt">&lt;TERMINAL_BANK&gt;&lt;/TERMINAL_BANK&gt;</span>
+  <span class="nt">&lt;MDSTATUS&gt;&lt;/MDSTATUS&gt;</span>
+  <span class="nt">&lt;MDERRORMSG&gt;&lt;/MDERRORMSG&gt;</span>
+  <span class="nt">&lt;TXSTATUS&gt;&lt;/TXSTATUS&gt;</span>
+  <span class="nt">&lt;XID&gt;&lt;/XID&gt;</span>
+  <span class="nt">&lt;ECI&gt;&lt;/ECI&gt;</span>
+  <span class="nt">&lt;CAVV&gt;&lt;/CAVV&gt;</span>
+  <span class="nt">&lt;TRANSID&gt;&lt;/TRANSID&gt;</span>
+  <span class="nt">&lt;HASH&gt;&lt;/HASH&gt;</span>
+<span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="nt">&lt;EPAYMENT&gt;</span>
+  <span class="nt">&lt;REFNO&gt;&lt;/REFNO&gt;</span>
+  <span class="nt">&lt;ALIAS&gt;&lt;/ALIAS&gt;</span>
+  <span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
+  <span class="nt">&lt;RETURN</span><span class="na">_CODE</span><span class="nt">&gt;</span>ORDER_TOO_OLD<span class="err">&lt;</span>/RETURN_CODE&gt;
+  <span class="nt">&lt;RETURN</span><span class="na">_MESSAGE</span><span class="nt">&gt;</span>Order is older than a week (2015-06-18 13:24:08)!<span class="err">&lt;</span>/RETURN_MESSAGE&gt;
+  <span class="nt">&lt;DATE&gt;</span>2017-10-04 15:21:50<span class="nt">&lt;/DATE&gt;</span>
+  <span class="nt">&lt;ORDER</span><span class="na">_REF</span><span class="nt">&gt;</span>123<span class="err">&lt;</span>/ORDER_REF&gt;
+  <span class="nt">&lt;AUTH</span><span class="na">_CODE</span><span class="nt">&gt;</span><span class="err">&lt;</span>/AUTH_CODE&gt;
+  <span class="nt">&lt;RRN&gt;&lt;/RRN&gt;</span>
+  <span class="nt">&lt;PROCRETURNCODE&gt;&lt;/PROCRETURNCODE&gt;</span>
+  <span class="nt">&lt;ERRORMESSAGE&gt;&lt;/ERRORMESSAGE&gt;</span>
+  <span class="nt">&lt;BANK</span><span class="na">_MERCHANT_ID</span><span class="nt">&gt;</span><span class="err">&lt;</span>/BANK_MERCHANT_ID&gt;
+  <span class="nt">&lt;PAN&gt;&lt;/PAN&gt;</span>
+  <span class="nt">&lt;EXPYEAR&gt;&lt;/EXPYEAR&gt;</span>
+  <span class="nt">&lt;EXPMONTH&gt;&lt;/EXPMONTH&gt;</span>
+  <span class="nt">&lt;CLIENTID&gt;&lt;/CLIENTID&gt;</span>
+  <span class="nt">&lt;HOSTREFNUM&gt;&lt;/HOSTREFNUM&gt;</span>
+  <span class="nt">&lt;OID&gt;&lt;/OID&gt;</span>
+  <span class="nt">&lt;RESPONSE&gt;&lt;/RESPONSE&gt;</span>
+  <span class="nt">&lt;TERMINAL</span><span class="na">_BANK</span><span class="nt">&gt;</span><span class="err">&lt;</span>/TERMINAL_BANK&gt;
+  <span class="nt">&lt;MDSTATUS&gt;&lt;/MDSTATUS&gt;</span>
+  <span class="nt">&lt;MDERRORMSG&gt;&lt;/MDERRORMSG&gt;</span>
+  <span class="nt">&lt;TXSTATUS&gt;&lt;/TXSTATUS&gt;</span>
+  <span class="nt">&lt;XID&gt;&lt;/XID&gt;</span>
+  <span class="nt">&lt;ECI&gt;&lt;/ECI&gt;</span>
+  <span class="nt">&lt;CAVV&gt;&lt;/CAVV&gt;</span>
+  <span class="nt">&lt;TRANSID&gt;&lt;/TRANSID&gt;</span>
+  <span class="nt">&lt;HASH&gt;&lt;/HASH&gt;</span>
+<span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="o">&lt;</span><span class="n">EPAYMENT</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">REFNO</span><span class="o">&gt;&lt;/</span><span class="n">REFNO</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">ALIAS</span><span class="o">&gt;&lt;/</span><span class="n">ALIAS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">STATUS</span><span class="o">&gt;</span><span class="n">INPUT_ERROR</span><span class="o">&lt;/</span><span class="n">STATUS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">RETURN_CODE</span><span class="o">&gt;</span><span class="n">ORDER_TOO_OLD</span><span class="o">&lt;/</span><span class="n">RETURN_CODE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">RETURN_MESSAGE</span><span class="o">&gt;</span><span class="n">Order</span> <span class="ow">is</span> <span class="n">older</span> <span class="n">than</span> <span class="n">a</span> <span class="n">week</span> <span class="p">(</span><span class="mi">2015</span><span class="o">-</span><span class="mo">06</span><span class="o">-</span><span class="mi">18</span> <span class="mi">13</span><span class="p">:</span><span class="mi">24</span><span class="p">:</span><span class="mi">08</span><span class="p">)</span><span class="err">!</span><span class="o">&lt;/</span><span class="n">RETURN_MESSAGE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">DATE</span><span class="o">&gt;</span><span class="mi">2017</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">04</span> <span class="mi">15</span><span class="p">:</span><span class="mi">21</span><span class="p">:</span><span class="mi">50</span><span class="o">&lt;/</span><span class="n">DATE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">ORDER_REF</span><span class="o">&gt;</span><span class="mi">123</span><span class="o">&lt;/</span><span class="n">ORDER_REF</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">AUTH_CODE</span><span class="o">&gt;&lt;/</span><span class="n">AUTH_CODE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">RRN</span><span class="o">&gt;&lt;/</span><span class="n">RRN</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">PROCRETURNCODE</span><span class="o">&gt;&lt;/</span><span class="n">PROCRETURNCODE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">ERRORMESSAGE</span><span class="o">&gt;&lt;/</span><span class="n">ERRORMESSAGE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">BANK_MERCHANT_ID</span><span class="o">&gt;&lt;/</span><span class="n">BANK_MERCHANT_ID</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">PAN</span><span class="o">&gt;&lt;/</span><span class="n">PAN</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">EXPYEAR</span><span class="o">&gt;&lt;/</span><span class="n">EXPYEAR</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">EXPMONTH</span><span class="o">&gt;&lt;/</span><span class="n">EXPMONTH</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">CLIENTID</span><span class="o">&gt;&lt;/</span><span class="n">CLIENTID</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">HOSTREFNUM</span><span class="o">&gt;&lt;/</span><span class="n">HOSTREFNUM</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">OID</span><span class="o">&gt;&lt;/</span><span class="n">OID</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">RESPONSE</span><span class="o">&gt;&lt;/</span><span class="n">RESPONSE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">TERMINAL_BANK</span><span class="o">&gt;&lt;/</span><span class="n">TERMINAL_BANK</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">MDSTATUS</span><span class="o">&gt;&lt;/</span><span class="n">MDSTATUS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">MDERRORMSG</span><span class="o">&gt;&lt;/</span><span class="n">MDERRORMSG</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">TXSTATUS</span><span class="o">&gt;&lt;/</span><span class="n">TXSTATUS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">XID</span><span class="o">&gt;&lt;/</span><span class="n">XID</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">ECI</span><span class="o">&gt;&lt;/</span><span class="n">ECI</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">CAVV</span><span class="o">&gt;&lt;/</span><span class="n">CAVV</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">TRANSID</span><span class="o">&gt;&lt;/</span><span class="n">TRANSID</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">HASH</span><span class="o">&gt;&lt;/</span><span class="n">HASH</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">EPAYMENT</span><span class="o">&gt;</span>
+</code></pre>
+<blockquote>
+<p>INVALID_CC_TOKEN – Geçersiz Token kullanımı durumunda alınan hatadır.</p>
+</blockquote>
+<pre class="highlight xml tab-xml"><code><span class="nt">&lt;EPAYMENT&gt;</span>
+  <span class="nt">&lt;REFNO&gt;&lt;/REFNO&gt;</span>
+  <span class="nt">&lt;ALIAS&gt;&lt;/ALIAS&gt;</span>
+  <span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
+  <span class="nt">&lt;RETURN_CODE&gt;</span>INVALID_CC_TOKEN<span class="nt">&lt;/RETURN_CODE&gt;</span>
+  <span class="nt">&lt;RETURN_MESSAGE&gt;</span>Invalid Token: Invalid token hash "xake1kp153123o1235l2x3"<span class="nt">&lt;/RETURN_MESSAGE&gt;</span>
+  <span class="nt">&lt;DATE&gt;</span>2017-10-04 16:24:41<span class="nt">&lt;/DATE&gt;</span>
+  <span class="nt">&lt;ORDER_REF&gt;&lt;/ORDER_REF&gt;</span>
+  <span class="nt">&lt;AUTH_CODE&gt;&lt;/AUTH_CODE&gt;</span>
+  <span class="nt">&lt;RRN&gt;&lt;/RRN&gt;</span>
+  <span class="nt">&lt;PROCRETURNCODE&gt;&lt;/PROCRETURNCODE&gt;</span>
+  <span class="nt">&lt;ERRORMESSAGE&gt;&lt;/ERRORMESSAGE&gt;</span>
+  <span class="nt">&lt;BANK_MERCHANT_ID&gt;&lt;/BANK_MERCHANT_ID&gt;</span>
+  <span class="nt">&lt;PAN&gt;&lt;/PAN&gt;</span>
+  <span class="nt">&lt;EXPYEAR&gt;&lt;/EXPYEAR&gt;</span>
+  <span class="nt">&lt;EXPMONTH&gt;&lt;/EXPMONTH&gt;</span>
+  <span class="nt">&lt;CLIENTID&gt;&lt;/CLIENTID&gt;</span>
+  <span class="nt">&lt;HOSTREFNUM&gt;&lt;/HOSTREFNUM&gt;</span>
+  <span class="nt">&lt;OID&gt;&lt;/OID&gt;</span>
+  <span class="nt">&lt;RESPONSE&gt;&lt;/RESPONSE&gt;</span>
+  <span class="nt">&lt;TERMINAL_BANK&gt;&lt;/TERMINAL_BANK&gt;</span>
+  <span class="nt">&lt;MDSTATUS&gt;&lt;/MDSTATUS&gt;</span>
+  <span class="nt">&lt;MDERRORMSG&gt;&lt;/MDERRORMSG&gt;</span>
+  <span class="nt">&lt;TXSTATUS&gt;&lt;/TXSTATUS&gt;</span>
+  <span class="nt">&lt;XID&gt;&lt;/XID&gt;</span>
+  <span class="nt">&lt;ECI&gt;&lt;/ECI&gt;</span>
+  <span class="nt">&lt;CAVV&gt;&lt;/CAVV&gt;</span>
+  <span class="nt">&lt;TRANSID&gt;&lt;/TRANSID&gt;</span>
+  <span class="nt">&lt;HASH&gt;&lt;/HASH&gt;</span>
+<span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="nt">&lt;EPAYMENT&gt;</span>
+  <span class="nt">&lt;REFNO&gt;&lt;/REFNO&gt;</span>
+  <span class="nt">&lt;ALIAS&gt;&lt;/ALIAS&gt;</span>
+  <span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
+  <span class="nt">&lt;RETURN</span><span class="na">_CODE</span><span class="nt">&gt;</span>INVALID_CC_TOKEN<span class="err">&lt;</span>/RETURN_CODE&gt;
+  <span class="nt">&lt;RETURN</span><span class="na">_MESSAGE</span><span class="nt">&gt;</span>Invalid Token: Invalid token hash "xake1kp153123o1235l2x3"<span class="err">&lt;</span>/RETURN_MESSAGE&gt;
+  <span class="nt">&lt;DATE&gt;</span>2017-10-04 16:24:41<span class="nt">&lt;/DATE&gt;</span>
+  <span class="nt">&lt;ORDER</span><span class="na">_REF</span><span class="nt">&gt;</span><span class="err">&lt;</span>/ORDER_REF&gt;
+  <span class="nt">&lt;AUTH</span><span class="na">_CODE</span><span class="nt">&gt;</span><span class="err">&lt;</span>/AUTH_CODE&gt;
+  <span class="nt">&lt;RRN&gt;&lt;/RRN&gt;</span>
+  <span class="nt">&lt;PROCRETURNCODE&gt;&lt;/PROCRETURNCODE&gt;</span>
+  <span class="nt">&lt;ERRORMESSAGE&gt;&lt;/ERRORMESSAGE&gt;</span>
+  <span class="nt">&lt;BANK</span><span class="na">_MERCHANT_ID</span><span class="nt">&gt;</span><span class="err">&lt;</span>/BANK_MERCHANT_ID&gt;
+  <span class="nt">&lt;PAN&gt;&lt;/PAN&gt;</span>
+  <span class="nt">&lt;EXPYEAR&gt;&lt;/EXPYEAR&gt;</span>
+  <span class="nt">&lt;EXPMONTH&gt;&lt;/EXPMONTH&gt;</span>
+  <span class="nt">&lt;CLIENTID&gt;&lt;/CLIENTID&gt;</span>
+  <span class="nt">&lt;HOSTREFNUM&gt;&lt;/HOSTREFNUM&gt;</span>
+  <span class="nt">&lt;OID&gt;&lt;/OID&gt;</span>
+  <span class="nt">&lt;RESPONSE&gt;&lt;/RESPONSE&gt;</span>
+  <span class="nt">&lt;TERMINAL</span><span class="na">_BANK</span><span class="nt">&gt;</span><span class="err">&lt;</span>/TERMINAL_BANK&gt;
+  <span class="nt">&lt;MDSTATUS&gt;&lt;/MDSTATUS&gt;</span>
+  <span class="nt">&lt;MDERRORMSG&gt;&lt;/MDERRORMSG&gt;</span>
+  <span class="nt">&lt;TXSTATUS&gt;&lt;/TXSTATUS&gt;</span>
+  <span class="nt">&lt;XID&gt;&lt;/XID&gt;</span>
+  <span class="nt">&lt;ECI&gt;&lt;/ECI&gt;</span>
+  <span class="nt">&lt;CAVV&gt;&lt;/CAVV&gt;</span>
+  <span class="nt">&lt;TRANSID&gt;&lt;/TRANSID&gt;</span>
+  <span class="nt">&lt;HASH&gt;&lt;/HASH&gt;</span>
+<span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="o">&lt;</span><span class="n">EPAYMENT</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">REFNO</span><span class="o">&gt;&lt;/</span><span class="n">REFNO</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">ALIAS</span><span class="o">&gt;&lt;/</span><span class="n">ALIAS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">STATUS</span><span class="o">&gt;</span><span class="n">INPUT_ERROR</span><span class="o">&lt;/</span><span class="n">STATUS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">RETURN_CODE</span><span class="o">&gt;</span><span class="n">INVALID_CC_TOKEN</span><span class="o">&lt;/</span><span class="n">RETURN_CODE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">RETURN_MESSAGE</span><span class="o">&gt;</span><span class="n">Invalid</span> <span class="n">Token</span><span class="p">:</span> <span class="n">Invalid</span> <span class="n">token</span> <span class="nb">hash</span> <span class="s">"xake1kp153123o1235l2x3"</span><span class="o">&lt;/</span><span class="n">RETURN_MESSAGE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">DATE</span><span class="o">&gt;</span><span class="mi">2017</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">04</span> <span class="mi">16</span><span class="p">:</span><span class="mi">24</span><span class="p">:</span><span class="mi">41</span><span class="o">&lt;/</span><span class="n">DATE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">ORDER_REF</span><span class="o">&gt;&lt;/</span><span class="n">ORDER_REF</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">AUTH_CODE</span><span class="o">&gt;&lt;/</span><span class="n">AUTH_CODE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">RRN</span><span class="o">&gt;&lt;/</span><span class="n">RRN</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">PROCRETURNCODE</span><span class="o">&gt;&lt;/</span><span class="n">PROCRETURNCODE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">ERRORMESSAGE</span><span class="o">&gt;&lt;/</span><span class="n">ERRORMESSAGE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">BANK_MERCHANT_ID</span><span class="o">&gt;&lt;/</span><span class="n">BANK_MERCHANT_ID</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">PAN</span><span class="o">&gt;&lt;/</span><span class="n">PAN</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">EXPYEAR</span><span class="o">&gt;&lt;/</span><span class="n">EXPYEAR</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">EXPMONTH</span><span class="o">&gt;&lt;/</span><span class="n">EXPMONTH</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">CLIENTID</span><span class="o">&gt;&lt;/</span><span class="n">CLIENTID</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">HOSTREFNUM</span><span class="o">&gt;&lt;/</span><span class="n">HOSTREFNUM</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">OID</span><span class="o">&gt;&lt;/</span><span class="n">OID</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">RESPONSE</span><span class="o">&gt;&lt;/</span><span class="n">RESPONSE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">TERMINAL_BANK</span><span class="o">&gt;&lt;/</span><span class="n">TERMINAL_BANK</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">MDSTATUS</span><span class="o">&gt;&lt;/</span><span class="n">MDSTATUS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">MDERRORMSG</span><span class="o">&gt;&lt;/</span><span class="n">MDERRORMSG</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">TXSTATUS</span><span class="o">&gt;&lt;/</span><span class="n">TXSTATUS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">XID</span><span class="o">&gt;&lt;/</span><span class="n">XID</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">ECI</span><span class="o">&gt;&lt;/</span><span class="n">ECI</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">CAVV</span><span class="o">&gt;&lt;/</span><span class="n">CAVV</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">TRANSID</span><span class="o">&gt;&lt;/</span><span class="n">TRANSID</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">HASH</span><span class="o">&gt;&lt;/</span><span class="n">HASH</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">EPAYMENT</span><span class="o">&gt;</span>
+</code></pre>
+<blockquote>
+<p>WRONG_VERSION – Desteklenmeyen ALU versiyonu kullanımı durumunda alınan hatadır.</p>
+</blockquote>
+<pre class="highlight xml tab-xml"><code><span class="nt">&lt;EPAYMENT&gt;</span>
+  <span class="nt">&lt;REFNO&gt;&lt;/REFNO&gt;</span>
+  <span class="nt">&lt;ALIAS&gt;&lt;/ALIAS&gt;</span>
+  <span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
+  <span class="nt">&lt;RETURN_CODE&gt;</span>WRONG_VERSION<span class="nt">&lt;/RETURN_CODE&gt;</span>
+  <span class="nt">&lt;RETURN_MESSAGE&gt;</span>Wrong version<span class="nt">&lt;/RETURN_MESSAGE&gt;</span>
+  <span class="nt">&lt;DATE&gt;</span>2017-10-04 16:23:47<span class="nt">&lt;/DATE&gt;</span>
+  <span class="nt">&lt;HASH&gt;&lt;/HASH&gt;</span>
+<span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="nt">&lt;EPAYMENT&gt;</span>
+  <span class="nt">&lt;REFNO&gt;&lt;/REFNO&gt;</span>
+  <span class="nt">&lt;ALIAS&gt;&lt;/ALIAS&gt;</span>
+  <span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
+  <span class="nt">&lt;RETURN</span><span class="na">_CODE</span><span class="nt">&gt;</span>WRONG_VERSION<span class="err">&lt;</span>/RETURN_CODE&gt;
+  <span class="nt">&lt;RETURN</span><span class="na">_MESSAGE</span><span class="nt">&gt;</span>Wrong version<span class="err">&lt;</span>/RETURN_MESSAGE&gt;
+  <span class="nt">&lt;DATE&gt;</span>2017-10-04 16:23:47<span class="nt">&lt;/DATE&gt;</span>
+  <span class="nt">&lt;HASH&gt;&lt;/HASH&gt;</span>
+<span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="o">&lt;</span><span class="n">EPAYMENT</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">REFNO</span><span class="o">&gt;&lt;/</span><span class="n">REFNO</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">ALIAS</span><span class="o">&gt;&lt;/</span><span class="n">ALIAS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">STATUS</span><span class="o">&gt;</span><span class="n">INPUT_ERROR</span><span class="o">&lt;/</span><span class="n">STATUS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">RETURN_CODE</span><span class="o">&gt;</span><span class="n">WRONG_VERSION</span><span class="o">&lt;/</span><span class="n">RETURN_CODE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">RETURN_MESSAGE</span><span class="o">&gt;</span><span class="n">Wrong</span> <span class="n">version</span><span class="o">&lt;/</span><span class="n">RETURN_MESSAGE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">DATE</span><span class="o">&gt;</span><span class="mi">2017</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">04</span> <span class="mi">16</span><span class="p">:</span><span class="mi">23</span><span class="p">:</span><span class="mi">47</span><span class="o">&lt;/</span><span class="n">DATE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">HASH</span><span class="o">&gt;&lt;/</span><span class="n">HASH</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">EPAYMENT</span><span class="o">&gt;</span>
+</code></pre>
+<blockquote>
+<p>REQUEST_EXPIRED
+  a) ORDER_DATE parametresinde belirtilen zaman ile ödeme zamanı arasında 10 dakika ve ya daha fazla zaman geçmesi durumunda alınan hatadır.
+  b) ORDER_DATE parametresinin yanlış kullanımı durumunda alınan hatadır. ORDER_DATE parametresi UTC/GMT formatı ile Türkiye saatine göre 3 saati geri olacak şekilde gönderilmelidir.</p>
+</blockquote>
+<pre class="highlight xml tab-xml"><code><span class="nt">&lt;EPAYMENT&gt;</span>
+  <span class="nt">&lt;REFNO&gt;&lt;/REFNO&gt;</span>
+  <span class="nt">&lt;ALIAS&gt;&lt;/ALIAS&gt;</span>
+  <span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
+  <span class="nt">&lt;RETURN_CODE&gt;</span>REQUEST_EXPIRED<span class="nt">&lt;/RETURN_CODE&gt;</span>
+  <span class="nt">&lt;RETURN_MESSAGE&gt;</span>Your request date is in the future (2017-10-04 15:23:21)!<span class="nt">&lt;/RETURN_MESSAGE&gt;</span>
+  <span class="nt">&lt;DATE&gt;</span>2017-10-04 16:21:36<span class="nt">&lt;/DATE&gt;</span>
+  <span class="nt">&lt;ORDER_REF&gt;&lt;/ORDER_REF&gt;</span>
+  <span class="nt">&lt;AUTH_CODE&gt;&lt;/AUTH_CODE&gt;</span>
+  <span class="nt">&lt;RRN&gt;&lt;/RRN&gt;</span>
+  <span class="nt">&lt;PROCRETURNCODE&gt;&lt;/PROCRETURNCODE&gt;</span>
+  <span class="nt">&lt;ERRORMESSAGE&gt;&lt;/ERRORMESSAGE&gt;</span>
+  <span class="nt">&lt;BANK_MERCHANT_ID&gt;&lt;/BANK_MERCHANT_ID&gt;</span>
+  <span class="nt">&lt;PAN&gt;&lt;/PAN&gt;</span>
+  <span class="nt">&lt;EXPYEAR&gt;&lt;/EXPYEAR&gt;</span>
+  <span class="nt">&lt;EXPMONTH&gt;&lt;/EXPMONTH&gt;</span>
+  <span class="nt">&lt;CLIENTID&gt;&lt;/CLIENTID&gt;</span>
+  <span class="nt">&lt;HOSTREFNUM&gt;&lt;/HOSTREFNUM&gt;</span>
+  <span class="nt">&lt;OID&gt;&lt;/OID&gt;</span>
+  <span class="nt">&lt;RESPONSE&gt;&lt;/RESPONSE&gt;</span>
+  <span class="nt">&lt;TERMINAL_BANK&gt;&lt;/TERMINAL_BANK&gt;</span>
+  <span class="nt">&lt;MDSTATUS&gt;&lt;/MDSTATUS&gt;</span>
+  <span class="nt">&lt;MDERRORMSG&gt;&lt;/MDERRORMSG&gt;</span>
+  <span class="nt">&lt;TXSTATUS&gt;&lt;/TXSTATUS&gt;</span>
+  <span class="nt">&lt;XID&gt;&lt;/XID&gt;</span>
+  <span class="nt">&lt;ECI&gt;&lt;/ECI&gt;</span>
+  <span class="nt">&lt;CAVV&gt;&lt;/CAVV&gt;</span>
+  <span class="nt">&lt;TRANSID&gt;&lt;/TRANSID&gt;</span>
+  <span class="nt">&lt;HASH&gt;&lt;/HASH&gt;</span>
+<span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre><pre class="highlight php tab-php"><code><span class="nt">&lt;EPAYMENT&gt;</span>
+  <span class="nt">&lt;REFNO&gt;&lt;/REFNO&gt;</span>
+  <span class="nt">&lt;ALIAS&gt;&lt;/ALIAS&gt;</span>
+  <span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
+  <span class="nt">&lt;RETURN</span><span class="na">_CODE</span><span class="nt">&gt;</span>REQUEST_EXPIRED<span class="err">&lt;</span>/RETURN_CODE&gt;
+  <span class="nt">&lt;RETURN</span><span class="na">_MESSAGE</span><span class="nt">&gt;</span>Your request date is in the future (2017-10-04 15:23:21)!<span class="err">&lt;</span>/RETURN_MESSAGE&gt;
+  <span class="nt">&lt;DATE&gt;</span>2017-10-04 16:21:36<span class="nt">&lt;/DATE&gt;</span>
+  <span class="nt">&lt;ORDER</span><span class="na">_REF</span><span class="nt">&gt;</span><span class="err">&lt;</span>/ORDER_REF&gt;
+  <span class="nt">&lt;AUTH</span><span class="na">_CODE</span><span class="nt">&gt;</span><span class="err">&lt;</span>/AUTH_CODE&gt;
+  <span class="nt">&lt;RRN&gt;&lt;/RRN&gt;</span>
+  <span class="nt">&lt;PROCRETURNCODE&gt;&lt;/PROCRETURNCODE&gt;</span>
+  <span class="nt">&lt;ERRORMESSAGE&gt;&lt;/ERRORMESSAGE&gt;</span>
+  <span class="nt">&lt;BANK</span><span class="na">_MERCHANT_ID</span><span class="nt">&gt;</span><span class="err">&lt;</span>/BANK_MERCHANT_ID&gt;
+  <span class="nt">&lt;PAN&gt;&lt;/PAN&gt;</span>
+  <span class="nt">&lt;EXPYEAR&gt;&lt;/EXPYEAR&gt;</span>
+  <span class="nt">&lt;EXPMONTH&gt;&lt;/EXPMONTH&gt;</span>
+  <span class="nt">&lt;CLIENTID&gt;&lt;/CLIENTID&gt;</span>
+  <span class="nt">&lt;HOSTREFNUM&gt;&lt;/HOSTREFNUM&gt;</span>
+  <span class="nt">&lt;OID&gt;&lt;/OID&gt;</span>
+  <span class="nt">&lt;RESPONSE&gt;&lt;/RESPONSE&gt;</span>
+  <span class="nt">&lt;TERMINAL</span><span class="na">_BANK</span><span class="nt">&gt;</span><span class="err">&lt;</span>/TERMINAL_BANK&gt;
+  <span class="nt">&lt;MDSTATUS&gt;&lt;/MDSTATUS&gt;</span>
+  <span class="nt">&lt;MDERRORMSG&gt;&lt;/MDERRORMSG&gt;</span>
+  <span class="nt">&lt;TXSTATUS&gt;&lt;/TXSTATUS&gt;</span>
+  <span class="nt">&lt;XID&gt;&lt;/XID&gt;</span>
+  <span class="nt">&lt;ECI&gt;&lt;/ECI&gt;</span>
+  <span class="nt">&lt;CAVV&gt;&lt;/CAVV&gt;</span>
+  <span class="nt">&lt;TRANSID&gt;&lt;/TRANSID&gt;</span>
+  <span class="nt">&lt;HASH&gt;&lt;/HASH&gt;</span>
+<span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="o">&lt;</span><span class="n">EPAYMENT</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">REFNO</span><span class="o">&gt;&lt;/</span><span class="n">REFNO</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">ALIAS</span><span class="o">&gt;&lt;/</span><span class="n">ALIAS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">STATUS</span><span class="o">&gt;</span><span class="n">INPUT_ERROR</span><span class="o">&lt;/</span><span class="n">STATUS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">RETURN_CODE</span><span class="o">&gt;</span><span class="n">REQUEST_EXPIRED</span><span class="o">&lt;/</span><span class="n">RETURN_CODE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">RETURN_MESSAGE</span><span class="o">&gt;</span><span class="n">Your</span> <span class="n">request</span> <span class="n">date</span> <span class="ow">is</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">future</span> <span class="p">(</span><span class="mi">2017</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">04</span> <span class="mi">15</span><span class="p">:</span><span class="mi">23</span><span class="p">:</span><span class="mi">21</span><span class="p">)</span><span class="err">!</span><span class="o">&lt;/</span><span class="n">RETURN_MESSAGE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">DATE</span><span class="o">&gt;</span><span class="mi">2017</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">04</span> <span class="mi">16</span><span class="p">:</span><span class="mi">21</span><span class="p">:</span><span class="mi">36</span><span class="o">&lt;/</span><span class="n">DATE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">ORDER_REF</span><span class="o">&gt;&lt;/</span><span class="n">ORDER_REF</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">AUTH_CODE</span><span class="o">&gt;&lt;/</span><span class="n">AUTH_CODE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">RRN</span><span class="o">&gt;&lt;/</span><span class="n">RRN</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">PROCRETURNCODE</span><span class="o">&gt;&lt;/</span><span class="n">PROCRETURNCODE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">ERRORMESSAGE</span><span class="o">&gt;&lt;/</span><span class="n">ERRORMESSAGE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">BANK_MERCHANT_ID</span><span class="o">&gt;&lt;/</span><span class="n">BANK_MERCHANT_ID</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">PAN</span><span class="o">&gt;&lt;/</span><span class="n">PAN</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">EXPYEAR</span><span class="o">&gt;&lt;/</span><span class="n">EXPYEAR</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">EXPMONTH</span><span class="o">&gt;&lt;/</span><span class="n">EXPMONTH</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">CLIENTID</span><span class="o">&gt;&lt;/</span><span class="n">CLIENTID</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">HOSTREFNUM</span><span class="o">&gt;&lt;/</span><span class="n">HOSTREFNUM</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">OID</span><span class="o">&gt;&lt;/</span><span class="n">OID</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">RESPONSE</span><span class="o">&gt;&lt;/</span><span class="n">RESPONSE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">TERMINAL_BANK</span><span class="o">&gt;&lt;/</span><span class="n">TERMINAL_BANK</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">MDSTATUS</span><span class="o">&gt;&lt;/</span><span class="n">MDSTATUS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">MDERRORMSG</span><span class="o">&gt;&lt;/</span><span class="n">MDERRORMSG</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">TXSTATUS</span><span class="o">&gt;&lt;/</span><span class="n">TXSTATUS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">XID</span><span class="o">&gt;&lt;/</span><span class="n">XID</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">ECI</span><span class="o">&gt;&lt;/</span><span class="n">ECI</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">CAVV</span><span class="o">&gt;&lt;/</span><span class="n">CAVV</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">TRANSID</span><span class="o">&gt;&lt;/</span><span class="n">TRANSID</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">HASH</span><span class="o">&gt;&lt;/</span><span class="n">HASH</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">EPAYMENT</span><span class="o">&gt;</span>
+</code></pre>
+<blockquote>
+<p>INVALID_CUSTOMER_INFO Zorunlu Parametrelerden bir veya bir kaçının hatalı veya eksik gönderilmesi durumunda alınan hatadır.</p>
+</blockquote>
+<pre class="highlight xml tab-xml"><code>   <span class="nt">&lt;EPAYMENT&gt;</span>
+     <span class="nt">&lt;REFNO&gt;&lt;/REFNO&gt;</span>
+     <span class="nt">&lt;ALIAS&gt;&lt;/ALIAS&gt;</span>
+     <span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
+     <span class="nt">&lt;RETURN_CODE&gt;</span>INVALID_CUSTOMER_INFO<span class="nt">&lt;/RETURN_CODE&gt;</span>
+     <span class="nt">&lt;RETURN_MESSAGE&gt;</span>Invalid field BILL_EMAIL<span class="nt">&lt;/RETURN_MESSAGE&gt;</span>
+     <span class="nt">&lt;DATE&gt;</span>2017-10-04 16:22:25<span class="nt">&lt;/DATE&gt;</span>
+     <span class="nt">&lt;HASH&gt;&lt;/HASH&gt;</span>
+   <span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre><pre class="highlight php tab-php"><code>   <span class="nt">&lt;EPAYMENT&gt;</span>
+     <span class="nt">&lt;REFNO&gt;&lt;/REFNO&gt;</span>
+     <span class="nt">&lt;ALIAS&gt;&lt;/ALIAS&gt;</span>
+     <span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
+     <span class="nt">&lt;RETURN</span><span class="na">_CODE</span><span class="nt">&gt;</span>INVALID_CUSTOMER_INFO<span class="err">&lt;</span>/RETURN_CODE&gt;
+     <span class="nt">&lt;RETURN</span><span class="na">_MESSAGE</span><span class="nt">&gt;</span>Invalid field BILL_EMAIL<span class="err">&lt;</span>/RETURN_MESSAGE&gt;
+     <span class="nt">&lt;DATE&gt;</span>2017-10-04 16:22:25<span class="nt">&lt;/DATE&gt;</span>
+     <span class="nt">&lt;HASH&gt;&lt;/HASH&gt;</span>
+   <span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code>    <span class="o">&lt;</span><span class="n">EPAYMENT</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="n">REFNO</span><span class="o">&gt;&lt;/</span><span class="n">REFNO</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="n">ALIAS</span><span class="o">&gt;&lt;/</span><span class="n">ALIAS</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="n">STATUS</span><span class="o">&gt;</span><span class="n">INPUT_ERROR</span><span class="o">&lt;/</span><span class="n">STATUS</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="n">RETURN_CODE</span><span class="o">&gt;</span><span class="n">INVALID_CUSTOMER_INFO</span><span class="o">&lt;/</span><span class="n">RETURN_CODE</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="n">RETURN_MESSAGE</span><span class="o">&gt;</span><span class="n">Invalid</span> <span class="n">field</span> <span class="n">BILL_EMAIL</span><span class="o">&lt;/</span><span class="n">RETURN_MESSAGE</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="n">DATE</span><span class="o">&gt;</span><span class="mi">2017</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">04</span> <span class="mi">16</span><span class="p">:</span><span class="mi">22</span><span class="p">:</span><span class="mi">25</span><span class="o">&lt;/</span><span class="n">DATE</span><span class="o">&gt;</span>
+      <span class="o">&lt;</span><span class="n">HASH</span><span class="o">&gt;&lt;/</span><span class="n">HASH</span><span class="o">&gt;</span>
+    <span class="o">&lt;/</span><span class="n">EPAYMENT</span><span class="o">&gt;</span>
+</code></pre>
+<aside class="notice">
+    ÖNEMLİ NOT:
+Ekstra parametre olarak işaretlenen parametrelerin aktifleştirilmesi için üye işyeri satış temsilciniz ile iletişime geçebilir veya destek@payu.com.tr adresinden bizler ile iletişime geçerek talep edebilirsiniz.
+</aside>
+
+<table><thead>
+<tr>
+<th>Parametre</th>
+<th>Açıklama</th>
+<th>Ekstra Parametre</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>REFNO</td>
+<td>İşleme ait PayU referans numarasının bildirildiği parametredir.</td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>ALIAS</td>
+<td>Üye işyerinin kendi tarafında kullanabileceği benzersiz işlem dizesidir.</td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>STATUS</td>
+<td>Alabileceği Değerler: <code> <strong>SUCCESS</strong> <strong>FAILED</strong> <strong>INPUT_ERROR</strong> </code></td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>RETURN_CODE</td>
+<td>Alabileceği Değerler: <code> <strong>AUTHORIZED</strong> <strong>3DS_ENROLLED</strong> <strong>ALREADY_AUTHORIZED</strong> <strong>AUTHORIZATION_FAILED</strong> <strong>INVALID_CUSTOMER_INFO</strong> <strong>INVALID_PAYMENT_INFO</strong> <strong>INVALID_ACCOUNT</strong> <strong>INVALID_PAYMENT_METHOD_CODE</strong> <strong>INVALID_CURRENCY</strong> <strong>REQUEST_EXPIRED</strong> <strong>HASH_MISMATCH</strong> <strong>WRONG_VERSION</strong> <strong>INVALID_CC_TOKEN</strong></code></td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>RETURN_MESSAGE</td>
+<td>RETURN_CODE parametreleri ile dönen değerlerin daha detaylı açıklamasını içeren parametredir.</td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>DATE</td>
+<td>UTC formatında response zaman değerini belirten parametredir.</td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>URL_3DS</td>
+<td>3DS_ENROLLED fonksiyonunun içerisinde işlemi 3D olarak tamamlatabilmek için 3D Secure sayfasına yönlendirmeniz gereken URL&#39;yi dönen parametredir.</td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>AMOUNT</td>
+<td>Toplam işlem tutarını belirten parametredir. Mutlaka sıfırdan büyük olmalıdır.</td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>CURRENCY</td>
+<td>İşlemde kullanılan para birimini belirten parametredir.</td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>INSTALLMENTS_NO</td>
+<td>İşlemde kullanılan kartın, program ismini belirten parametredir (Axess,Bonus vb.).</td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>CARD_PROGRAM_NAME</td>
+<td>İşlemde seçilen taksit sayısını belirten parametredir.</td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>ORDER_REF</td>
+<td>Üye işyeri tarafından request sırasında belirlenen sipariş referans numarasıdır.</td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>AUTH_CODE</td>
+<td>Bankanın otorizasyon işlem numarasıdır.</td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>RRN</td>
+<td>Bankaların iade işlemi için kullandığı işlem numarasıdır.</td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>HASH</td>
+<td>Response sırasında gelen tüm parametreler geldiği sıra ile uzunluğu alınıp, dizine çevirilip aynı algoritma ile hash hesaplaması sonucu elde edilen değerdir. URL_3DS, hash hesaplamasına dahil değildir.</td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>PROCRETURNCODE</td>
+<td>Yanıt içerisinde bankaların hata açıklama kodunun iletildiği parametredir.</td>
+<td>Evet</td>
+</tr>
+<tr>
+<td>ERRORMESSAGE</td>
+<td>Yanıt içerisinde bankaların hata açıklama mesajının iletildiği parametredir.</td>
+<td>Evet</td>
+</tr>
+<tr>
+<td>BANK_MERCHANT_ID</td>
+<td>Yanıt içerisinde işlemin gerçekleştiği Sanal POS’un bankadaki üye işyeri numarasının iletildiği parametredir.</td>
+<td>Evet</td>
+</tr>
+<tr>
+<td>PAN</td>
+<td>Yanıt içerisinde işlemin gerçekleştiği kartın numarasının maskeli biçimde iletildiği parametredir.</td>
+<td>Evet</td>
+</tr>
+<tr>
+<td>EXPYEAR</td>
+<td>Yanıt içerisinde işlemin gerçekleştiği kartın son kullanma yılının iletildiği parametredir.</td>
+<td>Evet</td>
+</tr>
+<tr>
+<td>EXPMONTH</td>
+<td>Yanıt içerisinde işlemin gerçekleştiği kartın son kullanma ayının iletildiği parametredir.</td>
+<td>Evet</td>
+</tr>
+<tr>
+<td>OID</td>
+<td>Yanıt içerisinde üye işyerlerinin kendi belirledikleri sipariş numarasının iletildiği parametredir.</td>
+<td>Evet</td>
+</tr>
+<tr>
+<td>TERMINAL_BANK</td>
+<td>Yanıt içerisinde işlemin gerçekleştiği Sanal POS bankasının iletildiği parametredir.</td>
+<td>Evet</td>
+</tr>
+<tr>
+<td>MDSTATUS, MDERRORMSG, TXSTATUS, XID, ECI, CAVV</td>
+<td>Yanıt içerisinde 3DS işlem parametrelerinin iletildiği parametrelerdir.</td>
+<td>Evet</td>
+</tr>
+<tr>
+<td>TRANSID</td>
+<td>Yanıt içerisinde banka işlem numarasının iletildiği parametredir.</td>
+<td>Evet</td>
+</tr>
+<tr>
+<td>CLIENTID</td>
+<td>Yanıt içerisinde işlemin gerçekleştiği Sanal POS’un bankadaki müşteri numarasının iletildiği parametredir.</td>
+<td>Evet</td>
+</tr>
+<tr>
+<td>MDSTATUS, MDERRORMSG, TXSTATUS, XID, ECI, CAVV</td>
+<td>Yanıt içerisinde 3DS işlem parametrelerinin iletildiği parametrelerdir.</td>
+<td>Evet</td>
+</tr>
+</tbody></table>
 <h2 id='hash-hesaplama'>Hash Hesaplama</h2>
 <blockquote>
 <p>1.Adım İşlem isteği gönderilmeden önce dizi içerisindeki tüm parametreler KEY&#39;e göre sıralanmalıdır.</p>
@@ -1020,393 +1863,54 @@ ORDER_PNAME, ORDER_PCODE, ORDER_PINFO, ORDER_PRICE and ORDER_QTY parametreleri k
 <li><p>Adım: Parametre değerlerinin başına uzunlukları eklenerek HASH string oluşturulmalı (UTF-8 Bayt olarak).</p></li>
 <li><p>Adım: Oluşturulan dizi PayU üye işyeri hesabınızın Hesap Yönetimi / Hesap Ayarları bölümünde yer alan kodlama anahtarı bilgisi kullanılarak HMAC_MD5 algoritması ile hashlenmeli.</p></li>
 </ol>
-<h2 id='yanit-parametreleri'>Yanıt Parametreleri</h2>
-<p>PayU sistemi, yapılan isteğe   XML formatında bir yanıt dönmektedir. 
-Bu yanıt;</p>
+<h2 id='3d-entegrasyonu'>3D Entegrasyonu</h2>
+<p>3D entegrasyonu için; işlemin başlatıldığı sırada ilk alınan yanıtta elde edilen <url_3ds> </url_3ds> parametresi ile gelen URL&#39;i dinlemeli ve URL&#39;e yönlendirme yapılması beklenmektedir.
+<aside class="warning">
+Bu URL&#39;e değer post edilmemeli, yönlendirme gerçekleştirilmesi işlemin 3D aşamasının tamamlanması için yeterlidir.
+</aside></p>
 
-<ul>
-<li><p>İşlemin başarılı olup olmadığını,başarılı olmadıysa sebebini ve ek bilgileri içermektedir.</p></li>
-<li><p>İşyeri XML formatındaki bu datayı ayrıştırıp kendi sisteminde işlemelidir.</p></li>
-<li><p>3D işlem yapılması durumunda aynı data HTTP POST ile BACK_REF url’ine gönderilmektedir.</p></li>
-</ul>
+<p>Yapılması gereken düzenleme aşağıda ki gibidir:</p>
 
-<blockquote>
-<p><strong>STATUS Parametresinin alabileceği değerler</strong></p>
+<p>Non-3D olarak gerçekleşen işlemlerde sistem  aşağıdaki gibi bir yanıt dönmektedir.</p>
 
-<p>SUCCESS – Başarılı otorizasyon işlem sonucu</p>
-</blockquote>
-<pre class="highlight xml tab-xml"><code><span class="nt">&lt;STATUS&gt;</span>SUCCESS<span class="nt">&lt;/STATUS&gt;</span>
-</code></pre>
-<blockquote>
-<p>FAILED – Otorizasyonun başarı ile yapılamadığı durumlarda dönen değerdir.(Yetersiz bakiye,fraud vb.)</p>
-</blockquote>
-<pre class="highlight xml tab-xml"><code><span class="nt">&lt;STATUS&gt;</span>FAILED<span class="nt">&lt;/STATUS&gt;</span>
-</code></pre>
-<blockquote>
-<p>INPUT_ERROR – Request gönderilirken zorunlu parametrelerin eksik veya hatalı gönderilmesinden kaynaklanan bir hatadır.</p>
-</blockquote>
-<pre class="highlight xml tab-xml"><code><span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
-</code></pre>
-<blockquote>
-<p><strong>RETURN_CODE Parametresinin alabileceği değerler</strong></p>
+<p><code>&lt;EPAYMENT&gt;</code> </br>
+<code>&lt;REFNO&gt;41652325&lt;/REFNO&gt;</code>  </br>
+<code>&lt;ALIAS&gt;3a9d9b9663a50a9ed0f545152320c9fb&lt;/ALIAS&gt;</code> </br>
+<code>&lt;STATUS&gt;SUCCESS&lt;/STATUS&gt;</code> </br>
+<code>&lt;RETURN_CODE&gt;AUTHORIZED&lt;/RETURN_CODE&gt;</code> </br>
+<code>&lt;RETURN_MESSAGE&gt;Authorized.&lt;/RETURN_MESSAGE&gt;</code> </br>
+<code>&lt;DATE&gt;2017-10-04 16:38:11&lt;/DATE&gt;</code> </br>
+<code>&lt;AMOUNT&gt;10.9&lt;/AMOUNT&gt;</code> </br>
+<code>&lt;CURRENCY&gt;TRY&lt;/CURRENCY&gt;</code> </br>
+<code>&lt;INSTALLMENTS_NO&gt;1&lt;/INSTALLMENTS_NO&gt;</code> </br>
+<code>&lt;CARD_PROGRAM_NAME&gt;AXESS&lt;/CARD_PROGRAM_NAME&gt;</code> </br>
+<code>&lt;ORDER_REF&gt;84525&lt;/ORDER_REF&gt;</code> </br>
+<code>&lt;AUTH_CODE&gt;342871&lt;/AUTH_CODE&gt;</code> </br>
+<code>&lt;HASH&gt;f1c2e330b1ecad927969b679097d647c&lt;/HASH&gt;</code> </br>
+<code>&lt;/EPAYMENT&gt;</code> </br></p>
 
-<p>AUTHORIZED – Otorizasyonun başarı ile tamamlandığını belirtilen işlem sonucu**</p>
-</blockquote>
-<pre class="highlight xml tab-xml"><code><span class="nt">&lt;EPAYMENT&gt;</span>
-    <span class="nt">&lt;REFNO&gt;</span>41464560<span class="nt">&lt;/REFNO&gt;</span>
-    <span class="nt">&lt;ALIAS&gt;</span>9592b7736c9e277fea8cc79c2e5b5a23<span class="nt">&lt;/ALIAS&gt;</span>
-    <span class="nt">&lt;STATUS&gt;</span>SUCCESS<span class="nt">&lt;/STATUS&gt;</span>
-    <span class="nt">&lt;RETURN_CODE&gt;</span>AUTHORIZED<span class="nt">&lt;/RETURN_CODE&gt;</span>
-    <span class="nt">&lt;RETURN_MESSAGE&gt;</span>Authorized.<span class="nt">&lt;/RETURN_MESSAGE&gt;</span>
-    <span class="nt">&lt;DATE&gt;</span>2017-10-04 15:20:21<span class="nt">&lt;/DATE&gt;</span>
-    <span class="nt">&lt;ORDER_REF&gt;</span>7305<span class="nt">&lt;/ORDER_REF&gt;</span>
-    <span class="nt">&lt;AUTH_CODE&gt;</span>13157TUlA15117<span class="nt">&lt;/AUTH_CODE&gt;</span>
-    <span class="nt">&lt;HASH&gt;</span>b560a38e2b3e7bcbac328bbd6218bc60<span class="nt">&lt;/HASH&gt;</span>
-<span class="nt">&lt;/EPAYMENT&gt;</span>
-</code></pre>
-<blockquote>
-<p>3DS_ENROLLED – Otorizasyonun tamamlanablilmesi için işlemi 3D Secure sayfasına yönlendirecek olan <url_3ds> parametresini dönen fonksiyonun değeridir.</p>
-</blockquote>
-<pre class="highlight xml tab-xml"><code><span class="nt">&lt;EPAYMENT&gt;</span>
-  <span class="nt">&lt;REFNO&gt;</span>41464560<span class="nt">&lt;/REFNO&gt;</span>
-  <span class="nt">&lt;ALIAS&gt;</span>848a62efa487d6b75a0eca5654cc4099<span class="nt">&lt;/ALIAS&gt;</span>
-  <span class="nt">&lt;STATUS&gt;</span>SUCCESS<span class="nt">&lt;/STATUS&gt;</span>
-  <span class="nt">&lt;RETURN_CODE&gt;</span>3DS_ENROLLED<span class="nt">&lt;/RETURN_CODE&gt;</span>
-  <span class="nt">&lt;RETURN_MESSAGE&gt;</span>3DS Enrolled Card.<span class="nt">&lt;/RETURN_MESSAGE&gt;</span>
-  <span class="nt">&lt;DATE&gt;</span>2017-10-04 15:20:21<span class="nt">&lt;/DATE&gt;</span>
-  <span class="nt">&lt;URL_3DS&gt;</span>https://secure.payu.com.tr/order/3ds/begin/refno/41464560/sign/b2968234be8cd88a63b0f5999b07d783/<span class="nt">&lt;/URL_3DS&gt;</span>
-  <span class="nt">&lt;HASH&gt;</span>46b1dcfcda8166ea33582fa2d3da6abb<span class="nt">&lt;/HASH&gt;</span>
-<span class="nt">&lt;/EPAYMENT&gt;</span>
-</code></pre>
-<blockquote>
-<p>INVALID_ACCOUNT – Üye işyeri isminin (Merchant ID) hatalı ya da eksik gönderilmesi durumunda dönen değerdir.</p>
-</blockquote>
-<pre class="highlight xml tab-xml"><code><span class="nt">&lt;EPAYMENT&gt;</span>
-  <span class="nt">&lt;REFNO&gt;&lt;/REFNO&gt;</span>
-  <span class="nt">&lt;ALIAS&gt;&lt;/ALIAS&gt;</span>
-  <span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
-  <span class="nt">&lt;RETURN_CODE&gt;</span>INVALID_ACCOUNT<span class="nt">&lt;/RETURN_CODE&gt;</span>
-  <span class="nt">&lt;RETURN_MESSAGE&gt;</span>Invalid account: 3DTRTEST<span class="nt">&lt;/RETURN_MESSAGE&gt;</span>
-  <span class="nt">&lt;DATE&gt;</span>2017-10-04 15:20:21<span class="nt">&lt;/DATE&gt;</span>
-  <span class="nt">&lt;ORDER_REF&gt;&lt;/ORDER_REF&gt;</span>
-  <span class="nt">&lt;AUTH_CODE&gt;&lt;/AUTH_CODE&gt;</span>
-  <span class="nt">&lt;RRN&gt;&lt;/RRN&gt;</span>
-  <span class="nt">&lt;HASH&gt;&lt;/HASH&gt;</span>
-<span class="nt">&lt;/EPAYMENT&gt;</span>
-</code></pre>
-<blockquote>
-<p>HASH_MISMATCH – Üye işyeri tarafında yanlış hash hesaplama sonucu PayU tarafındaki hash ile eşleşmemesi sonucunda alınan hatadır.</p>
-</blockquote>
-<pre class="highlight xml tab-xml"><code><span class="nt">&lt;EPAYMENT&gt;</span>
-  <span class="nt">&lt;REFNO&gt;&lt;/REFNO&gt;</span>
-  <span class="nt">&lt;ALIAS&gt;&lt;/ALIAS&gt;</span>
-  <span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
-  <span class="nt">&lt;RETURN_CODE&gt;</span>HASH_MISMATCH<span class="nt">&lt;/RETURN_CODE&gt;</span>
-  <span class="nt">&lt;RETURN_MESSAGE&gt;</span>Hash mismatch<span class="nt">&lt;/RETURN_MESSAGE&gt;</span>
-  <span class="nt">&lt;DATE&gt;</span>2017-10-04 15:20:21<span class="nt">&lt;/DATE&gt;</span>
-  <span class="nt">&lt;ORDER_REF&gt;&lt;/ORDER_REF&gt;</span>
-  <span class="nt">&lt;AUTH_CODE&gt;&lt;/AUTH_CODE&gt;</span>
-  <span class="nt">&lt;RRN&gt;&lt;/RRN&gt;</span>
-  <span class="nt">&lt;PROCRETURNCODE&gt;&lt;/PROCRETURNCODE&gt;</span>
-  <span class="nt">&lt;ERRORMESSAGE&gt;&lt;/ERRORMESSAGE&gt;</span>
-  <span class="nt">&lt;BANK_MERCHANT_ID&gt;&lt;/BANK_MERCHANT_ID&gt;</span>
-  <span class="nt">&lt;PAN&gt;&lt;/PAN&gt;</span>
-  <span class="nt">&lt;EXPYEAR&gt;&lt;/EXPYEAR&gt;</span>
-  <span class="nt">&lt;EXPMONTH&gt;&lt;/EXPMONTH&gt;</span>
-  <span class="nt">&lt;CLIENTID&gt;&lt;/CLIENTID&gt;</span>
-  <span class="nt">&lt;HOSTREFNUM&gt;&lt;/HOSTREFNUM&gt;</span>
-  <span class="nt">&lt;OID&gt;&lt;/OID&gt;</span>
-  <span class="nt">&lt;RESPONSE&gt;&lt;/RESPONSE&gt;</span>
-  <span class="nt">&lt;TERMINAL_BANK&gt;&lt;/TERMINAL_BANK&gt;</span>
-  <span class="nt">&lt;MDSTATUS&gt;&lt;/MDSTATUS&gt;</span>
-  <span class="nt">&lt;MDERRORMSG&gt;&lt;/MDERRORMSG&gt;</span>
-  <span class="nt">&lt;TXSTATUS&gt;&lt;/TXSTATUS&gt;</span>
-  <span class="nt">&lt;XID&gt;&lt;/XID&gt;</span>
-  <span class="nt">&lt;ECI&gt;&lt;/ECI&gt;</span>
-  <span class="nt">&lt;CAVV&gt;&lt;/CAVV&gt;</span>
-  <span class="nt">&lt;TRANSID&gt;&lt;/TRANSID&gt;</span>
-  <span class="nt">&lt;HASH&gt;&lt;/HASH&gt;</span>
-<span class="nt">&lt;/EPAYMENT&gt;</span>
-</code></pre>
-<blockquote>
-<p>ORDER_TOO_OLD – Daha önce başarılı / başarısız işlem yapılmış bir ORDER_REF parametresi ile işlem denenmesi durumunda meydana gelmektedir.</p>
-</blockquote>
-<pre class="highlight xml tab-xml"><code><span class="nt">&lt;EPAYMENT&gt;</span>
-  <span class="nt">&lt;REFNO&gt;&lt;/REFNO&gt;</span>
-  <span class="nt">&lt;ALIAS&gt;&lt;/ALIAS&gt;</span>
-  <span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
-  <span class="nt">&lt;RETURN_CODE&gt;</span>ORDER_TOO_OLD<span class="nt">&lt;/RETURN_CODE&gt;</span>
-  <span class="nt">&lt;RETURN_MESSAGE&gt;</span>Order is older than a week (2015-06-18 13:24:08)!<span class="nt">&lt;/RETURN_MESSAGE&gt;</span>
-  <span class="nt">&lt;DATE&gt;</span>2017-10-04 15:21:50<span class="nt">&lt;/DATE&gt;</span>
-  <span class="nt">&lt;ORDER_REF&gt;</span>123<span class="nt">&lt;/ORDER_REF&gt;</span>
-  <span class="nt">&lt;AUTH_CODE&gt;&lt;/AUTH_CODE&gt;</span>
-  <span class="nt">&lt;RRN&gt;&lt;/RRN&gt;</span>
-  <span class="nt">&lt;PROCRETURNCODE&gt;&lt;/PROCRETURNCODE&gt;</span>
-  <span class="nt">&lt;ERRORMESSAGE&gt;&lt;/ERRORMESSAGE&gt;</span>
-  <span class="nt">&lt;BANK_MERCHANT_ID&gt;&lt;/BANK_MERCHANT_ID&gt;</span>
-  <span class="nt">&lt;PAN&gt;&lt;/PAN&gt;</span>
-  <span class="nt">&lt;EXPYEAR&gt;&lt;/EXPYEAR&gt;</span>
-  <span class="nt">&lt;EXPMONTH&gt;&lt;/EXPMONTH&gt;</span>
-  <span class="nt">&lt;CLIENTID&gt;&lt;/CLIENTID&gt;</span>
-  <span class="nt">&lt;HOSTREFNUM&gt;&lt;/HOSTREFNUM&gt;</span>
-  <span class="nt">&lt;OID&gt;&lt;/OID&gt;</span>
-  <span class="nt">&lt;RESPONSE&gt;&lt;/RESPONSE&gt;</span>
-  <span class="nt">&lt;TERMINAL_BANK&gt;&lt;/TERMINAL_BANK&gt;</span>
-  <span class="nt">&lt;MDSTATUS&gt;&lt;/MDSTATUS&gt;</span>
-  <span class="nt">&lt;MDERRORMSG&gt;&lt;/MDERRORMSG&gt;</span>
-  <span class="nt">&lt;TXSTATUS&gt;&lt;/TXSTATUS&gt;</span>
-  <span class="nt">&lt;XID&gt;&lt;/XID&gt;</span>
-  <span class="nt">&lt;ECI&gt;&lt;/ECI&gt;</span>
-  <span class="nt">&lt;CAVV&gt;&lt;/CAVV&gt;</span>
-  <span class="nt">&lt;TRANSID&gt;&lt;/TRANSID&gt;</span>
-  <span class="nt">&lt;HASH&gt;&lt;/HASH&gt;</span>
-<span class="nt">&lt;/EPAYMENT&gt;</span>
-</code></pre>
-<blockquote>
-<p>INVALID_CC_TOKEN – Geçersiz Token kullanımı durumunda alınan hatadır.</p>
-</blockquote>
-<pre class="highlight xml tab-xml"><code><span class="nt">&lt;EPAYMENT&gt;</span>
-  <span class="nt">&lt;REFNO&gt;&lt;/REFNO&gt;</span>
-  <span class="nt">&lt;ALIAS&gt;&lt;/ALIAS&gt;</span>
-  <span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
-  <span class="nt">&lt;RETURN_CODE&gt;</span>INVALID_CC_TOKEN<span class="nt">&lt;/RETURN_CODE&gt;</span>
-  <span class="nt">&lt;RETURN_MESSAGE&gt;</span>Invalid Token: Invalid token hash "xake1kp153123o1235l2x3"<span class="nt">&lt;/RETURN_MESSAGE&gt;</span>
-  <span class="nt">&lt;DATE&gt;</span>2017-10-04 16:24:41<span class="nt">&lt;/DATE&gt;</span>
-  <span class="nt">&lt;ORDER_REF&gt;&lt;/ORDER_REF&gt;</span>
-  <span class="nt">&lt;AUTH_CODE&gt;&lt;/AUTH_CODE&gt;</span>
-  <span class="nt">&lt;RRN&gt;&lt;/RRN&gt;</span>
-  <span class="nt">&lt;PROCRETURNCODE&gt;&lt;/PROCRETURNCODE&gt;</span>
-  <span class="nt">&lt;ERRORMESSAGE&gt;&lt;/ERRORMESSAGE&gt;</span>
-  <span class="nt">&lt;BANK_MERCHANT_ID&gt;&lt;/BANK_MERCHANT_ID&gt;</span>
-  <span class="nt">&lt;PAN&gt;&lt;/PAN&gt;</span>
-  <span class="nt">&lt;EXPYEAR&gt;&lt;/EXPYEAR&gt;</span>
-  <span class="nt">&lt;EXPMONTH&gt;&lt;/EXPMONTH&gt;</span>
-  <span class="nt">&lt;CLIENTID&gt;&lt;/CLIENTID&gt;</span>
-  <span class="nt">&lt;HOSTREFNUM&gt;&lt;/HOSTREFNUM&gt;</span>
-  <span class="nt">&lt;OID&gt;&lt;/OID&gt;</span>
-  <span class="nt">&lt;RESPONSE&gt;&lt;/RESPONSE&gt;</span>
-  <span class="nt">&lt;TERMINAL_BANK&gt;&lt;/TERMINAL_BANK&gt;</span>
-  <span class="nt">&lt;MDSTATUS&gt;&lt;/MDSTATUS&gt;</span>
-  <span class="nt">&lt;MDERRORMSG&gt;&lt;/MDERRORMSG&gt;</span>
-  <span class="nt">&lt;TXSTATUS&gt;&lt;/TXSTATUS&gt;</span>
-  <span class="nt">&lt;XID&gt;&lt;/XID&gt;</span>
-  <span class="nt">&lt;ECI&gt;&lt;/ECI&gt;</span>
-  <span class="nt">&lt;CAVV&gt;&lt;/CAVV&gt;</span>
-  <span class="nt">&lt;TRANSID&gt;&lt;/TRANSID&gt;</span>
-  <span class="nt">&lt;HASH&gt;&lt;/HASH&gt;</span>
-<span class="nt">&lt;/EPAYMENT&gt;</span>
+<p>3D işlemlerde dönen yanıt ise aşağıda ki gibidir.</p>
 
-</code></pre>
-<blockquote>
-<p>WRONG_VERSION – Desteklenmeyen ALU versiyonu kullanımı durumunda alınan hatadır.</p>
-</blockquote>
-<pre class="highlight xml tab-xml"><code><span class="nt">&lt;EPAYMENT&gt;</span>
-  <span class="nt">&lt;REFNO&gt;&lt;/REFNO&gt;</span>
-  <span class="nt">&lt;ALIAS&gt;&lt;/ALIAS&gt;</span>
-  <span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
-  <span class="nt">&lt;RETURN_CODE&gt;</span>WRONG_VERSION<span class="nt">&lt;/RETURN_CODE&gt;</span>
-  <span class="nt">&lt;RETURN_MESSAGE&gt;</span>Wrong version<span class="nt">&lt;/RETURN_MESSAGE&gt;</span>
-  <span class="nt">&lt;DATE&gt;</span>2017-10-04 16:23:47<span class="nt">&lt;/DATE&gt;</span>
-  <span class="nt">&lt;HASH&gt;&lt;/HASH&gt;</span>
-<span class="nt">&lt;/EPAYMENT&gt;</span>
-</code></pre>
-<blockquote>
-<p>REQUEST_EXPIRED
-  a) ORDER_DATE parametresinde belirtilen zaman ile ödeme zamanı arasında 10 dakika ve ya daha fazla zaman geçmesi durumunda alınan hatadır.
-  b) ORDER_DATE parametresinin yanlış kullanımı durumunda alınan hatadır. ORDER_DATE parametresi UTC/GMT formatı ile Türkiye saatine göre 3 saati geri olacak şekilde gönderilmelidir.</p>
-</blockquote>
-<pre class="highlight xml tab-xml"><code><span class="nt">&lt;EPAYMENT&gt;</span>
-  <span class="nt">&lt;REFNO&gt;&lt;/REFNO&gt;</span>
-  <span class="nt">&lt;ALIAS&gt;&lt;/ALIAS&gt;</span>
-  <span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
-  <span class="nt">&lt;RETURN_CODE&gt;</span>REQUEST_EXPIRED<span class="nt">&lt;/RETURN_CODE&gt;</span>
-  <span class="nt">&lt;RETURN_MESSAGE&gt;</span>Your request date is in the future (2017-10-04 15:23:21)!<span class="nt">&lt;/RETURN_MESSAGE&gt;</span>
-  <span class="nt">&lt;DATE&gt;</span>2017-10-04 16:21:36<span class="nt">&lt;/DATE&gt;</span>
-  <span class="nt">&lt;ORDER_REF&gt;&lt;/ORDER_REF&gt;</span>
-  <span class="nt">&lt;AUTH_CODE&gt;&lt;/AUTH_CODE&gt;</span>
-  <span class="nt">&lt;RRN&gt;&lt;/RRN&gt;</span>
-  <span class="nt">&lt;PROCRETURNCODE&gt;&lt;/PROCRETURNCODE&gt;</span>
-  <span class="nt">&lt;ERRORMESSAGE&gt;&lt;/ERRORMESSAGE&gt;</span>
-  <span class="nt">&lt;BANK_MERCHANT_ID&gt;&lt;/BANK_MERCHANT_ID&gt;</span>
-  <span class="nt">&lt;PAN&gt;&lt;/PAN&gt;</span>
-  <span class="nt">&lt;EXPYEAR&gt;&lt;/EXPYEAR&gt;</span>
-  <span class="nt">&lt;EXPMONTH&gt;&lt;/EXPMONTH&gt;</span>
-  <span class="nt">&lt;CLIENTID&gt;&lt;/CLIENTID&gt;</span>
-  <span class="nt">&lt;HOSTREFNUM&gt;&lt;/HOSTREFNUM&gt;</span>
-  <span class="nt">&lt;OID&gt;&lt;/OID&gt;</span>
-  <span class="nt">&lt;RESPONSE&gt;&lt;/RESPONSE&gt;</span>
-  <span class="nt">&lt;TERMINAL_BANK&gt;&lt;/TERMINAL_BANK&gt;</span>
-  <span class="nt">&lt;MDSTATUS&gt;&lt;/MDSTATUS&gt;</span>
-  <span class="nt">&lt;MDERRORMSG&gt;&lt;/MDERRORMSG&gt;</span>
-  <span class="nt">&lt;TXSTATUS&gt;&lt;/TXSTATUS&gt;</span>
-  <span class="nt">&lt;XID&gt;&lt;/XID&gt;</span>
-  <span class="nt">&lt;ECI&gt;&lt;/ECI&gt;</span>
-  <span class="nt">&lt;CAVV&gt;&lt;/CAVV&gt;</span>
-  <span class="nt">&lt;TRANSID&gt;&lt;/TRANSID&gt;</span>
-  <span class="nt">&lt;HASH&gt;&lt;/HASH&gt;</span>
-<span class="nt">&lt;/EPAYMENT&gt;</span>
-</code></pre>
-<blockquote>
-<p>INVALID_CUSTOMER_INFO Zorunlu Parametrelerden bir veya bir kaçının hatalı veya eksik gönderilmesi durumunda alınan hatadır.</p>
-</blockquote>
-<pre class="highlight xml tab-xml"><code><span class="nt">&lt;EPAYMENT&gt;</span>
-  <span class="nt">&lt;REFNO&gt;&lt;/REFNO&gt;</span>
-  <span class="nt">&lt;ALIAS&gt;&lt;/ALIAS&gt;</span>
-  <span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
-  <span class="nt">&lt;RETURN_CODE&gt;</span>INVALID_CUSTOMER_INFO<span class="nt">&lt;/RETURN_CODE&gt;</span>
-  <span class="nt">&lt;RETURN_MESSAGE&gt;</span>Invalid field BILL_EMAIL<span class="nt">&lt;/RETURN_MESSAGE&gt;</span>
-  <span class="nt">&lt;DATE&gt;</span>2017-10-04 16:22:25<span class="nt">&lt;/DATE&gt;</span>
-  <span class="nt">&lt;HASH&gt;&lt;/HASH&gt;</span>
-<span class="nt">&lt;/EPAYMENT&gt;</span>
-</code></pre>
-<aside class="notice">
-    ÖNEMLİ NOT:
-Ekstra parametre olarak işaretlenen parametrelerin aktifleştirilmesi için üye işyeri satış temsilciniz ile iletişime geçebilir veya destek@payu.com.tr adresinden bizler ile iletişime geçerek talep edebilirsiniz.
-</aside>
+<p><code>&lt;EPAYMENT&gt;</code> </br>
+<code>&lt;REFNO&gt;41464560&lt;/REFNO&gt;</code> </br>
+<code>&lt;ALIAS&gt;9592b7736c9e277fea8cc79c2e5b5a23&lt;/ALIAS&gt;</code> </br>
+<code>&lt;STATUS&gt;SUCCESS&lt;/STATUS&gt;</code> </br>
+<code>&lt;RETURN_CODE&gt;AUTHORIZED&lt;/RETURN_CODE&gt;</code> </br>
+<code>&lt;RETURN_MESSAGE&gt;Authorized.&lt;/RETURN_MESSAGE&gt;</code> </br>
+<code>&lt;DATE&gt;2017-10-04 15:20:21&lt;/DATE&gt;</code> </br>
+<code>&lt;ORDER_REF&gt;7305&lt;/ORDER_REF&gt;</code> </br>
+<code>&lt;AUTH_CODE&gt;13157TUlA15117&lt;/AUTH_CODE&gt;</code> </br>
+<code>&lt;HASH&gt;b560a38e2b3e7bcbac328bbd6218bc60&lt;/HASH&gt;</code> </br>
+<code>&lt;/EPAYMENT&gt;</code> </br></p>
 
-<table><thead>
-<tr>
-<th>Parametre</th>
-<th>Açıklama</th>
-<th>Ekstra Parametre</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>REFNO</td>
-<td>İşleme ait PayU referans numarasının bildirildiği parametredir.</td>
-<td>Hayır</td>
-</tr>
-<tr>
-<td>ALIAS</td>
-<td>Üye işyerinin kendi tarafında kullanabileceği benzersiz işlem dizesidir.</td>
-<td>Hayır</td>
-</tr>
-<tr>
-<td>STATUS</td>
-<td>Alabileceği Değerler: <code> <strong>SUCCESS</strong> <strong>FAILED</strong> <strong>INPUT_ERROR</strong> </code></td>
-<td>Hayır</td>
-</tr>
-<tr>
-<td>RETURN_CODE</td>
-<td>Alabileceği Değerler: <code> <strong>AUTHORIZED</strong> <strong>3DS_ENROLLED</strong> <strong>ALREADY_AUTHORIZED</strong> <strong>AUTHORIZATION_FAILED</strong> <strong>INVALID_CUSTOMER_INFO</strong> <strong>INVALID_PAYMENT_INFO</strong> <strong>INVALID_ACCOUNT</strong> <strong>INVALID_PAYMENT_METHOD_CODE</strong> <strong>INVALID_CURRENCY</strong> <strong>REQUEST_EXPIRED</strong> <strong>HASH_MISMATCH</strong> <strong>WRONG_VERSION</strong> <strong>INVALID_CC_TOKEN</strong></code></td>
-<td>Hayır</td>
-</tr>
-<tr>
-<td>RETURN_MESSAGE</td>
-<td>RETURN_CODE parametreleri ile dönen değerlerin daha detaylı açıklamasını içeren parametredir.</td>
-<td>Hayır</td>
-</tr>
-<tr>
-<td>DATE</td>
-<td>UTC formatında response zaman değerini belirten parametredir.</td>
-<td>Hayır</td>
-</tr>
-<tr>
-<td>URL_3DS</td>
-<td>3DS_ENROLLED fonksiyonunun içerisinde işlemi 3D olarak tamamlatabilmek için 3D Secure sayfasına yönlendirmeniz gereken URL&#39;yi dönen parametredir.</td>
-<td>Hayır</td>
-</tr>
-<tr>
-<td>AMOUNT</td>
-<td>Toplam işlem tutarını belirten parametredir. Mutlaka sıfırdan büyük olmalıdır.</td>
-<td>Hayır</td>
-</tr>
-<tr>
-<td>CURRENCY</td>
-<td>İşlemde kullanılan para birimini belirten parametredir.</td>
-<td>Hayır</td>
-</tr>
-<tr>
-<td>INSTALLMENTS_NO</td>
-<td>İşlemde kullanılan kartın, program ismini belirten parametredir (Axess,Bonus vb.).</td>
-<td>Hayır</td>
-</tr>
-<tr>
-<td>CARD_PROGRAM_NAME</td>
-<td>İşlemde seçilen taksit sayısını belirten parametredir.</td>
-<td>Hayır</td>
-</tr>
-<tr>
-<td>ORDER_REF</td>
-<td>Üye işyeri tarafından request sırasında belirlenen sipariş referans numarasıdır.</td>
-<td>Hayır</td>
-</tr>
-<tr>
-<td>AUTH_CODE</td>
-<td>Bankanın otorizasyon işlem numarasıdır.</td>
-<td>Hayır</td>
-</tr>
-<tr>
-<td>RRN</td>
-<td>Bankaların iade işlemi için kullandığı işlem numarasıdır.</td>
-<td>Hayır</td>
-</tr>
-<tr>
-<td>HASH</td>
-<td>Response sırasında gelen tüm parametreler geldiği sıra ile uzunluğu alınıp, dizine çevirilip aynı algoritma ile hash hesaplaması sonucu elde edilen değerdir. URL_3DS, hash hesaplamasına dahil değildir.</td>
-<td>Hayır</td>
-</tr>
-<tr>
-<td>PROCRETURNCODE</td>
-<td>Yanıt içerisinde bankaların hata açıklama kodunun iletildiği parametredir.</td>
-<td>Evet</td>
-</tr>
-<tr>
-<td>ERRORMESSAGE</td>
-<td>Yanıt içerisinde bankaların hata açıklama mesajının iletildiği parametredir.</td>
-<td>Evet</td>
-</tr>
-<tr>
-<td>BANK_MERCHANT_ID</td>
-<td>Yanıt içerisinde işlemin gerçekleştiği Sanal POS’un bankadaki üye işyeri numarasının iletildiği parametredir.</td>
-<td>Evet</td>
-</tr>
-<tr>
-<td>PAN</td>
-<td>Yanıt içerisinde işlemin gerçekleştiği kartın numarasının maskeli biçimde iletildiği parametredir.</td>
-<td>Evet</td>
-</tr>
-<tr>
-<td>EXPYEAR</td>
-<td>Yanıt içerisinde işlemin gerçekleştiği kartın son kullanma yılının iletildiği parametredir.</td>
-<td>Evet</td>
-</tr>
-<tr>
-<td>EXPMONTH</td>
-<td>Yanıt içerisinde işlemin gerçekleştiği kartın son kullanma ayının iletildiği parametredir.</td>
-<td>Evet</td>
-</tr>
-<tr>
-<td>OID</td>
-<td>Yanıt içerisinde üye işyerlerinin kendi belirledikleri sipariş numarasının iletildiği parametredir.</td>
-<td>Evet</td>
-</tr>
-<tr>
-<td>TERMINAL_BANK</td>
-<td>Yanıt içerisinde işlemin gerçekleştiği Sanal POS bankasının iletildiği parametredir.</td>
-<td>Evet</td>
-</tr>
-<tr>
-<td>MDSTATUS, MDERRORMSG, TXSTATUS, XID, ECI, CAVV</td>
-<td>Yanıt içerisinde 3DS işlem parametrelerinin iletildiği parametrelerdir.</td>
-<td>Evet</td>
-</tr>
-<tr>
-<td>TRANSID</td>
-<td>Yanıt içerisinde banka işlem numarasının iletildiği parametredir.</td>
-<td>Evet</td>
-</tr>
-<tr>
-<td>CLIENTID</td>
-<td>Yanıt içerisinde işlemin gerçekleştiği Sanal POS’un bankadaki müşteri numarasının iletildiği parametredir.</td>
-<td>Evet</td>
-</tr>
-<tr>
-<td>MDSTATUS, MDERRORMSG, TXSTATUS, XID, ECI, CAVV</td>
-<td>Yanıt içerisinde 3DS işlem parametrelerinin iletildiği parametrelerdir.</td>
-<td>Evet</td>
-</tr>
-</tbody></table>
+<p>Burada 3D yanıtını incelendiğinde 
+<code>&lt;RETURN_CODE&gt;3DS_ENROLLED&lt;/RETURN_CODE&gt;</code> ve <code>&lt;URL_3DS&gt;https://secure.payu.com.tr/order/alu_return_3ds.php?request_id=2Xrl85eakbSBr3WtcbixYQ%3D%3D&lt;/URL_3DS&gt;</code>
+şeklinde olduğunu görüntülenmekte.</p>
+
+<p>Yapılması gereken <code>&lt;RETURN_CODE&gt;3DS_ENROLLED&lt;/RETURN_CODE&gt;</code> yanıtını alındığında <code>&lt;URL_3DS&gt;&lt;/URL_3DS&gt;</code> içinde yer alan URL&#39;e yönlendirme yapmaktır. Bu yönlendirmeyi sağladığında müşteri banka ekranına yönlendirilir ve şifre doğrulamasını yapması beklenir.</p>
+
+<p>İşlem tamamlandığında ise işlem isteği gönderdiğiniz sırada tanımlamış olduğunuz BACK_REF URL&#39;e işlem sonucunu post edilir.
+Yukarıdaki geliştirme ile yönlendirme sağlandığında, 3D işlem gerçekleştirilebilir.</p>
 <h1 id='test-bilgileri'>Test Bilgileri</h1><h2 id='uye-isyeri-kontrol-paneli-giris-bilgileri'>Üye İşyeri Kontrol Paneli Giriş Bilgileri</h2>
 <p>Üye İşyeri Kontrol Paneli’ne girişlerde IP kısıtı uygulanmaktadır. Test hesabının üye işyeri paneline giriş yapabilmek için IP adreslerinizi destek@payu.com.tr adresimizden bize iletmeniz gerekmektedir.</p>
 
