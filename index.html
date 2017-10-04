@@ -202,7 +202,7 @@
     <link href="images/favicon.ico" rel="icon" type="image/ico" />
   </head>
 
-  <body class="index" data-languages="[&quot;php&quot;,&quot;python&quot;]">
+  <body class="index" data-languages="[&quot;php&quot;,&quot;python&quot;,&quot;xml&quot;]">
     <a href="#" id="nav-button">
       <span>
         NAV
@@ -214,6 +214,7 @@
         <div class="lang-selector">
               <a href="#" data-language-name="php">PHP</a>
               <a href="#" data-language-name="python">Python 3</a>
+              <a href="#" data-language-name="xml">XML</a>
         </div>
         <div class="search">
           <input type="text" class="search" id="input-search" placeholder="Ara">
@@ -247,16 +248,13 @@
                     <a href="#api-kullanici-bilgileri" class="toc-h2 toc-link" data-title="Test Bilgileri">API Kullanıcı Bilgileri</a>
                   </li>
                   <li>
-                    <a href="#test-karti" class="toc-h2 toc-link" data-title="Test Bilgileri">Test Kartı</a>
+                    <a href="#test-kartlari" class="toc-h2 toc-link" data-title="Test Bilgileri">Test Kartları</a>
                   </li>
               </ul>
           </li>
-          <li>
-            <a href="#hata-kodlari" class="toc-h1 toc-link" data-title="Hata Kodları">Hata Kodları</a>
-          </li>
       </div>
         <ul class="toc-footer">
-            <li><a>Doküman:v1.0.0.3</a></li>
+            <li><a>Doküman:v1.0.0.4</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -992,7 +990,6 @@
 <strong>Örnekte kullanılan kodlama anahtarı değeri: SECRET_KEY</strong></p>
 </blockquote>
 <pre class="highlight python tab-python"><code> <span class="n">ORDER_HASH</span> <span class="mi">271748</span><span class="n">a93c3781774104216d979c7d94</span>
-
 </code></pre><pre class="highlight php tab-php"><code> [ORDER_HASH]=&gt;"271748a93c3781774104216d979c7d94"
 </code></pre>
 <aside class="warning">
@@ -1032,10 +1029,240 @@ Bu yanıt;</p>
 <li><p>İşyeri XML formatındaki bu datayı ayrıştırıp kendi sisteminde işlemelidir.</p></li>
 <li><p>3D işlem yapılması durumunda aynı data HTTP POST ile BACK_REF url’ine gönderilmektedir.</p></li>
 </ul>
-<h3 id='yanit-parametreleri-2'>Yanıt Parametreleri</h3>
+
+<blockquote>
+<p><strong>STATUS Parametresinin alabileceği değerler</strong></p>
+
+<p>SUCCESS – Başarılı otorizasyon işlem sonucu</p>
+</blockquote>
+<pre class="highlight xml tab-xml"><code><span class="nt">&lt;STATUS&gt;</span>SUCCESS<span class="nt">&lt;/STATUS&gt;</span>
+</code></pre>
+<blockquote>
+<p>FAILED – Otorizasyonun başarı ile yapılamadığı durumlarda dönen değerdir.(Yetersiz bakiye,fraud vb.)</p>
+</blockquote>
+<pre class="highlight xml tab-xml"><code><span class="nt">&lt;STATUS&gt;</span>FAILED<span class="nt">&lt;/STATUS&gt;</span>
+</code></pre>
+<blockquote>
+<p>INPUT_ERROR – Request gönderilirken zorunlu parametrelerin eksik veya hatalı gönderilmesinden kaynaklanan bir hatadır.</p>
+</blockquote>
+<pre class="highlight xml tab-xml"><code><span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
+</code></pre>
+<blockquote>
+<p><strong>RETURN_CODE Parametresinin alabileceği değerler</strong></p>
+
+<p>AUTHORIZED – Otorizasyonun başarı ile tamamlandığını belirtilen işlem sonucu**</p>
+</blockquote>
+<pre class="highlight xml tab-xml"><code><span class="nt">&lt;EPAYMENT&gt;</span>
+    <span class="nt">&lt;REFNO&gt;</span>41464560<span class="nt">&lt;/REFNO&gt;</span>
+    <span class="nt">&lt;ALIAS&gt;</span>9592b7736c9e277fea8cc79c2e5b5a23<span class="nt">&lt;/ALIAS&gt;</span>
+    <span class="nt">&lt;STATUS&gt;</span>SUCCESS<span class="nt">&lt;/STATUS&gt;</span>
+    <span class="nt">&lt;RETURN_CODE&gt;</span>AUTHORIZED<span class="nt">&lt;/RETURN_CODE&gt;</span>
+    <span class="nt">&lt;RETURN_MESSAGE&gt;</span>Authorized.<span class="nt">&lt;/RETURN_MESSAGE&gt;</span>
+    <span class="nt">&lt;DATE&gt;</span>2017-10-04 15:20:21<span class="nt">&lt;/DATE&gt;</span>
+    <span class="nt">&lt;ORDER_REF&gt;</span>7305<span class="nt">&lt;/ORDER_REF&gt;</span>
+    <span class="nt">&lt;AUTH_CODE&gt;</span>13157TUlA15117<span class="nt">&lt;/AUTH_CODE&gt;</span>
+    <span class="nt">&lt;HASH&gt;</span>b560a38e2b3e7bcbac328bbd6218bc60<span class="nt">&lt;/HASH&gt;</span>
+<span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre>
+<blockquote>
+<p>3DS_ENROLLED – Otorizasyonun tamamlanablilmesi için işlemi 3D Secure sayfasına yönlendirecek olan <url_3ds> parametresini dönen fonksiyonun değeridir.</p>
+</blockquote>
+<pre class="highlight xml tab-xml"><code><span class="nt">&lt;EPAYMENT&gt;</span>
+  <span class="nt">&lt;REFNO&gt;</span>41464560<span class="nt">&lt;/REFNO&gt;</span>
+  <span class="nt">&lt;ALIAS&gt;</span>848a62efa487d6b75a0eca5654cc4099<span class="nt">&lt;/ALIAS&gt;</span>
+  <span class="nt">&lt;STATUS&gt;</span>SUCCESS<span class="nt">&lt;/STATUS&gt;</span>
+  <span class="nt">&lt;RETURN_CODE&gt;</span>3DS_ENROLLED<span class="nt">&lt;/RETURN_CODE&gt;</span>
+  <span class="nt">&lt;RETURN_MESSAGE&gt;</span>3DS Enrolled Card.<span class="nt">&lt;/RETURN_MESSAGE&gt;</span>
+  <span class="nt">&lt;DATE&gt;</span>2017-10-04 15:20:21<span class="nt">&lt;/DATE&gt;</span>
+  <span class="nt">&lt;URL_3DS&gt;</span>https://secure.payu.com.tr/order/3ds/begin/refno/41464560/sign/b2968234be8cd88a63b0f5999b07d783/<span class="nt">&lt;/URL_3DS&gt;</span>
+  <span class="nt">&lt;HASH&gt;</span>46b1dcfcda8166ea33582fa2d3da6abb<span class="nt">&lt;/HASH&gt;</span>
+<span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre>
+<blockquote>
+<p>INVALID_ACCOUNT – Üye işyeri isminin (Merchant ID) hatalı ya da eksik gönderilmesi durumunda dönen değerdir.</p>
+</blockquote>
+<pre class="highlight xml tab-xml"><code><span class="nt">&lt;EPAYMENT&gt;</span>
+  <span class="nt">&lt;REFNO&gt;&lt;/REFNO&gt;</span>
+  <span class="nt">&lt;ALIAS&gt;&lt;/ALIAS&gt;</span>
+  <span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
+  <span class="nt">&lt;RETURN_CODE&gt;</span>INVALID_ACCOUNT<span class="nt">&lt;/RETURN_CODE&gt;</span>
+  <span class="nt">&lt;RETURN_MESSAGE&gt;</span>Invalid account: 3DTRTEST<span class="nt">&lt;/RETURN_MESSAGE&gt;</span>
+  <span class="nt">&lt;DATE&gt;</span>2017-10-04 15:20:21<span class="nt">&lt;/DATE&gt;</span>
+  <span class="nt">&lt;ORDER_REF&gt;&lt;/ORDER_REF&gt;</span>
+  <span class="nt">&lt;AUTH_CODE&gt;&lt;/AUTH_CODE&gt;</span>
+  <span class="nt">&lt;RRN&gt;&lt;/RRN&gt;</span>
+  <span class="nt">&lt;HASH&gt;&lt;/HASH&gt;</span>
+<span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre>
+<blockquote>
+<p>HASH_MISMATCH – Üye işyeri tarafında yanlış hash hesaplama sonucu PayU tarafındaki hash ile eşleşmemesi sonucunda alınan hatadır.</p>
+</blockquote>
+<pre class="highlight xml tab-xml"><code><span class="nt">&lt;EPAYMENT&gt;</span>
+  <span class="nt">&lt;REFNO&gt;&lt;/REFNO&gt;</span>
+  <span class="nt">&lt;ALIAS&gt;&lt;/ALIAS&gt;</span>
+  <span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
+  <span class="nt">&lt;RETURN_CODE&gt;</span>HASH_MISMATCH<span class="nt">&lt;/RETURN_CODE&gt;</span>
+  <span class="nt">&lt;RETURN_MESSAGE&gt;</span>Hash mismatch<span class="nt">&lt;/RETURN_MESSAGE&gt;</span>
+  <span class="nt">&lt;DATE&gt;</span>2017-10-04 15:20:21<span class="nt">&lt;/DATE&gt;</span>
+  <span class="nt">&lt;ORDER_REF&gt;&lt;/ORDER_REF&gt;</span>
+  <span class="nt">&lt;AUTH_CODE&gt;&lt;/AUTH_CODE&gt;</span>
+  <span class="nt">&lt;RRN&gt;&lt;/RRN&gt;</span>
+  <span class="nt">&lt;PROCRETURNCODE&gt;&lt;/PROCRETURNCODE&gt;</span>
+  <span class="nt">&lt;ERRORMESSAGE&gt;&lt;/ERRORMESSAGE&gt;</span>
+  <span class="nt">&lt;BANK_MERCHANT_ID&gt;&lt;/BANK_MERCHANT_ID&gt;</span>
+  <span class="nt">&lt;PAN&gt;&lt;/PAN&gt;</span>
+  <span class="nt">&lt;EXPYEAR&gt;&lt;/EXPYEAR&gt;</span>
+  <span class="nt">&lt;EXPMONTH&gt;&lt;/EXPMONTH&gt;</span>
+  <span class="nt">&lt;CLIENTID&gt;&lt;/CLIENTID&gt;</span>
+  <span class="nt">&lt;HOSTREFNUM&gt;&lt;/HOSTREFNUM&gt;</span>
+  <span class="nt">&lt;OID&gt;&lt;/OID&gt;</span>
+  <span class="nt">&lt;RESPONSE&gt;&lt;/RESPONSE&gt;</span>
+  <span class="nt">&lt;TERMINAL_BANK&gt;&lt;/TERMINAL_BANK&gt;</span>
+  <span class="nt">&lt;MDSTATUS&gt;&lt;/MDSTATUS&gt;</span>
+  <span class="nt">&lt;MDERRORMSG&gt;&lt;/MDERRORMSG&gt;</span>
+  <span class="nt">&lt;TXSTATUS&gt;&lt;/TXSTATUS&gt;</span>
+  <span class="nt">&lt;XID&gt;&lt;/XID&gt;</span>
+  <span class="nt">&lt;ECI&gt;&lt;/ECI&gt;</span>
+  <span class="nt">&lt;CAVV&gt;&lt;/CAVV&gt;</span>
+  <span class="nt">&lt;TRANSID&gt;&lt;/TRANSID&gt;</span>
+  <span class="nt">&lt;HASH&gt;&lt;/HASH&gt;</span>
+<span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre>
+<blockquote>
+<p>ORDER_TOO_OLD – Daha önce başarılı / başarısız işlem yapılmış bir ORDER_REF parametresi ile işlem denenmesi durumunda meydana gelmektedir.</p>
+</blockquote>
+<pre class="highlight xml tab-xml"><code><span class="nt">&lt;EPAYMENT&gt;</span>
+  <span class="nt">&lt;REFNO&gt;&lt;/REFNO&gt;</span>
+  <span class="nt">&lt;ALIAS&gt;&lt;/ALIAS&gt;</span>
+  <span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
+  <span class="nt">&lt;RETURN_CODE&gt;</span>ORDER_TOO_OLD<span class="nt">&lt;/RETURN_CODE&gt;</span>
+  <span class="nt">&lt;RETURN_MESSAGE&gt;</span>Order is older than a week (2015-06-18 13:24:08)!<span class="nt">&lt;/RETURN_MESSAGE&gt;</span>
+  <span class="nt">&lt;DATE&gt;</span>2017-10-04 15:21:50<span class="nt">&lt;/DATE&gt;</span>
+  <span class="nt">&lt;ORDER_REF&gt;</span>123<span class="nt">&lt;/ORDER_REF&gt;</span>
+  <span class="nt">&lt;AUTH_CODE&gt;&lt;/AUTH_CODE&gt;</span>
+  <span class="nt">&lt;RRN&gt;&lt;/RRN&gt;</span>
+  <span class="nt">&lt;PROCRETURNCODE&gt;&lt;/PROCRETURNCODE&gt;</span>
+  <span class="nt">&lt;ERRORMESSAGE&gt;&lt;/ERRORMESSAGE&gt;</span>
+  <span class="nt">&lt;BANK_MERCHANT_ID&gt;&lt;/BANK_MERCHANT_ID&gt;</span>
+  <span class="nt">&lt;PAN&gt;&lt;/PAN&gt;</span>
+  <span class="nt">&lt;EXPYEAR&gt;&lt;/EXPYEAR&gt;</span>
+  <span class="nt">&lt;EXPMONTH&gt;&lt;/EXPMONTH&gt;</span>
+  <span class="nt">&lt;CLIENTID&gt;&lt;/CLIENTID&gt;</span>
+  <span class="nt">&lt;HOSTREFNUM&gt;&lt;/HOSTREFNUM&gt;</span>
+  <span class="nt">&lt;OID&gt;&lt;/OID&gt;</span>
+  <span class="nt">&lt;RESPONSE&gt;&lt;/RESPONSE&gt;</span>
+  <span class="nt">&lt;TERMINAL_BANK&gt;&lt;/TERMINAL_BANK&gt;</span>
+  <span class="nt">&lt;MDSTATUS&gt;&lt;/MDSTATUS&gt;</span>
+  <span class="nt">&lt;MDERRORMSG&gt;&lt;/MDERRORMSG&gt;</span>
+  <span class="nt">&lt;TXSTATUS&gt;&lt;/TXSTATUS&gt;</span>
+  <span class="nt">&lt;XID&gt;&lt;/XID&gt;</span>
+  <span class="nt">&lt;ECI&gt;&lt;/ECI&gt;</span>
+  <span class="nt">&lt;CAVV&gt;&lt;/CAVV&gt;</span>
+  <span class="nt">&lt;TRANSID&gt;&lt;/TRANSID&gt;</span>
+  <span class="nt">&lt;HASH&gt;&lt;/HASH&gt;</span>
+<span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre>
+<blockquote>
+<p>INVALID_CC_TOKEN – Geçersiz Token kullanımı durumunda alınan hatadır.</p>
+</blockquote>
+<pre class="highlight xml tab-xml"><code><span class="nt">&lt;EPAYMENT&gt;</span>
+  <span class="nt">&lt;REFNO&gt;&lt;/REFNO&gt;</span>
+  <span class="nt">&lt;ALIAS&gt;&lt;/ALIAS&gt;</span>
+  <span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
+  <span class="nt">&lt;RETURN_CODE&gt;</span>INVALID_CC_TOKEN<span class="nt">&lt;/RETURN_CODE&gt;</span>
+  <span class="nt">&lt;RETURN_MESSAGE&gt;</span>Invalid Token: Invalid token hash "xake1kp153123o1235l2x3"<span class="nt">&lt;/RETURN_MESSAGE&gt;</span>
+  <span class="nt">&lt;DATE&gt;</span>2017-10-04 16:24:41<span class="nt">&lt;/DATE&gt;</span>
+  <span class="nt">&lt;ORDER_REF&gt;&lt;/ORDER_REF&gt;</span>
+  <span class="nt">&lt;AUTH_CODE&gt;&lt;/AUTH_CODE&gt;</span>
+  <span class="nt">&lt;RRN&gt;&lt;/RRN&gt;</span>
+  <span class="nt">&lt;PROCRETURNCODE&gt;&lt;/PROCRETURNCODE&gt;</span>
+  <span class="nt">&lt;ERRORMESSAGE&gt;&lt;/ERRORMESSAGE&gt;</span>
+  <span class="nt">&lt;BANK_MERCHANT_ID&gt;&lt;/BANK_MERCHANT_ID&gt;</span>
+  <span class="nt">&lt;PAN&gt;&lt;/PAN&gt;</span>
+  <span class="nt">&lt;EXPYEAR&gt;&lt;/EXPYEAR&gt;</span>
+  <span class="nt">&lt;EXPMONTH&gt;&lt;/EXPMONTH&gt;</span>
+  <span class="nt">&lt;CLIENTID&gt;&lt;/CLIENTID&gt;</span>
+  <span class="nt">&lt;HOSTREFNUM&gt;&lt;/HOSTREFNUM&gt;</span>
+  <span class="nt">&lt;OID&gt;&lt;/OID&gt;</span>
+  <span class="nt">&lt;RESPONSE&gt;&lt;/RESPONSE&gt;</span>
+  <span class="nt">&lt;TERMINAL_BANK&gt;&lt;/TERMINAL_BANK&gt;</span>
+  <span class="nt">&lt;MDSTATUS&gt;&lt;/MDSTATUS&gt;</span>
+  <span class="nt">&lt;MDERRORMSG&gt;&lt;/MDERRORMSG&gt;</span>
+  <span class="nt">&lt;TXSTATUS&gt;&lt;/TXSTATUS&gt;</span>
+  <span class="nt">&lt;XID&gt;&lt;/XID&gt;</span>
+  <span class="nt">&lt;ECI&gt;&lt;/ECI&gt;</span>
+  <span class="nt">&lt;CAVV&gt;&lt;/CAVV&gt;</span>
+  <span class="nt">&lt;TRANSID&gt;&lt;/TRANSID&gt;</span>
+  <span class="nt">&lt;HASH&gt;&lt;/HASH&gt;</span>
+<span class="nt">&lt;/EPAYMENT&gt;</span>
+
+</code></pre>
+<blockquote>
+<p>WRONG_VERSION – Desteklenmeyen ALU versiyonu kullanımı durumunda alınan hatadır.</p>
+</blockquote>
+<pre class="highlight xml tab-xml"><code><span class="nt">&lt;EPAYMENT&gt;</span>
+  <span class="nt">&lt;REFNO&gt;&lt;/REFNO&gt;</span>
+  <span class="nt">&lt;ALIAS&gt;&lt;/ALIAS&gt;</span>
+  <span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
+  <span class="nt">&lt;RETURN_CODE&gt;</span>WRONG_VERSION<span class="nt">&lt;/RETURN_CODE&gt;</span>
+  <span class="nt">&lt;RETURN_MESSAGE&gt;</span>Wrong version<span class="nt">&lt;/RETURN_MESSAGE&gt;</span>
+  <span class="nt">&lt;DATE&gt;</span>2017-10-04 16:23:47<span class="nt">&lt;/DATE&gt;</span>
+  <span class="nt">&lt;HASH&gt;&lt;/HASH&gt;</span>
+<span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre>
+<blockquote>
+<p>REQUEST_EXPIRED
+  a) ORDER_DATE parametresinde belirtilen zaman ile ödeme zamanı arasında 10 dakika ve ya daha fazla zaman geçmesi durumunda alınan hatadır.
+  b) ORDER_DATE parametresinin yanlış kullanımı durumunda alınan hatadır. ORDER_DATE parametresi UTC/GMT formatı ile Türkiye saatine göre 3 saati geri olacak şekilde gönderilmelidir.</p>
+</blockquote>
+<pre class="highlight xml tab-xml"><code><span class="nt">&lt;EPAYMENT&gt;</span>
+  <span class="nt">&lt;REFNO&gt;&lt;/REFNO&gt;</span>
+  <span class="nt">&lt;ALIAS&gt;&lt;/ALIAS&gt;</span>
+  <span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
+  <span class="nt">&lt;RETURN_CODE&gt;</span>REQUEST_EXPIRED<span class="nt">&lt;/RETURN_CODE&gt;</span>
+  <span class="nt">&lt;RETURN_MESSAGE&gt;</span>Your request date is in the future (2017-10-04 15:23:21)!<span class="nt">&lt;/RETURN_MESSAGE&gt;</span>
+  <span class="nt">&lt;DATE&gt;</span>2017-10-04 16:21:36<span class="nt">&lt;/DATE&gt;</span>
+  <span class="nt">&lt;ORDER_REF&gt;&lt;/ORDER_REF&gt;</span>
+  <span class="nt">&lt;AUTH_CODE&gt;&lt;/AUTH_CODE&gt;</span>
+  <span class="nt">&lt;RRN&gt;&lt;/RRN&gt;</span>
+  <span class="nt">&lt;PROCRETURNCODE&gt;&lt;/PROCRETURNCODE&gt;</span>
+  <span class="nt">&lt;ERRORMESSAGE&gt;&lt;/ERRORMESSAGE&gt;</span>
+  <span class="nt">&lt;BANK_MERCHANT_ID&gt;&lt;/BANK_MERCHANT_ID&gt;</span>
+  <span class="nt">&lt;PAN&gt;&lt;/PAN&gt;</span>
+  <span class="nt">&lt;EXPYEAR&gt;&lt;/EXPYEAR&gt;</span>
+  <span class="nt">&lt;EXPMONTH&gt;&lt;/EXPMONTH&gt;</span>
+  <span class="nt">&lt;CLIENTID&gt;&lt;/CLIENTID&gt;</span>
+  <span class="nt">&lt;HOSTREFNUM&gt;&lt;/HOSTREFNUM&gt;</span>
+  <span class="nt">&lt;OID&gt;&lt;/OID&gt;</span>
+  <span class="nt">&lt;RESPONSE&gt;&lt;/RESPONSE&gt;</span>
+  <span class="nt">&lt;TERMINAL_BANK&gt;&lt;/TERMINAL_BANK&gt;</span>
+  <span class="nt">&lt;MDSTATUS&gt;&lt;/MDSTATUS&gt;</span>
+  <span class="nt">&lt;MDERRORMSG&gt;&lt;/MDERRORMSG&gt;</span>
+  <span class="nt">&lt;TXSTATUS&gt;&lt;/TXSTATUS&gt;</span>
+  <span class="nt">&lt;XID&gt;&lt;/XID&gt;</span>
+  <span class="nt">&lt;ECI&gt;&lt;/ECI&gt;</span>
+  <span class="nt">&lt;CAVV&gt;&lt;/CAVV&gt;</span>
+  <span class="nt">&lt;TRANSID&gt;&lt;/TRANSID&gt;</span>
+  <span class="nt">&lt;HASH&gt;&lt;/HASH&gt;</span>
+<span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre>
+<blockquote>
+<p>INVALID_CUSTOMER_INFO Zorunlu Parametrelerden bir veya bir kaçının hatalı veya eksik gönderilmesi durumunda alınan hatadır.</p>
+</blockquote>
+<pre class="highlight xml tab-xml"><code><span class="nt">&lt;EPAYMENT&gt;</span>
+  <span class="nt">&lt;REFNO&gt;&lt;/REFNO&gt;</span>
+  <span class="nt">&lt;ALIAS&gt;&lt;/ALIAS&gt;</span>
+  <span class="nt">&lt;STATUS&gt;</span>INPUT_ERROR<span class="nt">&lt;/STATUS&gt;</span>
+  <span class="nt">&lt;RETURN_CODE&gt;</span>INVALID_CUSTOMER_INFO<span class="nt">&lt;/RETURN_CODE&gt;</span>
+  <span class="nt">&lt;RETURN_MESSAGE&gt;</span>Invalid field BILL_EMAIL<span class="nt">&lt;/RETURN_MESSAGE&gt;</span>
+  <span class="nt">&lt;DATE&gt;</span>2017-10-04 16:22:25<span class="nt">&lt;/DATE&gt;</span>
+  <span class="nt">&lt;HASH&gt;&lt;/HASH&gt;</span>
+<span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre>
 <aside class="notice">
     ÖNEMLİ NOT:
-Ekstra parametre olarak işaretlenen parametrelerin aktifleştirilmesi için üye işyeri satış temsilciniz ile iletişime geçebilir veya destek@payu.com.tr adresinden bizler ile iletişime geçerek talep edebilirsiniz.</aside>
+Ekstra parametre olarak işaretlenen parametrelerin aktifleştirilmesi için üye işyeri satış temsilciniz ile iletişime geçebilir veya destek@payu.com.tr adresinden bizler ile iletişime geçerek talep edebilirsiniz.
+</aside>
 
 <table><thead>
 <tr>
@@ -1200,7 +1427,7 @@ Ekstra parametre olarak işaretlenen parametrelerin aktifleştirilmesi için üy
 <li>MERCHANT=PALJZXGV</li>
 <li>SECRET_KEY= f*%J7z6_#|5]s7V4[g3] </li>
 </ul>
-<h2 id='test-karti'>Test Kartı</h2>
+<h2 id='test-kartlari'>Test Kartları</h2><h3 id='akbank-test-kredi-karti'>Akbank Test Kredi Kartı</h3>
 <ul>
 <li>Kart Numarası (Visa) : 4355084355084358</li>
 <li>Kart Numarası (Master Card) : 5571135571135575</li>
@@ -1208,68 +1435,20 @@ Ekstra parametre olarak işaretlenen parametrelerin aktifleştirilmesi için üy
 <li>Güvenlik Numarası : 000</li>
 <li>Kart 3D Secure Şifresi : a</li>
 </ul>
-<h1 id='hata-kodlari'>Hata Kodları</h1>
-<aside class="notice">This error section is stored in a separate file in `includes/_errors.md`. Slate allows you to optionally separate out your docs into many files...just save them to the `includes` folder and add them to the top of your `index.md`'s frontmatter. Files are included in the order listed.</aside>
-
-<p>The Kittn API uses the following error codes:</p>
-
-<table><thead>
-<tr>
-<th>Error Code</th>
-<th>Meaning</th>
-</tr>
-</thead><tbody>
-<tr>
-<td>400</td>
-<td>Bad Request -- Your request sucks.</td>
-</tr>
-<tr>
-<td>401</td>
-<td>Unauthorized -- Your API key is wrong.</td>
-</tr>
-<tr>
-<td>403</td>
-<td>Forbidden -- The kitten requested is hidden for administrators only.</td>
-</tr>
-<tr>
-<td>404</td>
-<td>Not Found -- The specified kitten could not be found.</td>
-</tr>
-<tr>
-<td>405</td>
-<td>Method Not Allowed -- You tried to access a kitten with an invalid method.</td>
-</tr>
-<tr>
-<td>406</td>
-<td>Not Acceptable -- You requested a format that isn&#39;t json.</td>
-</tr>
-<tr>
-<td>410</td>
-<td>Gone -- The kitten requested has been removed from our servers.</td>
-</tr>
-<tr>
-<td>418</td>
-<td>I&#39;m a teapot.</td>
-</tr>
-<tr>
-<td>429</td>
-<td>Too Many Requests -- You&#39;re requesting too many kittens! Slow down!</td>
-</tr>
-<tr>
-<td>500</td>
-<td>Internal Server Error -- We had a problem with our server. Try again later.</td>
-</tr>
-<tr>
-<td>503</td>
-<td>Service Unavailable -- We&#39;re temporarily offline for maintenance. Please try again later.</td>
-</tr>
-</tbody></table>
+<h3 id='akbank-debit-kart'>Akbank Debit Kart</h3>
+<ul>
+<li>Kart Numarası (Visa) : 4748544748544745</li>
+<li>Son Kullanma Tarihi :12/18</li>
+<li>Güvenlik Numarası : 000</li>
+<li>Kart 3D Secure Şifresi : a</li>
+</ul>
 
       </div>
       <div class="dark-box">
           <div class="lang-selector">
                 <a href="#" data-language-name="php">PHP</a>
                 <a href="#" data-language-name="python">Python 3</a>
+                <a href="#" data-language-name="xml">XML</a>
           </div>
       </div>
     </div>
