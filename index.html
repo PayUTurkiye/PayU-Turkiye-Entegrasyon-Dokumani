@@ -256,7 +256,7 @@
           </li>
       </div>
         <ul class="toc-footer">
-            <li><a>Doküman:v1.0.0.2</a></li>
+            <li><a>Doküman:v1.0.0.3</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -876,69 +876,125 @@
 <blockquote>
 <p>1.Adım İşlem isteği gönderilmeden önce dizi içerisindeki tüm parametreler KEY&#39;e göre sıralanmalıdır.</p>
 </blockquote>
-<pre class="highlight python tab-python"><code></code></pre><pre class="highlight php tab-php"><code>
-[BACK_REF] =&gt; http://www.backref.com.tr
-[BILL_ADDRESS] =&gt; Birinci Adres satırı 
-[BILL_ADDRESS2] =&gt; İkinci Adres satırı 
-[BILL_CITY] =&gt; ISTANBUL 
-[BILL_COUNTRYCODE] =&gt; TR 
-[BILL_EMAIL] =&gt; mail@mail.com 
-[BILL_FAX] =&gt; 02129003711 
-[BILL_FNAME] =&gt; Ad 
-[BILL_LNAME] =&gt; Soyad 
-[BILL_PHONE] =&gt; 02129003711 
-[BILL_STATE] =&gt; Ayazağa 
-[BILL_ZIPCODE] =&gt; 34000 
-[CC_CVV] =&gt; 000 
-[CC_NUMBER] =&gt; 4355084355084358 
-[CC_OWNER] =&gt; 000 
-[CLIENT_IP] =&gt; 127.0.0.1 
-[DELIVERY_ADDRESS] =&gt; Birinci Adres satırı 
-[DELIVERY_ADDRESS2] =&gt; İkinci Adres satırı 
-[DELIVERY_CITY  ] =&gt; ISTANBUL 
-[DELIVERY_COMPANY] =&gt; PayU Ödeme Kuruluşu A.Ş. 
-[DELIVERY_COUNTRYCODE   ] =&gt; Ayazağa 
-[DELIVERY_EMAIL] =&gt; mail@mail.com 
-[DELIVERY_FNAME] =&gt; Ad 
-[DELIVERY_LNAME] =&gt; Soyad 
-[DELIVERY_PHONE] =&gt; 02129003711 
-[DELIVERY_STATE] =&gt; TR 
-[DELIVERY_ZIPCODE] =&gt; 34000 
-[EXP_MONTH] =&gt; 12 
-[EXP_YEAR] =&gt; 2018 
-[LANGUAGE] =&gt; TR 
-[MERCHANT] =&gt; OPU_TEST 
-[ORDER_DATE] =&gt; 2017-10-04 10:53:33 
-[ORDER_PCODE[0]] =&gt; Test Kodu 
-[ORDER_PCODE[1]] =&gt; Test Kodu-2 
-[ORDER_PINFO[0]] =&gt; Test Açıklaması 
-[ORDER_PINFO[1]] =&gt; Test Açıklaması-2 
-[ORDER_PNAME[0]] =&gt; Test Ürünü 
-[ORDER_PNAME[1]] =&gt; Test Ürünü-2 
-[ORDER_PRICE[0]] =&gt; 5 
-[ORDER_PRICE[1]] =&gt; 15 
-[ORDER_PRICE_TYPE[0]] =&gt; NET 
-[ORDER_PRICE_TYPE[1]] =&gt; GROSS 
-[ORDER_QTY[0]] =&gt; 1 
-[ORDER_QTY[1]] =&gt; 3 
-[ORDER_REF] =&gt; 2088 
-[ORDER_SHIPPING] =&gt; 5 
-[ORDER_VAT[0]] =&gt; 18 
-[ORDER_VAT[1]] =&gt; 24 
-[PAY_METHOD] =&gt; CCVISAMC 
-[PRICES_CURRENCY] =&gt; TRY 
-[SELECTED_INSTALLMENTS_NUMBER] =&gt; 1
+<pre class="highlight python tab-python"><code>     <span class="n">BACK_REF</span> <span class="p">:</span> <span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">backref</span><span class="o">.</span><span class="n">com</span><span class="o">.</span><span class="n">tr</span>
+     <span class="n">BILL_ADDRESS</span> <span class="p">:</span> <span class="n">Birinci</span> <span class="n">Adres</span> <span class="n">sat</span><span class="err">ı</span><span class="n">r</span>
+     <span class="n">BILL_ADDRESS2</span> <span class="p">:</span> <span class="err">İ</span><span class="n">kinci</span> <span class="n">Adres</span> <span class="n">sat</span><span class="err">ı</span><span class="n">r</span><span class="err">ı</span>
+     <span class="n">BILL_CITY</span> <span class="p">:</span> <span class="n">ISTANBUL</span>
+     <span class="n">BILL_COUNTRYCODE</span> <span class="p">:</span> <span class="n">TR</span>
+     <span class="n">BILL_EMAIL</span> <span class="p">:</span> <span class="n">mail</span><span class="nd">@mail.com</span>
+     <span class="n">BILL_FAX</span> <span class="p">:</span> <span class="mo">0212</span><span class="mi">9003711</span>
+     <span class="n">BILL_FNAME</span> <span class="p">:</span> <span class="n">Ad</span>
+     <span class="n">BILL_LNAME</span> <span class="p">:</span> <span class="n">Soyad</span>
+     <span class="n">BILL_PHONE</span> <span class="p">:</span> <span class="mo">0212</span><span class="mi">9003711</span>
+     <span class="n">BILL_STATE</span> <span class="p">:</span> <span class="n">Ayaza</span><span class="err">ğ</span><span class="n">a</span>
+     <span class="n">BILL_ZIPCODE</span> <span class="p">:</span> <span class="mi">34000</span> 
+     <span class="n">CC_CVV</span> <span class="p">:</span> <span class="mo">000</span>
+     <span class="n">CC_NUMBER</span> <span class="p">:</span> <span class="mi">4355084355084358</span>
+     <span class="n">CC_OWNER</span> <span class="p">:</span> <span class="n">Ad</span> <span class="n">Soyad</span>
+     <span class="n">CLIENT_IP</span> <span class="p">:</span> <span class="mf">127.0</span><span class="o">.</span><span class="mf">0.1</span>
+     <span class="n">DELIVERY_ADDRESS</span> <span class="p">:</span> <span class="n">Birinci</span> <span class="n">Adres</span> <span class="n">sat</span><span class="err">ı</span><span class="n">r</span><span class="err">ı</span>
+     <span class="n">DELIVERY_ADDRESS2</span> <span class="p">:</span> <span class="err">İ</span><span class="n">kinci</span> <span class="n">Adres</span> <span class="n">sat</span><span class="err">ı</span><span class="n">r</span><span class="err">ı</span>
+     <span class="n">DELIVERY_CITY</span> <span class="p">:</span> <span class="n">ISTANBUL</span>
+     <span class="n">DELIVERY_COMPANY</span> <span class="p">:</span> <span class="n">PayU</span> <span class="err">Ö</span><span class="n">deme</span> <span class="n">Kurulu</span><span class="err">ş</span><span class="n">u</span> <span class="n">A</span><span class="o">.</span><span class="err">Ş</span><span class="o">.</span>
+     <span class="n">DELIVERY_COUNTRYCODE</span> <span class="p">:</span> <span class="n">Ayaza</span><span class="err">ğ</span><span class="n">a</span>
+     <span class="n">DELIVERY_EMAIL</span> <span class="p">:</span> <span class="n">mail</span><span class="nd">@mail.com</span>
+     <span class="n">DELIVERY_FNAME</span> <span class="p">:</span> <span class="n">Ad</span>
+     <span class="n">DELIVERY_LNAME</span> <span class="p">:</span> <span class="n">Soyad</span>
+     <span class="n">DELIVERY_PHONE</span> <span class="p">:</span> <span class="mo">0212</span><span class="mi">9003711</span>
+     <span class="n">DELIVERY_STATE</span> <span class="p">:</span> <span class="n">TR</span>
+     <span class="n">DELIVERY_ZIPCODE</span> <span class="p">:</span> <span class="mi">34000</span>
+     <span class="n">EXP_MONTH</span> <span class="p">:</span> <span class="mi">12</span>
+     <span class="n">EXP_YEAR</span> <span class="p">:</span> <span class="mi">2018</span>
+     <span class="n">LANGUAGE</span> <span class="p">:</span> <span class="n">TR</span>
+     <span class="n">MERCHANT</span> <span class="p">:</span> <span class="n">OPU_TEST</span>
+     <span class="n">ORDER_DATE</span> <span class="p">:</span> <span class="mi">2017</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">04</span> <span class="mi">11</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">23</span>
+     <span class="n">ORDER_PCODE0</span> <span class="p">:</span> <span class="n">Test</span> <span class="n">Kodu</span>
+     <span class="n">ORDER_PCODE1</span> <span class="p">:</span> <span class="n">Test</span> <span class="n">Kodu</span><span class="o">-</span><span class="mi">2</span>
+     <span class="n">ORDER_PINFO0</span> <span class="p">:</span> <span class="n">Test</span> <span class="n">A</span><span class="err">çı</span><span class="n">klamas</span><span class="err">ı</span>
+     <span class="n">ORDER_PINFO1</span> <span class="p">:</span> <span class="n">Test</span> <span class="n">A</span><span class="err">çı</span><span class="n">klamas</span><span class="err">ı</span><span class="o">-</span><span class="mi">2</span>
+     <span class="n">ORDER_PNAME0</span> <span class="p">:</span> <span class="n">Test</span> <span class="err">Ü</span><span class="n">r</span><span class="err">ü</span><span class="n">n</span><span class="err">ü</span>
+     <span class="n">ORDER_PNAME1</span> <span class="p">:</span> <span class="n">Test</span> <span class="err">Ü</span><span class="n">r</span><span class="err">ü</span><span class="n">n</span><span class="err">ü</span><span class="o">-</span><span class="mi">2</span>       
+     <span class="n">ORDER_PRICE0</span> <span class="p">:</span> <span class="mi">5</span>
+     <span class="n">ORDER_PRICE1</span> <span class="p">:</span> <span class="mi">15</span>
+     <span class="n">ORDER_PRICE_TYPE0</span> <span class="p">:</span> <span class="n">NET</span>
+     <span class="n">ORDER_PRICE_TYPE1</span> <span class="p">:</span> <span class="n">GROSS</span>
+     <span class="n">ORDER_QTY0</span> <span class="p">:</span> <span class="mi">1</span>
+     <span class="n">ORDER_QTY1</span> <span class="p">:</span> <span class="mi">3</span>
+     <span class="n">ORDER_REF</span> <span class="p">:</span> <span class="mi">3245</span>
+     <span class="n">ORDER_SHIPPING</span> <span class="p">:</span> <span class="mi">5</span>
+     <span class="n">ORDER_VAT0</span> <span class="p">:</span> <span class="mi">18</span>
+     <span class="n">ORDER_VAT1</span> <span class="p">:</span> <span class="mi">24</span>
+     <span class="n">PAY_METHOD</span> <span class="p">:</span> <span class="n">CCVISAMC</span>
+     <span class="n">PRICES_CURRENCY</span> <span class="p">:</span> <span class="n">TRY</span>
+     <span class="n">SELECTED_INSTALLMENTS_NUMBER</span> <span class="p">:</span> <span class="mi">1</span>
+</code></pre><pre class="highlight php tab-php"><code>
+    [BACK_REF] =&gt; http://www.backref.com.tr
+    [BILL_ADDRESS] =&gt; Birinci Adres satırı
+    [BILL_ADDRESS2] =&gt; İkinci Adres satırı
+    [BILL_CITY] =&gt; ISTANBUL
+    [BILL_COUNTRYCODE] =&gt; TR
+    [BILL_EMAIL] =&gt; mail@mail.com
+    [BILL_FAX] =&gt; 02129003711
+    [BILL_FNAME] =&gt; Ad
+    [BILL_LNAME] =&gt; Soyad
+    [BILL_PHONE] =&gt; 02129003711
+    [BILL_STATE] =&gt; Ayazağa
+    [BILL_ZIPCODE] =&gt; 34000
+    [CC_CVV] =&gt; 000
+    [CC_NUMBER] =&gt; 4355084355084358
+    [CC_OWNER] =&gt; Ad Soyad
+    [CLIENT_IP] =&gt; 127.0.0.1
+    [DELIVERY_ADDRESS] =&gt; Birinci Adres satırı
+    [DELIVERY_ADDRESS2] =&gt; İkinci Adres satırı
+    [DELIVERY_CITY] =&gt; ISTANBUL
+    [DELIVERY_COMPANY] =&gt; PayU Ödeme Kuruluşu A.Ş.
+    [DELIVERY_COUNTRYCODE] =&gt; Ayazağa
+    [DELIVERY_EMAIL] =&gt; mail@mail.com
+    [DELIVERY_FNAME] =&gt; Ad
+    [DELIVERY_LNAME] =&gt; Soyad
+    [DELIVERY_PHONE] =&gt; 02129003711
+    [DELIVERY_STATE] =&gt; TR
+    [DELIVERY_ZIPCODE] =&gt; 34000
+    [EXP_MONTH] =&gt; 12
+    [EXP_YEAR] =&gt; 2018
+    [LANGUAGE] =&gt; TR
+    [MERCHANT] =&gt; OPU_TEST
+    [ORDER_DATE] =&gt; 2017-10-04 11:10:23
+    [ORDER_PCODE[0]] =&gt; Test Kodu
+    [ORDER_PCODE[1]] =&gt; Test Kodu-2
+    [ORDER_PINFO[0]] =&gt; Test Açıklaması
+    [ORDER_PINFO[1]] =&gt; Test Açıklaması-2
+    [ORDER_PNAME[0]] =&gt; Test Ürünü
+    [ORDER_PNAME[1]] =&gt; Test Ürünü-2
+    [ORDER_PRICE[0]] =&gt; 5
+    [ORDER_PRICE[1]] =&gt; 15
+    [ORDER_PRICE_TYPE[0]] =&gt; NET
+    [ORDER_PRICE_TYPE[1]] =&gt; GROSS
+    [ORDER_QTY[0]] =&gt; 1
+    [ORDER_QTY[1]] =&gt; 3
+    [ORDER_REF] =&gt; 3245
+    [ORDER_SHIPPING] =&gt; 5
+    [ORDER_VAT[0]] =&gt; 18
+    [ORDER_VAT[1]] =&gt; 24
+    [PAY_METHOD] =&gt; CCVISAMC
+    [PRICES_CURRENCY] =&gt; TRY
+    [SELECTED_INSTALLMENTS_NUMBER] =&gt; 1
 
 </code></pre>
 <blockquote>
 <p>2.Adım Parametre değerlerinin başına uzunlukları eklenerek HASH string oluşturulmalı (UTF-8 Bayt olarak).</p>
 </blockquote>
-<pre class="highlight python tab-python"><code></code></pre><pre class="highlight php tab-php"><code></code></pre>
+<pre class="highlight python tab-python"><code><span class="mi">25</span><span class="n">http</span><span class="p">:</span><span class="o">//</span><span class="n">www</span><span class="o">.</span><span class="n">backref</span><span class="o">.</span><span class="n">com</span><span class="o">.</span><span class="n">tr22Birinci</span> <span class="n">Adres</span> <span class="n">sat</span><span class="err">ı</span><span class="n">r</span><span class="err">ı</span><span class="mi">22</span><span class="err">İ</span><span class="n">kinci</span> <span class="n">Adres</span> <span class="n">sat</span><span class="err">ı</span><span class="n">r</span><span class="err">ı</span><span class="mi">8</span><span class="n">ISTANBUL2TR13mail</span><span class="nd">@mail.com11021290037112Ad5Soyad11021290037118Ayaza</span><span class="err">ğ</span><span class="n">a53400030001643550843550843588Ad</span> <span class="n">Soyad9127</span><span class="o">.</span><span class="mf">0.0</span><span class="o">.</span><span class="mi">122</span><span class="n">Birinci</span> <span class="n">Adres</span> <span class="n">sat</span><span class="err">ı</span><span class="n">r</span><span class="err">ı</span><span class="mi">22</span><span class="err">İ</span><span class="n">kinci</span> <span class="n">Adres</span> <span class="n">sat</span><span class="err">ı</span><span class="n">r</span><span class="err">ı</span><span class="mi">8</span><span class="n">ISTANBUL27PayU</span> <span class="err">Ö</span><span class="n">deme</span> <span class="n">Kurulu</span><span class="err">ş</span><span class="n">u</span> <span class="n">A</span><span class="o">.</span><span class="err">Ş</span><span class="o">.</span><span class="mi">8</span><span class="n">Ayaza</span><span class="err">ğ</span><span class="n">a13mail</span><span class="nd">@mail.com2Ad5Soyad11021290037112TR534000212420182TR8OPU_TEST192017</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">04</span> <span class="mi">11</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">239</span><span class="n">Test</span> <span class="n">Kodu11Test</span> <span class="n">Kodu</span><span class="o">-</span><span class="mi">218</span><span class="n">Test</span> <span class="n">A</span><span class="err">çı</span><span class="n">klamas</span><span class="err">ı</span><span class="mi">20</span><span class="n">Test</span> <span class="n">A</span><span class="err">çı</span><span class="n">klamas</span><span class="err">ı</span><span class="o">-</span><span class="mi">213</span><span class="n">Test</span> <span class="err">Ü</span><span class="n">r</span><span class="err">ü</span><span class="n">n</span><span class="err">ü</span><span class="mi">15</span><span class="n">Test</span> <span class="err">Ü</span><span class="n">r</span><span class="err">ü</span><span class="n">n</span><span class="err">ü</span><span class="o">-</span><span class="mi">2152153</span><span class="n">NET5GROSS111343245152182248CCVISAMC3TRY11</span>
+</code></pre><pre class="highlight php tab-php"><code>25http://www.backref.com.tr22Birinci Adres satırı22İkinci Adres satırı8ISTANBUL2TR13mail@mail.com11021290037112Ad5Soyad11021290037118Ayazağa53400030001643550843550843588Ad Soyad9127.0.0.122Birinci Adres satırı22İkinci Adres satırı8ISTANBUL27PayU Ödeme Kuruluşu A.Ş.8Ayazağa13mail@mail.com2Ad5Soyad11021290037112TR534000212420182TR8OPU_TEST192017-10-04 11:10:239Test Kodu11Test Kodu-218Test Açıklaması20Test Açıklaması-213Test Ürünü15Test Ürünü-2152153NET5GROSS111343245152182248CCVISAMC3TRY11
+</code></pre>
 <blockquote>
-<p>3.Adım Oluşturulan dizi PayU üye işyeri hesabınızın Hesap Yönetimi / Hesap Ayarları bölümünde yer alan kodlama anahtarı bilgisi kullanılarak HMAC_MD5 algoritması ile hashlenmeli.
+<p>3.Adım Oluşturulan dizi PayU üye işyeri hesabınızın Hesap Yönetimi / Hesap Ayarları bölümünde yer alan kodlama anahtarı bilgisi kullanılarak HMAC_MD5 algoritması ile hashlenmeli ve elde edilen değer ORDER_HASH parametresine atayarak işlem isteği endpointe gönderilmelidir.
 <strong>Örnekte kullanılan kodlama anahtarı değeri: SECRET_KEY</strong></p>
 </blockquote>
-<pre class="highlight python tab-python"><code></code></pre><pre class="highlight php tab-php"><code></code></pre>
+<pre class="highlight python tab-python"><code> <span class="n">ORDER_HASH</span> <span class="mi">271748</span><span class="n">a93c3781774104216d979c7d94</span>
+
+</code></pre><pre class="highlight php tab-php"><code> [ORDER_HASH]=&gt;"271748a93c3781774104216d979c7d94"
+</code></pre>
 <aside class="warning">
     ÖNEMLİ NOT:
  Güvenlik gerekçesiyle her HTTPS POST isteği benzersiz bir imzaya sahip olmalıdır.
