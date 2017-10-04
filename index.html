@@ -242,6 +242,17 @@
               </ul>
           </li>
           <li>
+            <a href="#bildirim-servisi" class="toc-h1 toc-link" data-title="Bildirim Servisi">Bildirim Servisi</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#hash-hesaplama-2" class="toc-h2 toc-link" data-title="Bildirim Servisi">Hash Hesaplama</a>
+                  </li>
+                  <li>
+                    <a href="#bildirime-yanit-verme" class="toc-h2 toc-link" data-title="Bildirim Servisi">Bildirime Yanıt Verme</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#test-bilgileri" class="toc-h1 toc-link" data-title="Test Bilgileri">Test Bilgileri</a>
               <ul class="toc-list-h2">
                   <li>
@@ -1911,6 +1922,621 @@ Bu URL&#39;e değer post edilmemeli, yönlendirme gerçekleştirilmesi işlemin 
 
 <p>İşlem tamamlandığında ise işlem isteği gönderdiğiniz sırada tanımlamış olduğunuz BACK_REF URL&#39;e işlem sonucunu post edilir.
 Yukarıdaki geliştirme ile yönlendirme sağlandığında, 3D işlem gerçekleştirilebilir.</p>
+<h1 id='bildirim-servisi'>Bildirim Servisi</h1><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$postValues</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+<span class="k">foreach</span><span class="p">(</span><span class="nv">$_REQUEST</span> <span class="k">as</span> <span class="nv">$key</span> <span class="o">=&gt;</span> <span class="nv">$value</span><span class="p">){</span>
+    <span class="nv">$postValues</span> <span class="o">.=</span> <span class="nv">$key</span><span class="o">.</span><span class="s1">' = '</span><span class="o">.</span> <span class="nv">$value</span><span class="o">.</span> <span class="s2">"</span><span class="se">\r\n</span><span class="s2">"</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+
+<span class="nb">ini_set</span><span class="p">(</span><span class="s2">"mbstring.func_overload"</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+<span class="k">if</span><span class="p">(</span><span class="nb">ini_get</span><span class="p">(</span><span class="s2">"mbstring.func_overload"</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">)</span>
+<span class="p">{</span>   <span class="cm">/* check if mbstring.func_overload is still set to overload strings(2)*/</span>
+    <span class="k">echo</span> <span class="s2">"WARNING: mbstring.func_overload is set to overload strings and might cause problems</span><span class="se">\n</span><span class="s2">"</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="cm">/* Internet Payment Notification */</span>
+
+<span class="nv">$pass</span>       <span class="o">=</span> <span class="s2">"TEST_KEY"</span><span class="p">;</span>   <span class="cm">/* pass to compute HASH */</span>
+<span class="nv">$result</span>     <span class="o">=</span> <span class="s2">""</span><span class="p">;</span>               <span class="cm">/* string for compute HASH for received data */</span>
+<span class="nv">$return</span>     <span class="o">=</span> <span class="s2">""</span><span class="p">;</span>               <span class="cm">/* string to compute HASH for return result */</span>
+<span class="nv">$signature</span>  <span class="o">=</span> <span class="nv">$_POST</span><span class="p">[</span><span class="s2">"HASH"</span><span class="p">];</span>   <span class="cm">/* HASH received */</span>
+<span class="nv">$body</span>       <span class="o">=</span> <span class="s2">""</span><span class="p">;</span>
+
+<span class="cm">/* read info received */</span>
+<span class="nb">ob_start</span><span class="p">();</span>
+<span class="k">while</span><span class="p">(</span><span class="k">list</span><span class="p">(</span><span class="nv">$key</span><span class="p">,</span> <span class="nv">$val</span><span class="p">)</span> <span class="o">=</span> <span class="nb">each</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">)){</span>
+    <span class="nv">$$key</span><span class="o">=</span><span class="nv">$val</span><span class="p">;</span>
+
+    <span class="cm">/* get values */</span>
+    <span class="k">if</span><span class="p">(</span><span class="nv">$key</span> <span class="o">!=</span> <span class="s2">"HASH"</span><span class="p">){</span>
+
+        <span class="k">if</span><span class="p">(</span><span class="nb">is_array</span><span class="p">(</span><span class="nv">$val</span><span class="p">))</span> <span class="nv">$result</span> <span class="o">.=</span> <span class="nx">ArrayExpand</span><span class="p">(</span><span class="nv">$val</span><span class="p">);</span>
+        <span class="k">else</span><span class="p">{</span>
+            <span class="nv">$size</span>       <span class="o">=</span> <span class="nb">strlen</span><span class="p">(</span><span class="nx">StripSlashes</span><span class="p">(</span><span class="nv">$val</span><span class="p">));</span>
+            <span class="nv">$result</span> <span class="o">.=</span> <span class="nv">$size</span><span class="o">.</span><span class="nx">StripSlashes</span><span class="p">(</span><span class="nv">$val</span><span class="p">);</span>
+        <span class="p">}</span>
+
+    <span class="p">}</span>
+
+<span class="p">}</span>
+<span class="nv">$body</span> <span class="o">=</span> <span class="nb">ob_get_contents</span><span class="p">();</span>
+<span class="nb">ob_end_flush</span><span class="p">();</span>
+
+<span class="nv">$date_return</span> <span class="o">=</span> <span class="nb">date</span><span class="p">(</span><span class="s2">"YmdGis"</span><span class="p">);</span>
+
+<span class="nv">$return</span> <span class="o">=</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s2">"IPN_PID"</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="nv">$_POST</span><span class="p">[</span><span class="s2">"IPN_PID"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="nb">strlen</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s2">"IPN_PNAME"</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span><span class="o">.</span><span class="nv">$_POST</span><span class="p">[</span><span class="s2">"IPN_PNAME"</span><span class="p">][</span><span class="mi">0</span><span class="p">];</span>
+<span class="nv">$return</span> <span class="o">.=</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$_POST</span><span class="p">[</span><span class="s2">"IPN_DATE"</span><span class="p">])</span><span class="o">.</span><span class="nv">$_POST</span><span class="p">[</span><span class="s2">"IPN_DATE"</span><span class="p">]</span><span class="o">.</span><span class="nb">strlen</span><span class="p">(</span><span class="nv">$date_return</span><span class="p">)</span><span class="o">.</span><span class="nv">$date_return</span><span class="p">;</span>
+
+<span class="k">function</span> <span class="nf">ArrayExpand</span><span class="p">(</span><span class="nv">$array</span><span class="p">){</span>
+    <span class="nv">$retval</span> <span class="o">=</span> <span class="s2">""</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="nv">$i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="nv">$i</span> <span class="o">&lt;</span> <span class="nb">sizeof</span><span class="p">(</span><span class="nv">$array</span><span class="p">);</span> <span class="nv">$i</span><span class="o">++</span><span class="p">){</span>
+        <span class="nv">$size</span>       <span class="o">=</span> <span class="nb">strlen</span><span class="p">(</span><span class="nx">StripSlashes</span><span class="p">(</span><span class="nv">$array</span><span class="p">[</span><span class="nv">$i</span><span class="p">]));</span>
+        <span class="nv">$retval</span> <span class="o">.=</span> <span class="nv">$size</span><span class="o">.</span><span class="nx">StripSlashes</span><span class="p">(</span><span class="nv">$array</span><span class="p">[</span><span class="nv">$i</span><span class="p">]);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="nv">$retval</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">function</span> <span class="nf">hmac</span> <span class="p">(</span><span class="nv">$key</span><span class="p">,</span> <span class="nv">$data</span><span class="p">){</span>
+    <span class="nv">$b</span> <span class="o">=</span> <span class="mi">64</span><span class="p">;</span> <span class="c1">// byte length for md5
+</span>    <span class="k">if</span> <span class="p">(</span><span class="nb">strlen</span><span class="p">(</span><span class="nv">$key</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nv">$b</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nv">$key</span> <span class="o">=</span> <span class="nb">pack</span><span class="p">(</span><span class="s2">"H*"</span><span class="p">,</span><span class="nb">md5</span><span class="p">(</span><span class="nv">$key</span><span class="p">));</span>
+    <span class="p">}</span>
+    <span class="nv">$key</span>  <span class="o">=</span> <span class="nb">str_pad</span><span class="p">(</span><span class="nv">$key</span><span class="p">,</span> <span class="nv">$b</span><span class="p">,</span> <span class="nb">chr</span><span class="p">(</span><span class="mh">0x00</span><span class="p">));</span>
+    <span class="nv">$ipad</span> <span class="o">=</span> <span class="nb">str_pad</span><span class="p">(</span><span class="s1">''</span><span class="p">,</span> <span class="nv">$b</span><span class="p">,</span> <span class="nb">chr</span><span class="p">(</span><span class="mh">0x36</span><span class="p">));</span>
+    <span class="nv">$opad</span> <span class="o">=</span> <span class="nb">str_pad</span><span class="p">(</span><span class="s1">''</span><span class="p">,</span> <span class="nv">$b</span><span class="p">,</span> <span class="nb">chr</span><span class="p">(</span><span class="mh">0x5c</span><span class="p">));</span>
+    <span class="nv">$k_ipad</span> <span class="o">=</span> <span class="nv">$key</span> <span class="o">^</span> <span class="nv">$ipad</span> <span class="p">;</span>
+    <span class="nv">$k_opad</span> <span class="o">=</span> <span class="nv">$key</span> <span class="o">^</span> <span class="nv">$opad</span><span class="p">;</span>
+    <span class="k">return</span> <span class="nb">md5</span><span class="p">(</span><span class="nv">$k_opad</span>  <span class="o">.</span> <span class="nb">pack</span><span class="p">(</span><span class="s2">"H*"</span><span class="p">,</span><span class="nb">md5</span><span class="p">(</span><span class="nv">$k_ipad</span> <span class="o">.</span> <span class="nv">$data</span><span class="p">)));</span>
+<span class="p">}</span>
+
+<span class="nv">$hash</span> <span class="o">=</span>  <span class="nx">hmac</span><span class="p">(</span><span class="nv">$pass</span><span class="p">,</span> <span class="nv">$result</span><span class="p">);</span> <span class="cm">/* HASH for data received */</span>
+
+<span class="nv">$body</span> <span class="o">.=</span> <span class="nv">$result</span><span class="o">.</span><span class="s2">"</span><span class="se">\r\n\r\n</span><span class="s2">Hash: "</span><span class="o">.</span><span class="nv">$hash</span><span class="o">.</span><span class="s2">"</span><span class="se">\r\n\r\n</span><span class="s2">Signature: "</span><span class="o">.</span><span class="nv">$signature</span><span class="o">.</span><span class="s2">"</span><span class="se">\r\n\r\n</span><span class="s2">ReturnSTR: "</span><span class="o">.</span><span class="nv">$return</span><span class="p">;</span>
+
+<span class="k">if</span><span class="p">(</span><span class="nv">$hash</span> <span class="o">==</span> <span class="nv">$signature</span><span class="p">){</span>
+    <span class="k">echo</span> <span class="s2">"Verified OK!"</span><span class="p">;</span>
+
+    <span class="cm">/* ePayment response */</span>
+    <span class="nv">$result_hash</span> <span class="o">=</span>  <span class="nx">hmac</span><span class="p">(</span><span class="nv">$pass</span><span class="p">,</span> <span class="nv">$return</span><span class="p">);</span>
+    <span class="k">echo</span> <span class="s2">"&lt;EPAYMENT&gt;"</span><span class="o">.</span><span class="nv">$date_return</span><span class="o">.</span><span class="s2">"|"</span><span class="o">.</span><span class="nv">$result_hash</span><span class="o">.</span><span class="s2">"&lt;/EPAYMENT&gt;"</span><span class="p">;</span>
+
+    <span class="cm">/* Begin automated procedures (START YOUR CODE)*/</span>
+
+
+<span class="p">}</span>
+
+<span class="cp">?&gt;</span>
+</code></pre>
+<p>PayU sisteminden herhangi bir başarılı sipariş gerçekleştiğinde, eğer IPN servisi kurulumu yapılmış ise, sistem sizin tarafınızdan belirlenen URL’ye siparişe ait detayları içeren bir bildirim gönderecektir. Bu bildirim HTTP POST metodu ile gönderilir</p>
+
+<aside class="notice">
+Hash alanları büyük küçük harf duyarlıdır.
+</aside>
+
+<aside class="notice">
+Zaman fonksiyonlarının kullanımı [YmdGis] (Y-year-4 digits, m-month-2 digits, d-day-2 digits, G-hour-2 digits, i-minutes-2 digits, s-seconds-2 digits) formatında olmalıdır.
+</aside>
+
+<aside class="notice">
+Bildirimin ulaştığını <EPAYMENT> tagleri ile yanıt dönerek onaylayana kadar belirli aralıklar ile tekrar gönderilecektir.
+</aside>
+
+<table><thead>
+<tr>
+<th>Parametre</th>
+<th>Açıklama</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>SALEDATE</td>
+<td>Satış işleminin başlangıçının iletildiği parametredir</td>
+</tr>
+<tr>
+<td>PAYMENTDATE</td>
+<td>Satış zamanının iletildiği parametredir</td>
+</tr>
+<tr>
+<td>REFNO</td>
+<td>PayU referans numarasının iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>REFNOEXT</td>
+<td>Üye iş yeri sipariş numarasının iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>ORDERNO</td>
+<td>PayU tarafındaki sipariş sıra numarasının iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>ORDERSTATUS</td>
+<td>Sipariş durumunun iletildiği parametredir. <code> <strong>PAYMENT_AUTHORIZED</strong> – Otorizasyon alındığını ileten durum mesajıdır. <strong>PAYMENT_RECEIVED</strong> – Wire ödeme alındığını ileten durum mesajıdır. <strong>COMPLETE</strong> – Tamamlanmış işlemlerde iletilen durum mesajıdır. </code></td>
+</tr>
+<tr>
+<td>PAYMETHOD</td>
+<td>Maksimum 40 karakter ile ödeme yönteminin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>PAYMETHOD_CODE</td>
+<td>Ödeme yöntemi kodunun iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>FIRSTNAME</td>
+<td>Fatura Ad bilgisinin iletildiği parametredir (Maksimum 40 Karakter)</td>
+</tr>
+<tr>
+<td>LASTNAME</td>
+<td>Fatura Soyad bilgisinin iletildiği parametredir (Maksimum 40 Karakter)</td>
+</tr>
+<tr>
+<td>IDENTITY_NO</td>
+<td>Vatandaşlık / Vergi bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>IDENTITY_ISSUER</td>
+<td>Vatandaşlık/Vergi belge sağlayıcısının tipinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>CARD_TYPE</td>
+<td>Kart Tipinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>IDENTITY_CNP</td>
+<td>Vatandaşlık/Vergi belgesinin tipinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>COMPANY</td>
+<td>Fatura Firma bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>REGISTRATIONNUMBER</td>
+<td>Vergi numarasının iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>FISCALCODE</td>
+<td>Mali Kodun iletildiği parametredir</td>
+</tr>
+<tr>
+<td>CBANKNAME</td>
+<td>Banka isminin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>CBANKACCOUNT</td>
+<td>Banka hesap bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>ADDRESS1</td>
+<td>Fatura Adres Bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>ADDRESS2</td>
+<td>Adres Bilgisinin ikinci satırnının iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>CITY</td>
+<td>İl bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>STATE</td>
+<td>İlçe/Semt bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>ZIPCODE</td>
+<td>Posta kodunun iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>COUNTRY</td>
+<td>Ülke bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>COUNTRY_CODE</td>
+<td>Ülke kodunun iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>PHONE</td>
+<td>Telefon numarasının iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>FAX</td>
+<td>Fax numarasının iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>CUSTOMEREMAIL</td>
+<td>Mail bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>FIRSTNAME_D</td>
+<td>Teslimat Ad bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>LASTNAME_D</td>
+<td>Teslimat Soyad bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>COMPANY_D</td>
+<td>Teslimat Firma bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>ADDRESS1_D</td>
+<td>Teslimat Adres bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>ADDRESS2_D</td>
+<td>Teslimat Adres bilgisinin ikinci satırının iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>CITY_D</td>
+<td>Teslimat Şehir bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>STATE_D</td>
+<td>Teslimat İlçe/Semt bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>ZIPCODE_D</td>
+<td>Teslimat Posta kodu bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>COUNTRY_D</td>
+<td>Teslimat Ülke bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>COUNTRY_D_CODE</td>
+<td>Teslimat Ülke kodunun iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>PHONE_D</td>
+<td>Teslimat Telefon numara bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>EMAIL_D</td>
+<td>Teslimat Mail bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>IPADDRESS</td>
+<td>Kullanıcı IP adresinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>IPCOUNTRY</td>
+<td>Kullanıcı IP adresinin ülke bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>COMPLETE_DATE</td>
+<td>Sipariş tamamlanma zamanının bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>CURRENCY</td>
+<td>Para birimin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>LANGUAGE</td>
+<td>İşlem dilinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>IPN_PID</td>
+<td>Ürün ID&#39;sinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>IPN_PNAME</td>
+<td>Ürün isminin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>IPN_PCODE</td>
+<td>Ürün kodunun iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>IPN_INFO</td>
+<td>Ürün açıklamasının iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>IPN_QTY</td>
+<td>Ürün adedinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>IPN_PRICE</td>
+<td>Ürün adet fiyatının iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>IPN_VAT</td>
+<td>Ürün vergi fiyatının iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>IPN_VER</td>
+<td>Ürün versiyon bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>IPN_DISCOUNT</td>
+<td>Toplam indirim tutarının iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>IPN_PROMONAME</td>
+<td>Promosyon isminin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>IPN_PROMOCODE</td>
+<td>Promosyon kodunun iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>IPN_ORDER_COSTS</td>
+<td>Sipariş masraflarının iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>IPN_DELIVEREDCODES</td>
+<td>Teslimat kodlarının iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>IPN_DOWNLOAD_LINK</td>
+<td>Sanal ürün indirme linkinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>IPN_TOTAL</td>
+<td>Ara toplam ücretinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>IPN_TOTALGENERAL</td>
+<td>Toplam ücretin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>IPN_SHIPPING</td>
+<td>Kargo ücretinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>IPN_COMMISSION</td>
+<td>Komisyon ücretinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>IPN_DATE</td>
+<td>IPN teslimat zaman bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>IPN_PAID_AMOUNT</td>
+<td>Ödenmiş tutar bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>IPN_INSTALLMENTS_PROGRAM</td>
+<td>Kart program bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>IPN_INSTALLMENTS_NUMBER</td>
+<td>Taksit bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>IPN_INSTALLMENTS_PROFIT</td>
+<td>Taksit komisyon ücret bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>AUTH_CODE</td>
+<td>Otorizasyon kodunun iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>BANK_MERCHANT_ID</td>
+<td>İşlemin gerçekleştiği sanal pos ID&#39;sinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>BANK_RRN</td>
+<td>İade işlem numarasının iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>CARD_BIN</td>
+<td>İşlemde kullanılan kart BIN bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>CARD_HOLDER_NAME</td>
+<td>Kart sahibinin Ad Soyad bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>CARD_MASK</td>
+<td>Kartın maskeli halinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>ISSUING_BANK</td>
+<td>Kart bankasının iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>NUMBER_OF_INSTALLMENTS</td>
+<td>Taksit bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>TERMINAL_BANK</td>
+<td>İşlemin gerçekleştiği banka posunun iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>HASH</td>
+<td>PayU tarafından gönderilen salt IPN bildirimi için hesaplanan Hash bilgisidir.</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p>Örnek IPN Bildirimi</p>
+</blockquote>
+<pre class="highlight xml tab-xml"><code>    [SALEDATE] =&gt; 2017-10-04 22:40:12
+    [PAYMENTDATE] =&gt; 2017-10-04 22:40:20
+    [REFNO] =&gt; 41666419
+    [REFNOEXT] =&gt; 4159
+    [ORDERNO] =&gt; 461
+    [ORDERSTATUS] =&gt; PAYMENT_AUTHORIZED
+    [PAYMETHOD] =&gt; CreditCard
+    [PAYMETHOD_CODE] =&gt; CCVISAMC
+    [FIRSTNAME] =&gt; Ad
+    [LASTNAME] =&gt; Soyad
+    [IDENTITY_NO] =&gt; -
+    [IDENTITY_ISSUER] =&gt; 
+    [CARD_TYPE] =&gt; Visa
+    [IDENTITY_CNP] =&gt; 
+    [COMPANY] =&gt; 
+    [REGISTRATIONNUMBER] =&gt; 
+    [FISCALCODE] =&gt; 
+    [CBANKNAME] =&gt; 
+    [CBANKACCOUNT] =&gt; 
+    [ADDRESS1] =&gt; Birinci Adres satırı
+    [ADDRESS2] =&gt; İkinci Adres satırı
+    [CITY] =&gt; ISTANBUL
+    [STATE] =&gt; Ayazağa
+    [ZIPCODE] =&gt; 34000
+    [COUNTRY] =&gt; Turkey
+    [COUNTRY_CODE] =&gt; tr
+    [PHONE] =&gt; 02129003711
+    [FAX] =&gt; 02129003711
+    [CUSTOMEREMAIL] =&gt; mail@mail.com
+    [FIRSTNAME_D] =&gt; Ad
+    [LASTNAME_D] =&gt; Soyad
+    [COMPANY_D] =&gt; PayU Ödeme Kuruluşu A.Ş.
+    [ADDRESS1_D] =&gt; Birinci Adres satırı
+    [ADDRESS2_D] =&gt; İkinci Adres satırı
+    [CITY_D] =&gt; ISTANBUL
+    [STATE_D] =&gt; TR
+    [ZIPCODE_D] =&gt; 34000
+    [COUNTRY_D] =&gt; 
+    [COUNTRY_D_CODE] =&gt; 
+    [PHONE_D] =&gt; 02129003711
+    [EMAIL_D] =&gt; mail@mail.com
+    [IPADDRESS] =&gt; 127.0.0.1
+    [IPCOUNTRY] =&gt; 
+    [COMPLETE_DATE] =&gt; 0000-00-00 00:00:00
+    [CURRENCY] =&gt; TRY
+    [LANGUAGE] =&gt; tr
+    [IPN_PID[]] =&gt; Array
+        (
+            [0] =&gt; 52580647
+        )
+
+    [IPN_PNAME[]] =&gt; Array
+        (
+            [0] =&gt; Test Ürünü
+        )
+
+    [IPN_PCODE[]] =&gt; Array
+        (
+            [0] =&gt; Test Kodu
+        )
+
+    [IPN_INFO[]] =&gt; Array
+        (
+            [0] =&gt; Test Açıklaması
+        )
+
+    [IPN_QTY[]] =&gt; Array
+        (
+            [0] =&gt; 1
+        )
+
+    [IPN_PRICE[]] =&gt; Array
+        (
+            [0] =&gt; 5.00
+        )
+
+    [IPN_VAT[]] =&gt; Array
+        (
+            [0] =&gt; 0.90
+        )
+
+    [IPN_VER[]] =&gt; Array
+        (
+            [0] =&gt; 
+        )
+
+    [IPN_DISCOUNT[]] =&gt; Array
+        (
+            [0] =&gt; 0.00
+        )
+
+    [IPN_PROMONAME[]] =&gt; Array
+        (
+            [0] =&gt; 
+        )
+
+    [IPN_PROMOCODE[]] =&gt; Array
+        (
+            [0] =&gt; 
+        )
+
+    [IPN_ORDER_COSTS[]] =&gt; Array
+        (
+            [0] =&gt; 0
+        )
+
+    [IPN_DELIVEREDCODES[]] =&gt; Array
+        (
+            [52580647] =&gt; 
+        )
+
+    [IPN_DOWNLOAD_LINK] =&gt; 
+    [IPN_TOTAL[]] =&gt; Array
+        (
+            [0] =&gt; 5.90
+        )
+
+    [IPN_TOTALGENERAL] =&gt; 10.90
+    [IPN_SHIPPING] =&gt; 5.00
+    [IPN_COMMISSION] =&gt; 0.26
+    [IPN_DATE] =&gt; 20171004224020
+    [IPN_PAID_AMOUNT] =&gt; 10.90
+    [IPN_INSTALLMENTS_PROGRAM] =&gt; Axess
+    [IPN_INSTALLMENTS_NUMBER] =&gt; One time payment
+    [IPN_INSTALLMENTS_PROFIT] =&gt; 0.00
+    [AUTH_CODE] =&gt; 380978
+    [BANK_MERCHANT_ID] =&gt; 100100000
+    [BANK_RRN] =&gt; 727722200216
+    [CARD_BIN] =&gt; 435508
+    [CARD_HOLDER_NAME] =&gt; Ad Soyad
+    [CARD_MASK] =&gt; 4355-xxxx-xxxx-4358
+    [ISSUING_BANK] =&gt; AKBA
+    [NUMBER_OF_INSTALLMENTS] =&gt; 0
+    [TERMINAL_BANK] =&gt; AKBA
+    [HASH] =&gt; d7e0e21f9a890a5bfcaa2cda50ece7bf
+</code></pre><h2 id='hash-hesaplama-2'>Hash Hesaplama</h2>
+<aside class="notice">
+PayU IPN bildiriminin iletildiğini onaylamak için EPAYMENT tagleri aşağıda ki gibi bir yanıt bekler.
+</aside>
+
+<aside class="notice">
+Hash hesaplamada kullanılan değerler örnek IPN bildirimindeki değerlerdir
+</aside>
+
+<aside class="notice">
+Parametre değerlerinin uzunluğu UTF-8 byte olarak alınmalıdır.
+</aside>
+
+<p><code>&lt;EPAYMENT&gt;DATE|HASH&lt;/EPAYMENT&gt;</code></p>
+
+<table><thead>
+<tr>
+<th>Parametre</th>
+<th>Açıklama</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>DATE</td>
+<td>Bu parametre kullanılarak bildirim zamanını (YmdGis) (Y-year-4 digits, m-month-2 digits, d-day-2 digits, G-hour-2 digits, i-minutes-2 digits, s-seconds-2 digits) formatında iletilmeli.</td>
+</tr>
+<tr>
+<td>HASH</td>
+<td>Bu parametre bildirim sırasında alınan <code>IPN_PID[], IPN_PNAME[], IPN_DATE,DATE</code> parametreleri ile dizi oluşturulup, başlarına UTF-8 Bayt olarak uzunluğu eklendikten sonra üye işyeri kodlama anahtarınız kullanılarak HMAC_MD5 algoritması ile elde edilen Hash değeridir.</td>
+</tr>
+</tbody></table>
+
+<p><strong>Örnek IPN bildirimindeki HASH hesaplama için kullanılacak değerler aşağıdaki gibidir.</strong>
+<code>IPN_PID[] = 52580647</code>
+<code>IPN_PNAME[] = Test Ürünü</code>
+<code>IPN_DATE = 20171004224020</code>
+<code>DATE= 20171004224020</code></p>
+
+<p><strong>Bu değerlerin uzunluğu alınarak Key&#39;e göre sıralanmalıdır.</strong>
+<code>()IPN_PID()IPN_PNAME()IPN_DATE()DATE</code>
+<code>85258064713Test Ürünü14201710042240201420171004224017</code></p>
+
+<p><strong>Değerler üye işyeri kodlama anahtarınız kullanılarak HMAC_MD5 algoritması ile haslenmelidir.</strong></p>
+
+<ul>
+<li>Kullanılan Kodlama Anahtarı: SECRET_KEY</li>
+</ul>
+
+<p><strong>Elde edilen değer:</strong> <code>79db0725ecdc57decf9982b3917b3ff4</code></p>
+<h2 id='bildirime-yanit-verme'>Bildirime Yanıt Verme</h2>
+<p>Elde edilen değer ve DATE değeri EPAYMENT Taglerinin arasına <code>&lt;EPAYMENT&gt;DATE|HASH&lt;/EPAYMENT&gt;</code> formatına eklenerek HTTP POST alındığı sırada yanıt dönülmelidir.
+<code>&lt;EPAYMENT&gt;20171004224017|79db0725ecdc57decf9982b3917b3ff4&lt;/EPAYMENT&gt;</code></p>
 <h1 id='test-bilgileri'>Test Bilgileri</h1><h2 id='uye-isyeri-kontrol-paneli-giris-bilgileri'>Üye İşyeri Kontrol Paneli Giriş Bilgileri</h2>
 <p>Üye İşyeri Kontrol Paneli’ne girişlerde IP kısıtı uygulanmaktadır. Test hesabının üye işyeri paneline giriş yapabilmek için IP adreslerinizi destek@payu.com.tr adresimizden bize iletmeniz gerekmektedir.</p>
 
