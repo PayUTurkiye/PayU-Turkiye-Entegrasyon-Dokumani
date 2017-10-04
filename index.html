@@ -199,6 +199,7 @@
     <link href="stylesheets/screen.css" rel="stylesheet" media="screen" />
     <link href="stylesheets/print.css" rel="stylesheet" media="print" />
       <script src="javascripts/all.js"></script>
+    <link href="images/favicon.ico" rel="icon" type="image/ico" />
   </head>
 
   <body class="index" data-languages="[&quot;php&quot;,&quot;python&quot;]">
@@ -237,6 +238,20 @@
               </ul>
           </li>
           <li>
+            <a href="#test-bilgileri" class="toc-h1 toc-link" data-title="Test Bilgileri">Test Bilgileri</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#uye-isyeri-kontrol-paneli-giris-bilgileri" class="toc-h2 toc-link" data-title="Test Bilgileri">Üye İşyeri Kontrol Paneli Giriş Bilgileri</a>
+                  </li>
+                  <li>
+                    <a href="#api-kullanici-bilgileri" class="toc-h2 toc-link" data-title="Test Bilgileri">API Kullanıcı Bilgileri</a>
+                  </li>
+                  <li>
+                    <a href="#test-karti" class="toc-h2 toc-link" data-title="Test Bilgileri">Test Kartı</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#hata-kodlari" class="toc-h1 toc-link" data-title="Hata Kodları">Hata Kodları</a>
           </li>
       </div>
@@ -267,13 +282,7 @@
 <blockquote>
 <p>İşlem İsteği Göndermek için:</p>
 </blockquote>
-<pre class="highlight php tab-php"><code>require 'kittn'
-
-api = Kittn::APIClient.authorize!('meowmeowmeow')
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">kittn</span>
-
-<span class="n">api</span> <span class="o">=</span> <span class="n">kittn</span><span class="o">.</span><span class="n">authorize</span><span class="p">(</span><span class="s">'meowmeowmeow'</span><span class="p">)</span>
-</code></pre><h1 id='api-ile-odeme-almak'>API ile Ödeme Almak</h1><h2 id='istek-request-parametreleri'>İstek(Request) Parametreleri</h2><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<h1 id='api-ile-odeme-almak'>API ile Ödeme Almak</h1><h2 id='istek-request-parametreleri'>İstek(Request) Parametreleri</h2><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">hmac</span>
 <span class="kn">import</span> <span class="nn">hashlib</span>
@@ -356,7 +365,7 @@ api = Kittn::APIClient.authorize!('meowmeowmeow')
 <h3 id='islem-parametereleri'>İşlem Parametereleri</h3>
 <table><thead>
 <tr>
-<th>Parameter</th>
+<th>Parametre</th>
 <th>Değer</th>
 <th>Açıklama</th>
 <th>Zorunlu</th>
@@ -426,7 +435,7 @@ api = Kittn::APIClient.authorize!('meowmeowmeow')
 <h3 id='urun-parametereleri'>Ürün Parametereleri</h3>
 <table><thead>
 <tr>
-<th>Parameter</th>
+<th>Parametre</th>
 <th>Değer</th>
 <th>Açıklama</th>
 <th>Zorunlu</th>
@@ -484,7 +493,7 @@ api = Kittn::APIClient.authorize!('meowmeowmeow')
 <h3 id='kart-bilgileri'>Kart Bilgileri</h3>
 <table><thead>
 <tr>
-<th>Parameter</th>
+<th>Parametre</th>
 <th>Değer</th>
 <th>Açıklama</th>
 <th>Zorunlu</th>
@@ -524,7 +533,7 @@ api = Kittn::APIClient.authorize!('meowmeowmeow')
 <h3 id='fatura-parametereleri'>Fatura Parametereleri</h3>
 <table><thead>
 <tr>
-<th>Parameter</th>
+<th>Parametre</th>
 <th>Değer</th>
 <th>Açıklama</th>
 <th>Zorunlu</th>
@@ -600,7 +609,7 @@ api = Kittn::APIClient.authorize!('meowmeowmeow')
 <h3 id='teslimat-parametereleri'>Teslimat Parametereleri</h3>
 <table><thead>
 <tr>
-<th>Parameter</th>
+<th>Parametre</th>
 <th>Değer</th>
 <th>Açıklama</th>
 <th>Zorunlu</th>
@@ -676,7 +685,7 @@ api = Kittn::APIClient.authorize!('meowmeowmeow')
 <h3 id='fraud-icin-ekstra-parametreler'>Fraud için Ekstra Parametreler</h3>
 <table><thead>
 <tr>
-<th>Parameter</th>
+<th>Parametre</th>
 <th>Değer</th>
 <th>Açıklama</th>
 <th>Zorunlu</th>
@@ -726,7 +735,192 @@ ORDER_PNAME, ORDER_PCODE, ORDER_PINFO, ORDER_PRICE and ORDER_QTY parametreleri k
 <li><p>Adım: Parametre değerlerinin başına uzunlukları eklenerek HASH string oluşturulmalı (UTF-8 Bayt olarak).</p></li>
 <li><p>Adım: Oluşturulan dizi PayU üye işyeri hesabınızın Hesap Yönetimi / Hesap Ayarları bölümünde yer alan kodlama anahtarı bilgisi kullanılarak HMAC_MD5 algoritması ile hashlenmeli.</p></li>
 </ol>
-<h2 id='yanit-response'>Yanıt (Response)</h2><h1 id='hata-kodlari'>Hata Kodları</h1>
+<h2 id='yanit-response'>Yanıt (Response)</h2>
+<p>PayU sistemi, yapılan isteğe   XML formatında bir yanıt dönmektedir. 
+Bu yanıt;</p>
+
+<ul>
+<li><p>İşlemin başarılı olup olmadığını,başarılı olmadıysa sebebini ve ek bilgileri içermektedir.</p></li>
+<li><p>İşyeri XML formatındaki bu datayı ayrıştırıp kendi sisteminde işlemelidir.</p></li>
+<li><p>3D işlem yapılması durumunda aynı data HTTP POST ile BACK_REF url’ine gönderilmektedir.</p></li>
+</ul>
+<h3 id='yanit-parametreleri'>Yanıt Parametreleri</h3>
+<aside class="notice">
+    ÖNEMLİ NOT:
+Ekstra parametre olarak işaretlenen parametrelerin aktifleştirilmesi için üye işyeri satış temsilciniz ile iletişime geçebilir veya destek@payu.com.tr adresinden bizler ile iletişime geçerek talep edebilirsiniz.</aside>
+
+<table><thead>
+<tr>
+<th>Parametre</th>
+<th>Açıklama</th>
+<th>Ekstra Parametre</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>REFNO</td>
+<td>İşleme ait PayU referans numarasının bildirildiği parametredir.</td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>ALIAS</td>
+<td>Üye işyerinin kendi tarafında kullanabileceği benzersiz işlem dizesidir.</td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>STATUS</td>
+<td>Alabileceği Değerler: <code> <strong>SUCCESS</strong> <strong>FAILED</strong> <strong>INPUT_ERROR</strong> </code></td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>RETURN_CODE</td>
+<td>Alabileceği Değerler: <code> <strong>AUTHORIZED</strong> <strong>3DS_ENROLLED</strong> <strong>ALREADY_AUTHORIZED</strong> <strong>AUTHORIZATION_FAILED</strong> <strong>INVALID_CUSTOMER_INFO</strong> <strong>INVALID_PAYMENT_INFO</strong> <strong>INVALID_ACCOUNT</strong> <strong>INVALID_PAYMENT_METHOD_CODE</strong> <strong>INVALID_CURRENCY</strong> <strong>REQUEST_EXPIRED</strong> <strong>HASH_MISMATCH</strong> <strong>WRONG_VERSION</strong> <strong>INVALID_CC_TOKEN</strong></code></td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>RETURN_MESSAGE</td>
+<td>RETURN_CODE parametreleri ile dönen değerlerin daha detaylı açıklamasını içeren parametredir.</td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>DATE</td>
+<td>UTC formatında response zaman değerini belirten parametredir.</td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>URL_3DS</td>
+<td>3DS_ENROLLED fonksiyonunun içerisinde işlemi 3D olarak tamamlatabilmek için 3D Secure sayfasına yönlendirmeniz gereken URL&#39;yi dönen parametredir.</td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>AMOUNT</td>
+<td>Toplam işlem tutarını belirten parametredir. Mutlaka sıfırdan büyük olmalıdır.</td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>CURRENCY</td>
+<td>İşlemde kullanılan para birimini belirten parametredir.</td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>INSTALLMENTS_NO</td>
+<td>İşlemde kullanılan kartın, program ismini belirten parametredir (Axess,Bonus vb.).</td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>CARD_PROGRAM_NAME</td>
+<td>İşlemde seçilen taksit sayısını belirten parametredir.</td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>ORDER_REF</td>
+<td>Üye işyeri tarafından request sırasında belirlenen sipariş referans numarasıdır.</td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>AUTH_CODE</td>
+<td>Bankanın otorizasyon işlem numarasıdır.</td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>RRN</td>
+<td>Bankaların iade işlemi için kullandığı işlem numarasıdır.</td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>HASH</td>
+<td>Response sırasında gelen tüm parametreler geldiği sıra ile uzunluğu alınıp, dizine çevirilip aynı algoritma ile hash hesaplaması sonucu elde edilen değerdir. URL_3DS, hash hesaplamasına dahil değildir.</td>
+<td>Hayır</td>
+</tr>
+<tr>
+<td>PROCRETURNCODE</td>
+<td>Yanıt içerisinde bankaların hata açıklama kodunun iletildiği parametredir.</td>
+<td>Evet</td>
+</tr>
+<tr>
+<td>ERRORMESSAGE</td>
+<td>Yanıt içerisinde bankaların hata açıklama mesajının iletildiği parametredir.</td>
+<td>Evet</td>
+</tr>
+<tr>
+<td>BANK_MERCHANT_ID</td>
+<td>Yanıt içerisinde işlemin gerçekleştiği Sanal POS’un bankadaki üye işyeri numarasının iletildiği parametredir.</td>
+<td>Evet</td>
+</tr>
+<tr>
+<td>PAN</td>
+<td>Yanıt içerisinde işlemin gerçekleştiği kartın numarasının maskeli biçimde iletildiği parametredir.</td>
+<td>Evet</td>
+</tr>
+<tr>
+<td>EXPYEAR</td>
+<td>Yanıt içerisinde işlemin gerçekleştiği kartın son kullanma yılının iletildiği parametredir.</td>
+<td>Evet</td>
+</tr>
+<tr>
+<td>EXPMONTH</td>
+<td>Yanıt içerisinde işlemin gerçekleştiği kartın son kullanma ayının iletildiği parametredir.</td>
+<td>Evet</td>
+</tr>
+<tr>
+<td>OID</td>
+<td>Yanıt içerisinde üye işyerlerinin kendi belirledikleri sipariş numarasının iletildiği parametredir.</td>
+<td>Evet</td>
+</tr>
+<tr>
+<td>TERMINAL_BANK</td>
+<td>Yanıt içerisinde işlemin gerçekleştiği Sanal POS bankasının iletildiği parametredir.</td>
+<td>Evet</td>
+</tr>
+<tr>
+<td>MDSTATUS, MDERRORMSG, TXSTATUS, XID, ECI, CAVV</td>
+<td>Yanıt içerisinde 3DS işlem parametrelerinin iletildiği parametrelerdir.</td>
+<td>Evet</td>
+</tr>
+<tr>
+<td>TRANSID</td>
+<td>Yanıt içerisinde banka işlem numarasının iletildiği parametredir.</td>
+<td>Evet</td>
+</tr>
+<tr>
+<td>CLIENTID</td>
+<td>Yanıt içerisinde işlemin gerçekleştiği Sanal POS’un bankadaki müşteri numarasının iletildiği parametredir.</td>
+<td>Evet</td>
+</tr>
+<tr>
+<td>MDSTATUS, MDERRORMSG, TXSTATUS, XID, ECI, CAVV</td>
+<td>Yanıt içerisinde 3DS işlem parametrelerinin iletildiği parametrelerdir.</td>
+<td>Evet</td>
+</tr>
+</tbody></table>
+<h1 id='test-bilgileri'>Test Bilgileri</h1><h2 id='uye-isyeri-kontrol-paneli-giris-bilgileri'>Üye İşyeri Kontrol Paneli Giriş Bilgileri</h2>
+<p>Üye İşyeri Kontrol Paneli’ne girişlerde IP kısıtı uygulanmaktadır. Panele giriş yapabilmek için IP adreslerinizi destek@payu.com.tr adresimizden bize iletmeniz gerekmektedir.</p>
+
+<ul>
+<li>URL: https://secure.payu.com.tr/cpanel/ </li>
+<li>Kullanıcı Adı: 1@payu.com.tr</li>
+<li>Şifre: Test1234!</li>
+<li>Kullanıcı Adı: 2@payu.com.tr </li>
+<li>Şifre: Test1234!</li>
+</ul>
+<h2 id='api-kullanici-bilgileri'>API Kullanıcı Bilgileri</h2><h3 id='3d-olmayan-islemler-icin'>3D olmayan işlemler için;</h3>
+<ul>
+<li>Üye İşyeri Entegrasyon İsmi (MERCHANT): OPU_TEST </li>
+<li>Kodlama Anahtarı (SECRET_KEY): SECRET_KEY</li>
+</ul>
+<h3 id='3d-islemler-icin'>3D işlemler için;</h3>
+<ul>
+<li>MERCHANT=PALJZXGV</li>
+<li>SECRET_KEY= f*%J7z6_#|5]s7V4[g3] </li>
+</ul>
+<h2 id='test-karti'>Test Kartı</h2>
+<ul>
+<li>Kart Numarası (Visa) : 4355084355084358</li>
+<li>Kart Numarası (Master Card) : 5571135571135575</li>
+<li>Son Kullanma Tarihi :12/18</li>
+<li>Güvenlik Numarası : 000</li>
+<li>Kart 3D Secure Şifresi : a</li>
+</ul>
+<h1 id='hata-kodlari'>Hata Kodları</h1>
 <aside class="notice">This error section is stored in a separate file in `includes/_errors.md`. Slate allows you to optionally separate out your docs into many files...just save them to the `includes` folder and add them to the top of your `index.md`'s frontmatter. Files are included in the order listed.</aside>
 
 <p>The Kittn API uses the following error codes:</p>
