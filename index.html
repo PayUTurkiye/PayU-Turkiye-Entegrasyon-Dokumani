@@ -277,11 +277,11 @@
 <li>API entegrasyonunda hata bilgisi konsolide şekilde dönebildiği gibi, PayU tarafından aktifleştirilmesi durumunda banka cevabı doğrudan PROCRETURNCODE ve ERRORMESSAGE içerisinde belirtilmektedir.</li>
 <li>ORDER_DATE parametresi ile İşlem / sipariş saati UTC/GMT formatında gönderilmelidir. Sipariş saati (ORDER_DATE) kaynaklı saat (REQUEST_EXPIRED) hatasının önüne geçebilmek için; saat fonksiyonu UTC/GMT formatı ile ayarlanmalı ve Türkiye saatine göre 3 saat geri olacak şekilde gönderilmelidir.</li>
 </ol>
-
+<h1 id='api-ile-odeme-almak'>API ile Ödeme Almak</h1><h2 id='istek-parametreleri'>İstek Parametreleri</h2>
 <blockquote>
 <p>İşlem İsteği Göndermek için:</p>
 </blockquote>
-<h1 id='api-ile-odeme-almak'>API ile Ödeme Almak</h1><h2 id='istek-parametreleri'>İstek Parametreleri</h2><pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<pre class="highlight python tab-python"><code><span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">import</span> <span class="nn">random</span>
 <span class="kn">import</span> <span class="nn">hmac</span>
 <span class="kn">import</span> <span class="nn">hashlib</span>
@@ -298,27 +298,60 @@
 <span class="n">array</span> <span class="o">=</span> <span class="p">{</span>
     <span class="c"># PayU Merchant's Merchant ID</span>
     <span class="s">'MERCHANT'</span><span class="p">:</span> <span class="s">"OPU_TEST"</span><span class="p">,</span>
+    <span class="s">'LANGUAGE'</span><span class="p">:</span> <span class="s">"TR"</span><span class="p">,</span>
     <span class="s">'ORDER_DATE'</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">'</span><span class="si">%</span><span class="s">Y-</span><span class="si">%</span><span class="s">m-</span><span class="si">%</span><span class="s">d </span><span class="si">%</span><span class="s">H:</span><span class="si">%</span><span class="s">M:</span><span class="si">%</span><span class="s">S'</span><span class="p">),</span>
-    <span class="s">'BACK_REF'</span><span class="p">:</span> <span class="s">"http://2ac99a34.ngrok.io/"</span><span class="p">,</span>
-    <span class="s">'ORDER_PNAME[0]'</span><span class="p">:</span> <span class="s">"Ürün İsmi"</span><span class="p">,</span>
-    <span class="s">'ORDER_PCODE[0]'</span><span class="p">:</span> <span class="s">"Ürünkodu"</span><span class="p">,</span>
-    <span class="s">'ORDER_PINFO[0]'</span><span class="p">:</span> <span class="s">"Ürün Açıklaması"</span><span class="p">,</span>
-    <span class="s">'ORDER_PRICE[0]'</span><span class="p">:</span> <span class="s">"100"</span><span class="p">,</span>
-    <span class="s">'ORDER_VAT[0]'</span><span class="p">:</span> <span class="s">"18"</span><span class="p">,</span>
-    <span class="s">'ORDER_QTY[0]'</span><span class="p">:</span> <span class="s">"1"</span><span class="p">,</span>
-    <span class="s">'ORDER_SHIPPING'</span><span class="p">:</span> <span class="s">"5"</span><span class="p">,</span>
-    <span class="s">'PRICES_CURRENCY'</span><span class="p">:</span> <span class="s">"TRY"</span><span class="p">,</span>
     <span class="s">'PAY_METHOD'</span><span class="p">:</span> <span class="s">"CCVISAMC"</span><span class="p">,</span>
-    <span class="s">'SELECTED_INSTALLMENTS_NUMBER'</span><span class="p">:</span> <span class="s">"2"</span><span class="p">,</span>
-    <span class="s">'CC_NUMBER'</span><span class="p">:</span> <span class="s">"4355084355084358"</span><span class="p">,</span>
-    <span class="s">'EXP_MONTH'</span><span class="p">:</span> <span class="s">"12"</span><span class="p">,</span>
-    <span class="s">'EXP_YEAR'</span><span class="p">:</span> <span class="s">"2018"</span><span class="p">,</span>
-    <span class="s">'CC_CVV'</span><span class="p">:</span> <span class="s">"000"</span><span class="p">,</span>
-    <span class="s">'BILL_FNAME'</span><span class="p">:</span> <span class="s">"Adı"</span><span class="p">,</span>
-    <span class="s">'BILL_LNAME'</span><span class="p">:</span> <span class="s">"Soyadı"</span><span class="p">,</span>
-    <span class="s">'BILL_PHONE'</span><span class="p">:</span> <span class="s">"05316806562"</span><span class="p">,</span>
-    <span class="s">'BILL_EMAIL'</span><span class="p">:</span> <span class="s">"payutest@mail.com"</span><span class="p">,</span>
-    <span class="s">'BILL_COUNTRYCODE'</span><span class="p">:</span> <span class="s">"TR"</span><span class="p">,</span>
+    <span class="s">'BACK_REF'</span><span class="p">:</span> <span class="s">"http://www.backref.com.tr"</span><span class="p">,</span>
+    <span class="s">'PRICES_CURRENCY'</span><span class="p">:</span> <span class="s">"TRY"</span><span class="p">,</span>
+    <span class="s">'SELECTED_INSTALLMENTS_NUMBER'</span><span class="p">:</span> <span class="s">"1"</span><span class="p">,</span>
+    <span class="s">'ORDER_SHIPPING'</span><span class="p">:</span> <span class="s">"5"</span><span class="p">,</span>
+    <span class="s">'CLIENT_IP'</span><span class="p">:</span> <span class="s">"127.0.0.1"</span><span class="p">,</span>
+
+    <span class="s">'ORDER_PNAME[0]'</span><span class="p">:</span><span class="s">'Test Ürünü'</span><span class="p">,</span>
+    <span class="s">'ORDER_PCODE[0]'</span><span class="p">:</span><span class="s">'Test Kodu'</span><span class="p">,</span>
+    <span class="s">'ORDER_PINFO[0]'</span><span class="p">:</span><span class="s">'Test Açıklaması'</span><span class="p">,</span>
+    <span class="s">'ORDER_PRICE[0]'</span><span class="p">:</span><span class="s">'5'</span><span class="p">,</span>
+    <span class="s">'ORDER_VAT[0]'</span><span class="p">:</span><span class="s">'18'</span><span class="p">,</span>
+    <span class="s">'ORDER_PRICE_TYPE[0]'</span><span class="p">:</span><span class="s">'NET'</span><span class="p">,</span>
+    <span class="s">'ORDER_QTY[0]'</span><span class="p">:</span><span class="s">'1'</span><span class="p">,</span>
+
+    <span class="s">'ORDER_PNAME[1]'</span><span class="p">:</span><span class="s">'Test Ürünü-2'</span><span class="p">,</span>
+    <span class="s">'ORDER_PCODE[1]'</span><span class="p">:</span><span class="s">'Test Kodu-2'</span><span class="p">,</span>
+    <span class="s">'ORDER_PINFO[1]'</span><span class="p">:</span><span class="s">'Test Açıklaması-2'</span><span class="p">,</span>
+    <span class="s">'ORDER_PRICE[1]'</span><span class="p">:</span><span class="s">'15'</span><span class="p">,</span>
+    <span class="s">'ORDER_VAT[1]'</span><span class="p">:</span><span class="s">'24'</span><span class="p">,</span>
+    <span class="s">'ORDER_PRICE_TYPE[1]'</span><span class="p">:</span><span class="s">'GROSS'</span><span class="p">,</span>
+    <span class="s">'ORDER_QTY[1]'</span><span class="p">:</span><span class="s">'3'</span><span class="p">,</span>
+
+    <span class="s">'CC_NUMBER'</span><span class="p">:</span><span class="s">'4355084355084358'</span><span class="p">,</span>
+    <span class="s">'EXP_MONTH'</span><span class="p">:</span><span class="s">'12'</span><span class="p">,</span>
+    <span class="s">'EXP_YEAR'</span><span class="p">:</span><span class="s">'2018'</span><span class="p">,</span>
+    <span class="s">'CC_CVV'</span><span class="p">:</span><span class="s">'000'</span><span class="p">,</span>
+    <span class="s">'CC_OWNER'</span><span class="p">:</span><span class="s">'000'</span><span class="p">,</span>
+
+    <span class="s">'BILL_FNAME'</span><span class="p">:</span><span class="s">'Ad'</span><span class="p">,</span>
+    <span class="s">'BILL_LNAME'</span><span class="p">:</span><span class="s">'Soyad'</span><span class="p">,</span>
+    <span class="s">'BILL_EMAIL'</span><span class="p">:</span><span class="s">'mail@mail.com'</span><span class="p">,</span>
+    <span class="s">'BILL_PHONE'</span><span class="p">:</span><span class="s">'02129003711'</span><span class="p">,</span>
+    <span class="s">'BILL_FAX'</span><span class="p">:</span><span class="s">'02129003711'</span><span class="p">,</span>
+    <span class="s">'BILL_ADDRESS'</span><span class="p">:</span><span class="s">'Birinci Adres satırı'</span><span class="p">,</span>
+    <span class="s">'BILL_ADDRESS2'</span><span class="p">:</span><span class="s">'İkinci Adres satırı'</span><span class="p">,</span>
+    <span class="s">'BILL_ZIPCODE'</span><span class="p">:</span><span class="s">'34000'</span><span class="p">,</span>
+    <span class="s">'BILL_CITY'</span><span class="p">:</span><span class="s">'ISTANBUL'</span><span class="p">,</span>
+    <span class="s">'BILL_COUNTRYCODE'</span><span class="p">:</span><span class="s">'TR'</span><span class="p">,</span>
+    <span class="s">'BILL_STATE'</span><span class="p">:</span><span class="s">'Ayazağa'</span><span class="p">,</span>
+
+    <span class="s">'DELIVERY_FNAME'</span><span class="p">:</span><span class="s">'Ad'</span><span class="p">,</span>
+    <span class="s">'DELIVERY_LNAME'</span><span class="p">:</span><span class="s">'Soyad'</span><span class="p">,</span>
+    <span class="s">'DELIVERY_EMAIL'</span><span class="p">:</span><span class="s">'mail@mail.com'</span><span class="p">,</span>
+    <span class="s">'DELIVERY_PHONE'</span><span class="p">:</span><span class="s">'02129003711'</span><span class="p">,</span>
+    <span class="s">'DELIVERY_COMPANY'</span><span class="p">:</span><span class="s">'PayU Ödeme Kuruluşu A.Ş.'</span><span class="p">,</span>
+    <span class="s">'DELIVERY_ADDRESS'</span><span class="p">:</span><span class="s">'Birinci Adres satırı'</span><span class="p">,</span>
+    <span class="s">'DELIVERY_ADDRESS2'</span><span class="p">:</span><span class="s">'İkinci Adres satırı'</span><span class="p">,</span>
+    <span class="s">'DELIVERY_ZIPCODE'</span><span class="p">:</span><span class="s">'34000'</span><span class="p">,</span>
+    <span class="s">'DELIVERY_CITY'</span><span class="p">:</span><span class="s">'ISTANBUL'</span><span class="p">,</span>
+    <span class="s">'DELIVERY_STATE'</span><span class="p">:</span><span class="s">'TR'</span><span class="p">,</span>
+    <span class="s">'DELIVERY_COUNTRYCODE'</span><span class="p">:</span><span class="s">'Ayazağa'</span><span class="p">,</span>
 
 <span class="p">}</span>
 <span class="c"># Random number generation function for ORDER_REF @param</span>
@@ -343,8 +376,6 @@
 <span class="c"># Adding ORDER_HASH @param to request array</span>
 <span class="n">array</span><span class="p">[</span><span class="s">'ORDER_HASH'</span><span class="p">]</span> <span class="o">=</span> <span class="n">signature</span>
 
-<span class="k">print</span><span class="p">(</span><span class="n">signature</span><span class="p">)</span>
-
 <span class="c"># Sending Request to Endpoint</span>
 <span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">urlencode</span><span class="p">(</span><span class="n">array</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
 <span class="n">response</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
@@ -352,8 +383,134 @@
 <span class="c"># Printing result/response</span>
 <span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
 
-</code></pre><pre class="highlight php tab-php"><code>curl "http://example.com/api/kittens"
--H "Authorization: meowmeowmeow"
+</code></pre><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://secure.payu.com.tr/order/alu/v3"</span><span class="p">;</span>
+<span class="nb">date_default_timezone_set</span><span class="p">(</span><span class="s1">'UTC'</span><span class="p">);</span>
+
+<span class="nv">$secretKey</span> <span class="o">=</span> <span class="s1">'SECRET_KEY'</span><span class="p">;</span>
+
+<span class="nv">$arParams</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+
+   <span class="s2">"MERCHANT"</span> <span class="o">=&gt;</span> <span class="s2">"OPU_TEST"</span><span class="p">,</span>
+   <span class="s2">"LANGUAGE"</span> <span class="o">=&gt;</span> <span class="s2">"TR"</span><span class="p">,</span>
+   <span class="s2">"ORDER_REF"</span> <span class="o">=&gt;</span>  <span class="nb">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">10000</span><span class="p">),</span>
+   <span class="s2">"ORDER_DATE"</span> <span class="o">=&gt;</span> <span class="nb">date</span><span class="p">(</span><span class="s1">'Y-m-d H:i:s'</span><span class="p">),</span>
+   <span class="s2">"PAY_METHOD"</span> <span class="o">=&gt;</span> <span class="s2">"CCVISAMC"</span><span class="p">,</span>
+   <span class="s2">"BACK_REF"</span> <span class="o">=&gt;</span> <span class="s2">"http://www.backref.com.tr"</span><span class="p">,</span>
+   <span class="s2">"PRICES_CURRENCY"</span> <span class="o">=&gt;</span> <span class="s2">"TRY"</span><span class="p">,</span>
+   <span class="s2">"SELECTED_INSTALLMENTS_NUMBER"</span> <span class="o">=&gt;</span> <span class="s2">"1"</span><span class="p">,</span>
+   <span class="s2">"ORDER_SHIPPING"</span><span class="o">=&gt;</span><span class="s2">"5"</span><span class="p">,</span>
+   <span class="s2">"CLIENT_IP"</span> <span class="o">=&gt;</span> <span class="nv">$_SERVER</span><span class="p">[</span><span class="s2">"REMOTE_ADDR"</span><span class="p">],</span>
+
+
+   <span class="s2">"ORDER_PNAME[0]"</span> <span class="o">=&gt;</span> <span class="s2">"Test Ürünü"</span><span class="p">,</span>
+   <span class="s2">"ORDER_PCODE[0]"</span> <span class="o">=&gt;</span> <span class="s2">"Test Kodu"</span><span class="p">,</span>
+   <span class="s2">"ORDER_PINFO[0]"</span> <span class="o">=&gt;</span> <span class="s2">"Test Açıklaması"</span><span class="p">,</span>
+   <span class="s2">"ORDER_PRICE[0]"</span> <span class="o">=&gt;</span> <span class="s2">"5"</span><span class="p">,</span>
+   <span class="s2">"ORDER_VAT[0]"</span><span class="o">=&gt;</span><span class="s2">"18"</span><span class="p">,</span>
+   <span class="s2">"ORDER_PRICE_TYPE[0]"</span><span class="o">=&gt;</span><span class="s2">"NET"</span><span class="p">,</span>
+   <span class="s2">"ORDER_QTY[0]"</span> <span class="o">=&gt;</span> <span class="s2">"1"</span><span class="p">,</span>
+
+   <span class="s2">"ORDER_PNAME[1]"</span> <span class="o">=&gt;</span> <span class="s2">"Test Ürünü-2"</span><span class="p">,</span>
+   <span class="s2">"ORDER_PCODE[1]"</span> <span class="o">=&gt;</span> <span class="s2">"Test Kodu-2"</span><span class="p">,</span>
+   <span class="s2">"ORDER_PINFO[1]"</span> <span class="o">=&gt;</span> <span class="s2">"Test Açıklaması-2"</span><span class="p">,</span>
+   <span class="s2">"ORDER_PRICE[1]"</span> <span class="o">=&gt;</span> <span class="s2">"15"</span><span class="p">,</span>
+   <span class="s2">"ORDER_VAT[1]"</span><span class="o">=&gt;</span><span class="s2">"24"</span><span class="p">,</span>
+   <span class="s2">"ORDER_PRICE_TYPE[1]"</span><span class="o">=&gt;</span><span class="s2">"GROSS"</span><span class="p">,</span>
+   <span class="s2">"ORDER_QTY[1]"</span> <span class="o">=&gt;</span> <span class="s2">"3"</span><span class="p">,</span>
+
+   <span class="s2">"CC_NUMBER"</span> <span class="o">=&gt;</span> <span class="s2">"4355084355084358"</span><span class="p">,</span>
+   <span class="s2">"EXP_MONTH"</span> <span class="o">=&gt;</span> <span class="s2">"12"</span><span class="p">,</span>
+   <span class="s2">"EXP_YEAR"</span> <span class="o">=&gt;</span> <span class="s2">"2018"</span><span class="p">,</span>
+   <span class="s2">"CC_CVV"</span> <span class="o">=&gt;</span> <span class="s2">"000"</span><span class="p">,</span>
+   <span class="s2">"CC_OWNER"</span> <span class="o">=&gt;</span> <span class="s2">"000"</span><span class="p">,</span>
+
+   <span class="s2">"BILL_FNAME"</span> <span class="o">=&gt;</span> <span class="s2">"Ad"</span><span class="p">,</span>
+   <span class="s2">"BILL_LNAME"</span> <span class="o">=&gt;</span> <span class="s2">"Soyad"</span><span class="p">,</span>
+   <span class="s2">"BILL_EMAIL"</span> <span class="o">=&gt;</span> <span class="s2">"mail@mail.com"</span><span class="p">,</span>
+   <span class="s2">"BILL_PHONE"</span> <span class="o">=&gt;</span> <span class="s2">"02129003711"</span><span class="p">,</span>
+   <span class="s2">"BILL_FAX"</span> <span class="o">=&gt;</span> <span class="s2">"02129003711"</span><span class="p">,</span>
+   <span class="s2">"BILL_ADDRESS"</span> <span class="o">=&gt;</span> <span class="s2">"Birinci Adres satırı"</span><span class="p">,</span>
+   <span class="s2">"BILL_ADDRESS2"</span> <span class="o">=&gt;</span> <span class="s2">"İkinci Adres satırı"</span><span class="p">,</span>
+   <span class="s2">"BILL_ZIPCODE"</span> <span class="o">=&gt;</span> <span class="s2">"34000"</span><span class="p">,</span>
+   <span class="s2">"BILL_CITY"</span> <span class="o">=&gt;</span> <span class="s2">"ISTANBUL"</span><span class="p">,</span>
+   <span class="s2">"BILL_COUNTRYCODE"</span> <span class="o">=&gt;</span> <span class="s2">"TR"</span><span class="p">,</span>
+   <span class="s2">"BILL_STATE"</span> <span class="o">=&gt;</span> <span class="s2">"Ayazağa"</span><span class="p">,</span>
+
+   <span class="s2">"DELIVERY_FNAME"</span> <span class="o">=&gt;</span> <span class="s2">"Ad"</span><span class="p">,</span>
+   <span class="s2">"DELIVERY_LNAME"</span> <span class="o">=&gt;</span> <span class="s2">"Soyad"</span><span class="p">,</span>
+   <span class="s2">"DELIVERY_EMAIL"</span> <span class="o">=&gt;</span> <span class="s2">"mail@mail.com"</span><span class="p">,</span>
+   <span class="s2">"DELIVERY_PHONE"</span> <span class="o">=&gt;</span> <span class="s2">"02129003711"</span><span class="p">,</span>
+   <span class="s2">"DELIVERY_COMPANY"</span> <span class="o">=&gt;</span> <span class="s2">"PayU Ödeme Kuruluşu A.Ş."</span><span class="p">,</span>
+   <span class="s2">"DELIVERY_ADDRESS"</span> <span class="o">=&gt;</span> <span class="s2">"Birinci Adres satırı"</span><span class="p">,</span>
+   <span class="s2">"DELIVERY_ADDRESS2"</span> <span class="o">=&gt;</span> <span class="s2">"İkinci Adres satırı"</span><span class="p">,</span>
+   <span class="s2">"DELIVERY_ZIPCODE"</span> <span class="o">=&gt;</span> <span class="s2">"34000"</span><span class="p">,</span>
+   <span class="s2">"DELIVERY_CITY"</span> <span class="o">=&gt;</span> <span class="s2">"ISTANBUL"</span><span class="p">,</span>
+   <span class="s2">"DELIVERY_STATE"</span> <span class="o">=&gt;</span> <span class="s2">"TR"</span><span class="p">,</span>
+   <span class="s2">"DELIVERY_COUNTRYCODE"</span> <span class="o">=&gt;</span> <span class="s2">"Ayazağa"</span><span class="p">,</span>
+<span class="p">);</span>
+
+<span class="nb">ksort</span><span class="p">(</span><span class="nv">$arParams</span><span class="p">);</span>
+<span class="nv">$hashString</span> <span class="o">=</span> <span class="s2">""</span><span class="p">;</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$arParams</span> <span class="k">as</span> <span class="nv">$key</span> <span class="o">=&gt;</span> <span class="nv">$val</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">$hashString</span> <span class="o">.=</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$val</span><span class="p">)</span> <span class="o">.</span> <span class="nv">$val</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nv">$arParams</span><span class="p">[</span><span class="s2">"ORDER_HASH"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s2">"md5"</span><span class="p">,</span> <span class="nv">$hashString</span><span class="p">,</span> <span class="nv">$secretKey</span><span class="p">);</span>
+<span class="nv">$ch</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">();</span>
+
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_URL</span><span class="p">,</span> <span class="nv">$url</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_SSL_VERIFYPEER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_SSL_VERIFYHOST</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_IPRESOLVE</span><span class="p">,</span> <span class="nx">CURL_IPRESOLVE_V4</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_TIMEOUT</span><span class="p">,</span> <span class="mi">60</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nb">http_build_query</span><span class="p">(</span><span class="nv">$arParams</span><span class="p">));</span>
+<span class="nv">$response</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
+
+<span class="nv">$curlerrcode</span> <span class="o">=</span> <span class="nb">curl_errno</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
+<span class="nv">$curlerr</span> <span class="o">=</span> <span class="nb">curl_error</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="k">empty</span><span class="p">(</span><span class="nv">$curlerr</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="k">empty</span><span class="p">(</span><span class="nv">$curlerrcode</span><span class="p">))</span> <span class="p">{</span>
+    <span class="nv">$parsedXML</span> <span class="o">=</span> <span class="o">@</span><span class="nb">simplexml_load_string</span><span class="p">(</span><span class="nv">$response</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">$parsedXML</span> <span class="o">!==</span> <span class="k">FALSE</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">echo</span> <span class="s2">"&lt;pre&gt;"</span><span class="p">;</span>
+        <span class="nb">print_r</span><span class="p">(</span><span class="nv">$response</span><span class="p">);</span>
+        <span class="k">echo</span> <span class="s2">"&lt;/pre&gt;"</span><span class="p">;</span>
+
+        <span class="nv">$payuTranReference</span> <span class="o">=</span> <span class="nv">$parsedXML</span><span class="o">-&gt;</span><span class="na">REFNO</span><span class="p">;</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nv">$parsedXML</span><span class="o">-&gt;</span><span class="na">STATUS</span> <span class="o">==</span> <span class="s2">"SUCCESS"</span><span class="p">)</span> <span class="p">{</span>
+
+
+            <span class="k">if</span> <span class="p">((</span><span class="nv">$parsedXML</span><span class="o">-&gt;</span><span class="na">RETURN_CODE</span> <span class="o">==</span> <span class="s2">"3DS_ENROLLED"</span><span class="p">)</span> <span class="o">&amp;&amp;</span> <span class="p">(</span><span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$parsedXML</span><span class="o">-&gt;</span><span class="na">URL_3DS</span><span class="p">)))</span> <span class="p">{</span>
+                <span class="nb">header</span><span class="p">(</span><span class="s2">"Location:"</span> <span class="o">.</span> <span class="nv">$parsedXML</span><span class="o">-&gt;</span><span class="na">URL_3DS</span><span class="p">);</span>
+            <span class="p">}</span>
+
+            <span class="k">echo</span> <span class="s2">"&lt;pre&gt;"</span><span class="p">;</span>
+            <span class="k">echo</span> <span class="s2">"SUCCES [PayU reference number: "</span> <span class="o">.</span> <span class="nv">$payuTranReference</span> <span class="o">.</span> <span class="s2">"]"</span><span class="p">;</span>
+            <span class="k">echo</span> <span class="s2">"&lt;/pre&gt;"</span><span class="p">;</span>
+
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">echo</span> <span class="s2">"Error: "</span> <span class="o">.</span> <span class="nv">$parsedXML</span><span class="o">-&gt;</span><span class="na">RETURN_MESSAGE</span> <span class="o">.</span> <span class="s2">" ["</span> <span class="o">.</span> <span class="nv">$parsedXML</span><span class="o">-&gt;</span><span class="na">RETURN_CODE</span> <span class="o">.</span> <span class="s2">"]"</span><span class="p">;</span>
+            <span class="k">echo</span> <span class="s2">"&lt;br&gt;"</span><span class="p">;</span>
+            <span class="k">echo</span> <span class="s2">"Error Details: "</span> <span class="o">.</span> <span class="nv">$parsedXML</span><span class="o">-&gt;</span><span class="na">ERRORMESSAGE</span> <span class="o">.</span> <span class="s2">"&lt;br&gt; Error Code: ["</span> <span class="o">.</span> <span class="nv">$parsedXML</span><span class="o">-&gt;</span><span class="na">PROCRETURNCODE</span> <span class="o">.</span> <span class="s2">"]"</span><span class="p">;</span>
+            <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="k">empty</span><span class="p">(</span><span class="nv">$payuTranReference</span><span class="p">))</span> <span class="p">{</span>
+                <span class="c1">//the transaction was register to PayU system, but some error occured during the bank authorization.
+</span>                <span class="c1">//See $parsedXML-&gt;RETURN_MESSAGE and $parsedXML-&gt;RETURN_CODE for details
+</span>                <span class="k">echo</span> <span class="s2">"&lt;pre&gt;"</span><span class="p">;</span>
+                <span class="k">echo</span> <span class="s2">" [PayU reference number: "</span> <span class="o">.</span> <span class="nv">$payuTranReference</span> <span class="o">.</span> <span class="s2">"]"</span><span class="p">;</span>
+                <span class="k">echo</span> <span class="s2">"&lt;/pre&gt;"</span><span class="p">;</span>
+
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="k">echo</span> <span class="s2">"cURL error: "</span> <span class="o">.</span> <span class="nv">$curlerr</span><span class="p">;</span>
+
+<span class="p">}</span>
+
 </code></pre>
 <aside class="warning">
     ÖNEMLİ NOT:
@@ -374,6 +531,12 @@
 <td>MERCHANT</td>
 <td>string</td>
 <td>İşyerini ID bilgisidir. Üye İşyeri Kontrol Paneli’nde, hesap ayarları sayfasında bulunmaktadır.</td>
+<td>Evet</td>
+</tr>
+<tr>
+<td>LANGUAGE</td>
+<td>string</td>
+<td>İşlemin gerçekleştiği dilin kısa kodu değeri (TR/EN)</td>
 <td>Evet</td>
 </tr>
 <tr>
@@ -710,6 +873,72 @@
 </tr>
 </tbody></table>
 <h2 id='hash-hesaplama'>Hash Hesaplama</h2>
+<blockquote>
+<p>1.Adım İşlem isteği gönderilmeden önce dizi içerisindeki tüm parametreler KEY&#39;e göre sıralanmalıdır.</p>
+</blockquote>
+<pre class="highlight python tab-python"><code></code></pre><pre class="highlight php tab-php"><code>
+[BACK_REF] =&gt; http://www.backref.com.tr
+[BILL_ADDRESS] =&gt; Birinci Adres satırı 
+[BILL_ADDRESS2] =&gt; İkinci Adres satırı 
+[BILL_CITY] =&gt; ISTANBUL 
+[BILL_COUNTRYCODE] =&gt; TR 
+[BILL_EMAIL] =&gt; mail@mail.com 
+[BILL_FAX] =&gt; 02129003711 
+[BILL_FNAME] =&gt; Ad 
+[BILL_LNAME] =&gt; Soyad 
+[BILL_PHONE] =&gt; 02129003711 
+[BILL_STATE] =&gt; Ayazağa 
+[BILL_ZIPCODE] =&gt; 34000 
+[CC_CVV] =&gt; 000 
+[CC_NUMBER] =&gt; 4355084355084358 
+[CC_OWNER] =&gt; 000 
+[CLIENT_IP] =&gt; 127.0.0.1 
+[DELIVERY_ADDRESS] =&gt; Birinci Adres satırı 
+[DELIVERY_ADDRESS2] =&gt; İkinci Adres satırı 
+[DELIVERY_CITY  ] =&gt; ISTANBUL 
+[DELIVERY_COMPANY] =&gt; PayU Ödeme Kuruluşu A.Ş. 
+[DELIVERY_COUNTRYCODE   ] =&gt; Ayazağa 
+[DELIVERY_EMAIL] =&gt; mail@mail.com 
+[DELIVERY_FNAME] =&gt; Ad 
+[DELIVERY_LNAME] =&gt; Soyad 
+[DELIVERY_PHONE] =&gt; 02129003711 
+[DELIVERY_STATE] =&gt; TR 
+[DELIVERY_ZIPCODE] =&gt; 34000 
+[EXP_MONTH] =&gt; 12 
+[EXP_YEAR] =&gt; 2018 
+[LANGUAGE] =&gt; TR 
+[MERCHANT] =&gt; OPU_TEST 
+[ORDER_DATE] =&gt; 2017-10-04 10:53:33 
+[ORDER_PCODE[0]] =&gt; Test Kodu 
+[ORDER_PCODE[1]] =&gt; Test Kodu-2 
+[ORDER_PINFO[0]] =&gt; Test Açıklaması 
+[ORDER_PINFO[1]] =&gt; Test Açıklaması-2 
+[ORDER_PNAME[0]] =&gt; Test Ürünü 
+[ORDER_PNAME[1]] =&gt; Test Ürünü-2 
+[ORDER_PRICE[0]] =&gt; 5 
+[ORDER_PRICE[1]] =&gt; 15 
+[ORDER_PRICE_TYPE[0]] =&gt; NET 
+[ORDER_PRICE_TYPE[1]] =&gt; GROSS 
+[ORDER_QTY[0]] =&gt; 1 
+[ORDER_QTY[1]] =&gt; 3 
+[ORDER_REF] =&gt; 2088 
+[ORDER_SHIPPING] =&gt; 5 
+[ORDER_VAT[0]] =&gt; 18 
+[ORDER_VAT[1]] =&gt; 24 
+[PAY_METHOD] =&gt; CCVISAMC 
+[PRICES_CURRENCY] =&gt; TRY 
+[SELECTED_INSTALLMENTS_NUMBER] =&gt; 1
+
+</code></pre>
+<blockquote>
+<p>2.Adım Parametre değerlerinin başına uzunlukları eklenerek HASH string oluşturulmalı (UTF-8 Bayt olarak).</p>
+</blockquote>
+<pre class="highlight python tab-python"><code></code></pre><pre class="highlight php tab-php"><code></code></pre>
+<blockquote>
+<p>3.Adım Oluşturulan dizi PayU üye işyeri hesabınızın Hesap Yönetimi / Hesap Ayarları bölümünde yer alan kodlama anahtarı bilgisi kullanılarak HMAC_MD5 algoritması ile hashlenmeli.
+<strong>Örnekte kullanılan kodlama anahtarı değeri: SECRET_KEY</strong></p>
+</blockquote>
+<pre class="highlight python tab-python"><code></code></pre><pre class="highlight php tab-php"><code></code></pre>
 <aside class="warning">
     ÖNEMLİ NOT:
  Güvenlik gerekçesiyle her HTTPS POST isteği benzersiz bir imzaya sahip olmalıdır.
