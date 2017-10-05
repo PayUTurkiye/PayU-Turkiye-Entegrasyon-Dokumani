@@ -270,6 +270,23 @@
               </ul>
           </li>
           <li>
+            <a href="#iptal-iade-servisi-irn" class="toc-h1 toc-link" data-title="İptal/İade Servisi (IRN)">İptal/İade Servisi (IRN)</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#iptal-iade-servisi-istek-parametreleri" class="toc-h2 toc-link" data-title="İptal/İade Servisi (IRN)">İptal/İade Servisi İstek Parametreleri</a>
+                  </li>
+                  <li>
+                    <a href="#iptal-iade-servisi-yanit-parametreleri" class="toc-h2 toc-link" data-title="İptal/İade Servisi (IRN)">İptal/İade Servisi Yanıt Parametreleri</a>
+                  </li>
+                  <li>
+                    <a href="#iptal-iade-servisi-hash-hesaplama" class="toc-h2 toc-link" data-title="İptal/İade Servisi (IRN)">İptal/İade Servisi Hash Hesaplama</a>
+                  </li>
+                  <li>
+                    <a href="#iptal-iade-servisi-sonuc-mesajlari" class="toc-h2 toc-link" data-title="İptal/İade Servisi (IRN)">İptal/İade Servisi Sonuç Mesajları</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#test-bilgileri" class="toc-h1 toc-link" data-title="Test Bilgileri">Test Bilgileri</a>
               <ul class="toc-list-h2">
                   <li>
@@ -285,7 +302,7 @@
           </li>
       </div>
         <ul class="toc-footer">
-            <li><a>Doküman:v1.0.2</a></li>
+            <li><a>Doküman:v1.0</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -3056,6 +3073,255 @@ Parametre değerlerinin uzunluğu UTF-8 byte olarak alınmalıdır.
 </ul>
 
 <p><strong>Elde edilen değer:</strong> <code>24d86799c6ba0083ceba1f40053cd499</code></p>
+<h1 id='iptal-iade-servisi-irn'>İptal/İade Servisi (IRN)</h1>
+<blockquote>
+<p>Örnek IRN İsteği </p>
+</blockquote>
+<pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
+<span class="nv">$url</span> <span class="o">=</span> <span class="s2">"https://secure.payu.com.tr/order/irn.php"</span><span class="p">;</span>
+<span class="nv">$secretKey</span> <span class="o">=</span> <span class="s2">"SECRET_KEY"</span><span class="p">;</span>
+
+<span class="nv">$irn</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+<span class="s1">'MERCHANT'</span> <span class="o">=&gt;</span> <span class="s2">"OPU_TEST"</span><span class="p">,</span>
+<span class="s1">'ORDER_REF'</span> <span class="o">=&gt;</span> <span class="s2">"39537992"</span><span class="p">,</span>
+<span class="s1">'ORDER_AMOUNT'</span> <span class="o">=&gt;</span> <span class="s2">"129.33"</span><span class="p">,</span>
+<span class="s1">'ORDER_CURRENCY'</span> <span class="o">=&gt;</span> <span class="s1">'TRY'</span><span class="p">,</span>
+<span class="s1">'IRN_DATE'</span> <span class="o">=&gt;</span> <span class="nb">date</span><span class="p">(</span><span class="s1">'Y-m-d H:i:s'</span><span class="p">,</span> <span class="nb">time</span><span class="p">()),</span>
+<span class="s1">'AMOUNT'</span> <span class="o">=&gt;</span> <span class="s2">"10"</span><span class="p">,</span>
+
+<span class="p">);</span>
+
+<span class="nv">$hashString</span> <span class="o">=</span> <span class="s2">""</span><span class="p">;</span>
+<span class="k">foreach</span> <span class="p">(</span><span class="nv">$irn</span> <span class="k">as</span> <span class="nv">$key</span> <span class="o">=&gt;</span> <span class="nv">$value</span><span class="p">)</span> <span class="p">{</span>
+<span class="nv">$hashString</span> <span class="o">.=</span> <span class="nb">strlen</span><span class="p">(</span><span class="nv">$value</span><span class="p">)</span> <span class="o">.</span> <span class="nv">$value</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nv">$hash</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s1">'md5'</span><span class="p">,</span> <span class="nv">$hashString</span><span class="p">,</span> <span class="nv">$secretKey</span><span class="p">);</span>
+<span class="nv">$irn</span><span class="p">[</span><span class="s1">'ORDER_HASH'</span><span class="p">]</span> <span class="o">=</span> <span class="nv">$hash</span><span class="p">;</span>
+
+<span class="nv">$ch</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">();</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_URL</span><span class="p">,</span> <span class="nv">$url</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_SSL_VERIFYPEER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_SSL_VERIFYHOST</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_TIMEOUT</span><span class="p">,</span> <span class="mi">60</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+<span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nb">http_build_query</span><span class="p">(</span><span class="nv">$irn</span><span class="p">));</span>
+<span class="nv">$response</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
+<span class="nv">$curlerrcode</span> <span class="o">=</span> <span class="nb">curl_errno</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
+<span class="nv">$curlerr</span> <span class="o">=</span> <span class="nb">curl_error</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
+
+<span class="nb">var_dump</span><span class="p">(</span><span class="nv">$response</span><span class="p">);</span>
+<span class="cp">?&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="c"># Importing required libraries.</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">hmac</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urlencode</span>
+<span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+<span class="kn">import</span> <span class="nn">collections</span>
+<span class="c">#Endpoint</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">'https://secure.payu.com.tr/order/irn.php'</span>
+
+<span class="c">#Secret Key</span>
+<span class="n">secret</span> <span class="o">=</span> <span class="s">'SECRET_KEY'</span>
+
+<span class="n">array</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">()</span>
+<span class="n">array</span><span class="p">[</span><span class="s">'MERCHANT'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'OPU_TEST'</span>
+<span class="n">array</span><span class="p">[</span><span class="s">'ORDER_REF'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'41854324'</span>
+<span class="n">array</span><span class="p">[</span><span class="s">'ORDER_AMOUNT'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'10.9'</span>
+<span class="n">array</span><span class="p">[</span><span class="s">'ORDER_CURRENCY'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'TRY'</span>
+<span class="n">array</span><span class="p">[</span><span class="s">'IRN_DATE'</span><span class="p">]</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">'</span><span class="si">%</span><span class="s">Y-</span><span class="si">%</span><span class="s">m-</span><span class="si">%</span><span class="s">d </span><span class="si">%</span><span class="s">H:</span><span class="si">%</span><span class="s">M:</span><span class="si">%</span><span class="s">S'</span><span class="p">)</span>
+<span class="n">array</span><span class="p">[</span><span class="s">'AMOUNT'</span><span class="p">]</span> <span class="o">=</span> <span class="s">'10'</span>
+
+<span class="c"># Initializing the hashstring @param</span>
+<span class="n">hashstring</span> <span class="o">=</span> <span class="s">''</span>
+<span class="c">#Order Directory</span>
+<span class="c"># Getting Array @params</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">array</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<span class="c"># Adding the UTF-8 byte length of each field value at the beginning of field value</span>
+    <span class="n">hashstring</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">hashstring</span><span class="p">)</span>
+
+<span class="c"># Calculating signature</span>
+<span class="n">signature</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">secret</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashstring</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+
+<span class="c"># Adding signature @param to request array</span>
+<span class="n">array</span><span class="p">[</span><span class="s">'ORDER_HASH'</span><span class="p">]</span> <span class="o">=</span> <span class="n">signature</span>
+<span class="k">print</span><span class="p">(</span><span class="n">signature</span><span class="p">)</span>
+
+<span class="c"># Sending Request to Endpoint</span>
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">urlencode</span><span class="p">(</span><span class="n">array</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+
+<span class="c"># Printing result/response</span>
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+
+
+</code></pre>
+<blockquote>
+<p>Örnek Başarılı IRN Cevabı</p>
+</blockquote>
+<pre class="highlight plaintext"><code>&lt;EPAYMENT&gt;41854324|1|OK|2017-10-05 14:12:35|e90c62397d26c6921c0cb6729d563ff4&lt;/EPAYMENT&gt;
+</code></pre>
+<p>IRN servisi, sipariş iade ve iptal işlemlerinizi, API aracılığı ile kendi sistem arayüzünüzden gerçekleştirmenizi mümkün kılar.</p>
+<h3 id='iptal-iade-servisi-istek-parametreleri'>İptal/İade Servisi İstek Parametreleri</h3>
+<p>HTTPS Post ile işlem istekleri <code>https://secure.payu.com.tr/order/irn.php</code> adresine gönderilmelidir.</p>
+
+<table><thead>
+<tr>
+<th>Parametre</th>
+<th>Açıklama</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>MERCHANT</td>
+<td>İşyerini ID bilgisidir. Üye İşyeri Kontrol Paneli’nde, hesap ayarları sayfasında bulunmaktadır.</td>
+</tr>
+<tr>
+<td>ORDER_REF</td>
+<td>İptal / İade işlemi yapılacak siparişin PayU referans numarasının gönderildiği parametredir.</td>
+</tr>
+<tr>
+<td>ORDER_AMOUNT</td>
+<td>İşlemin toplam tutarının gönderildiği parametredir.</td>
+</tr>
+<tr>
+<td>ORDER_CURRENCY</td>
+<td>İşlemin gerçekleştiği para biriminin gönderildiği parametredir.</td>
+</tr>
+<tr>
+<td>IRN_DATE</td>
+<td>İade/İptal isteğinin gönderildiği zamanın gönderildiği parametredir. (Y-m-d H:i:s (Örn: 2017-01-26 14:30:56)</td>
+</tr>
+<tr>
+<td>ORDER_HASH</td>
+<td>İstek sırasında gönderilen değerlerin Key&#39;e göre sıralanıp, başlarına uzunlukları eklendikten sonra HMAC_MD5 algoritması ile hash oluşturulan değerdir.</td>
+</tr>
+<tr>
+<td>AMOUNT</td>
+<td>İade yapılacak tutarın belirtildiği parametredir.</td>
+</tr>
+</tbody></table>
+<h3 id='iptal-iade-servisi-yanit-parametreleri'>İptal/İade Servisi Yanıt Parametreleri</h3>
+<table><thead>
+<tr>
+<th>Parametre</th>
+<th>Açıklama</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ORDER_REF</td>
+<td>İptal / İade işlemi yapılacak siparişin PayU referans numarasıdır.</td>
+</tr>
+<tr>
+<td>RESPONSE_CODE</td>
+<td>İstek yanıtının döndüğü kod değeridir.</td>
+</tr>
+<tr>
+<td>RESPONSE_MSG</td>
+<td>İstek yanıt mesajıdır.</td>
+</tr>
+<tr>
+<td>IRN_DATE</td>
+<td>İptal/İade işlem isteğinin gönderildiği zamana ait bilgiyi ileten parametredir.</td>
+</tr>
+<tr>
+<td>ORDER_HASH</td>
+<td>İstek sırasında gönderilen değerlerin Key&#39;e göre sıralanıp, başlarına uzunlukları eklendikten sonra HMAC_MD5 algoritması ile hash oluşturulan değerdir. Yanıtta bulunan değer PayU tarafından hesaplanmaktadır.</td>
+</tr>
+</tbody></table>
+<h3 id='iptal-iade-servisi-hash-hesaplama'>İptal/İade Servisi Hash Hesaplama</h3>
+<p><strong>Örnek IRN bildirimindeki HASH hesaplama için kullanılacak değerler aşağıdaki gibidir.</strong></p>
+
+<aside class="notice">
+ IRN Servisinde hash hesaplaması yaparken, Key'e göre sıralamamalısınız, aşağıdaki örnek sıra ile işleme almalısınız.
+ </aside>
+
+<ul>
+<li><code>MERCHANT = OPU_TEST</code></li>
+<li><code>ORDER_REF = 39537992</code></li>
+<li><code>ORDER_AMOUNT = 129.33</code></li>
+<li><code>ORDER_CURRENCY = TRY</code></li>
+<li><code>IRN_DATE = 2017-10-05 10:55:26</code></li>
+<li><code>AMOUNT = 10</code></li>
+</ul>
+
+<p><strong>Bu değerlerin uzunluğu alınarak, değerin başına eklendikten sonra yukarıdaki sıra ile sıralanmalıdır.</strong>
+<code>8OPU_TEST8395379926129.333TRY192017-10-05 10:55:26210</code></p>
+
+<p><strong>Değerler üye işyeri kodlama anahtarınız kullanılarak HMAC_MD5 algoritması ile haslenmelidir.</strong></p>
+
+<ul>
+<li>Kullanılan Kodlama Anahtarı: SECRET_KEY</li>
+</ul>
+
+<p><strong>Elde edilen değer:</strong> <code>4c977d3b3f1e50ba14f1ac60e62e03f2</code></p>
+<h3 id='iptal-iade-servisi-sonuc-mesajlari'>İptal/İade Servisi Sonuç Mesajları</h3>
+<table><thead>
+<tr>
+<th>Mesaj</th>
+<th>Açıklama</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>OK</td>
+<td>İade/İptal Başarılı olarak yapıldığında karşılaşılan durum mesajıdır.</td>
+</tr>
+<tr>
+<td>ORDER_REF missing or format incorrect</td>
+<td>İşlemin referans numarası eksik,yanlış veya geçersiz bir biçimde gönderildiğinde karşılaşılan durum mesajıdır.</td>
+</tr>
+<tr>
+<td>ORDER_AMOUNT missing or format incorrect</td>
+<td>Toplam sipariş tutarı eksik,yanlış veya geçersiz bir biçimde gönderildiğinde karşılaşılan durum mesajıdır.</td>
+</tr>
+<tr>
+<td>ORDER_CURRENCY is missing or format incorrect</td>
+<td>Siparişte kullanılan para birimi  eksik,yanlış veya geçersiz bir biçimde gönderildiğinde karşılaşılan durum mesajıdır.</td>
+</tr>
+<tr>
+<td>IRN_DATE is not in the correct format</td>
+<td>IRN_DATE parametresinde ki saat formatı hatalı kullanıldığında karşılaşılan durum mesajıdır.</td>
+</tr>
+<tr>
+<td>Error cancelling order</td>
+<td>Sipariş iptal edilirken hata ile karşılaşıldığında meydana gelen durum mesajıdır.</td>
+</tr>
+<tr>
+<td>Order already cancelled</td>
+<td>Sipariş daha önceden iptal edildiğide karşılaşılan durum mesajıdır.</td>
+</tr>
+<tr>
+<td>Unknown error</td>
+<td>Bilinmeyen bir hata oluştuğunda meydana gelen hata mesajıdır.</td>
+</tr>
+<tr>
+<td>Invalid ORDER_REF</td>
+<td>İade/İptal işlemi sırasında geçersiz referans numarası kullanılması durumunda karşılaşılan bir hatadır.</td>
+</tr>
+<tr>
+<td>Invalid ORDER_AMOUNT</td>
+<td>İade/İptal işlemi sırasında toplam sipariş tutarının yanlış kullanılması durumunda karşılaşılan durum mesajıdır.</td>
+</tr>
+<tr>
+<td>Invalid ORDER_CURRENCY</td>
+<td>İade/İptal işleminde para biriminin yanlış kullanılması durumunda karşılaşılan durum mesajıdır.</td>
+</tr>
+<tr>
+<td>AMOUNT missing or format incorrect</td>
+<td>İptal/İade işlemi sırasında iade edilecek tutarın belirtilmediği veya yanlış formatta belirtildiğinde karşılaşılan durum mesajıdır.</td>
+</tr>
+<tr>
+<td>Invalid AMOUNT</td>
+<td>İptal/İade işlemi sırasında iade edilecek tutarın geçersiz bir tutar belirlenmesi durumunda karşılaşılan durum mesajıdır.</td>
+</tr>
+<tr>
+<td>Amount mismatch</td>
+<td>İptal/İade işlemi sırasında iade edilecek tutarın işlem tutarından fazla olması durumunda karşılaşılan durum mesajıdır.</td>
+</tr>
+</tbody></table>
 <h1 id='test-bilgileri'>Test Bilgileri</h1><h2 id='uye-isyeri-kontrol-paneli-giris-bilgileri'>Üye İşyeri Kontrol Paneli Giriş Bilgileri</h2>
 <p>Üye İşyeri Kontrol Paneli’ne girişlerde IP kısıtı uygulanmaktadır. Test hesabının üye işyeri paneline giriş yapabilmek için IP adreslerinizi destek@payu.com.tr adresimizden bize iletmeniz gerekmektedir.</p>
 
@@ -3078,11 +3344,11 @@ Parametre değerlerinin uzunluğu UTF-8 byte olarak alınmalıdır.
 </ul>
 <h2 id='test-kartlari'>Test Kartları</h2><h3 id='akbank-test-kredi-karti'>Akbank Test Kredi Kartı</h3>
 <ul>
-<li>Kart Numarası (Visa) : 4355084355084358</li>
-<li>Kart Numarası (Master Card) : 5571135571135575</li>
-<li>Son Kullanma Tarihi :12/18</li>
-<li>Güvenlik Numarası : 000</li>
-<li>Kart 3D Secure Şifresi : a</li>
+<li>Kart Numarası (Visa) : 4355084355084358<br></li>
+<li>Kart Numarası (Master Card) : 5571135571135575<br></li>
+<li>Son Kullanma Tarihi :12/18<br></li>
+<li>Güvenlik Numarası : 000<br></li>
+<li>Kart 3D Secure Şifresi : a<br></li>
 </ul>
 <h3 id='akbank-debit-kart'>Akbank Debit Kart</h3>
 <ul>
