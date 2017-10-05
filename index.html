@@ -242,13 +242,30 @@
               </ul>
           </li>
           <li>
-            <a href="#bildirim-servisi" class="toc-h1 toc-link" data-title="Bildirim Servisi">Bildirim Servisi</a>
+            <a href="#asenkron-bildirim-servisi-ipn" class="toc-h1 toc-link" data-title="Asenkron Bildirim Servisi(IPN)">Asenkron Bildirim Servisi(IPN)</a>
               <ul class="toc-list-h2">
                   <li>
-                    <a href="#hash-hesaplama-2" class="toc-h2 toc-link" data-title="Bildirim Servisi">Hash Hesaplama</a>
+                    <a href="#ipn-hash-hesaplama" class="toc-h2 toc-link" data-title="Asenkron Bildirim Servisi(IPN)">IPN Hash Hesaplama</a>
                   </li>
                   <li>
-                    <a href="#bildirime-yanit-verme" class="toc-h2 toc-link" data-title="Bildirim Servisi">Bildirime Yanıt Verme</a>
+                    <a href="#bildirime-yanit-verme" class="toc-h2 toc-link" data-title="Asenkron Bildirim Servisi(IPN)">Bildirime Yanıt Verme</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
+            <a href="#islem-sorgu-servisi-ios" class="toc-h1 toc-link" data-title="İşlem Sorgu Servisi(IOS)">İşlem Sorgu Servisi(IOS)</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#ios-sorgusu-istek-parametreleri" class="toc-h2 toc-link" data-title="İşlem Sorgu Servisi(IOS)">IOS Sorgusu İstek Parametreleri</a>
+                  </li>
+                  <li>
+                    <a href="#ios-sorgusu-yanit-parametreleri" class="toc-h2 toc-link" data-title="İşlem Sorgu Servisi(IOS)">IOS Sorgusu Yanıt Parametreleri</a>
+                  </li>
+                  <li>
+                    <a href="#sorgu-sonuc-mesajlari" class="toc-h2 toc-link" data-title="İşlem Sorgu Servisi(IOS)">Sorgu Sonuç Mesajları</a>
+                  </li>
+                  <li>
+                    <a href="#islem-sorgu-servisi-hash-hesaplama" class="toc-h2 toc-link" data-title="İşlem Sorgu Servisi(IOS)">İşlem Sorgu Servisi Hash Hesaplama</a>
                   </li>
               </ul>
           </li>
@@ -268,7 +285,7 @@
           </li>
       </div>
         <ul class="toc-footer">
-            <li><a>Doküman:v1.0.0.7</a></li>
+            <li><a>Doküman:v1.0.2</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -1922,7 +1939,7 @@ Bu URL&#39;e değer post edilmemeli, yönlendirme gerçekleştirilmesi işlemin 
 
 <p>İşlem tamamlandığında ise işlem isteği gönderdiğiniz sırada tanımlamış olduğunuz BACK_REF URL&#39;e işlem sonucunu post edilir.
 Yukarıdaki geliştirme ile yönlendirme sağlandığında, 3D işlem gerçekleştirilebilir.</p>
-<h1 id='bildirim-servisi'>Bildirim Servisi</h1><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
+<h1 id='asenkron-bildirim-servisi-ipn'>Asenkron Bildirim Servisi(IPN)</h1><pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
 <span class="nv">$postValues</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
 <span class="k">foreach</span><span class="p">(</span><span class="nv">$_REQUEST</span> <span class="k">as</span> <span class="nv">$key</span> <span class="o">=&gt;</span> <span class="nv">$value</span><span class="p">){</span>
     <span class="nv">$postValues</span> <span class="o">.=</span> <span class="nv">$key</span><span class="o">.</span><span class="s1">' = '</span><span class="o">.</span> <span class="nv">$value</span><span class="o">.</span> <span class="s2">"</span><span class="se">\r\n</span><span class="s2">"</span><span class="p">;</span>
@@ -2009,6 +2026,415 @@ Yukarıdaki geliştirme ile yönlendirme sağlandığında, 3D işlem gerçekle�
 <span class="p">}</span>
 
 <span class="cp">?&gt;</span>
+</code></pre>
+<blockquote>
+<p>Örnek IPN Bildirimi</p>
+</blockquote>
+<pre class="highlight xml tab-xml"><code>    [SALEDATE] =&gt; 2017-10-04 22:40:12
+    [PAYMENTDATE] =&gt; 2017-10-04 22:40:20
+    [REFNO] =&gt; 41666419
+    [REFNOEXT] =&gt; 4159
+    [ORDERNO] =&gt; 461
+    [ORDERSTATUS] =&gt; PAYMENT_AUTHORIZED
+    [PAYMETHOD] =&gt; CreditCard
+    [PAYMETHOD_CODE] =&gt; CCVISAMC
+    [FIRSTNAME] =&gt; Ad
+    [LASTNAME] =&gt; Soyad
+    [IDENTITY_NO] =&gt; -
+    [IDENTITY_ISSUER] =&gt; 
+    [CARD_TYPE] =&gt; Visa
+    [IDENTITY_CNP] =&gt; 
+    [COMPANY] =&gt; 
+    [REGISTRATIONNUMBER] =&gt; 
+    [FISCALCODE] =&gt; 
+    [CBANKNAME] =&gt; 
+    [CBANKACCOUNT] =&gt; 
+    [ADDRESS1] =&gt; Birinci Adres satırı
+    [ADDRESS2] =&gt; İkinci Adres satırı
+    [CITY] =&gt; ISTANBUL
+    [STATE] =&gt; Ayazağa
+    [ZIPCODE] =&gt; 34000
+    [COUNTRY] =&gt; Turkey
+    [COUNTRY_CODE] =&gt; tr
+    [PHONE] =&gt; 02129003711
+    [FAX] =&gt; 02129003711
+    [CUSTOMEREMAIL] =&gt; mail@mail.com
+    [FIRSTNAME_D] =&gt; Ad
+    [LASTNAME_D] =&gt; Soyad
+    [COMPANY_D] =&gt; PayU Ödeme Kuruluşu A.Ş.
+    [ADDRESS1_D] =&gt; Birinci Adres satırı
+    [ADDRESS2_D] =&gt; İkinci Adres satırı
+    [CITY_D] =&gt; ISTANBUL
+    [STATE_D] =&gt; TR
+    [ZIPCODE_D] =&gt; 34000
+    [COUNTRY_D] =&gt; 
+    [COUNTRY_D_CODE] =&gt; 
+    [PHONE_D] =&gt; 02129003711
+    [EMAIL_D] =&gt; mail@mail.com
+    [IPADDRESS] =&gt; 127.0.0.1
+    [IPCOUNTRY] =&gt; 
+    [COMPLETE_DATE] =&gt; 0000-00-00 00:00:00
+    [CURRENCY] =&gt; TRY
+    [LANGUAGE] =&gt; tr
+    [IPN_PID[]] =&gt; Array
+        (
+            [0] =&gt; 52580647
+        )
+
+    [IPN_PNAME[]] =&gt; Array
+        (
+            [0] =&gt; Test Ürünü
+        )
+
+    [IPN_PCODE[]] =&gt; Array
+        (
+            [0] =&gt; Test Kodu
+        )
+
+    [IPN_INFO[]] =&gt; Array
+        (
+            [0] =&gt; Test Açıklaması
+        )
+
+    [IPN_QTY[]] =&gt; Array
+        (
+            [0] =&gt; 1
+        )
+
+    [IPN_PRICE[]] =&gt; Array
+        (
+            [0] =&gt; 5.00
+        )
+
+    [IPN_VAT[]] =&gt; Array
+        (
+            [0] =&gt; 0.90
+        )
+
+    [IPN_VER[]] =&gt; Array
+        (
+            [0] =&gt; 
+        )
+
+    [IPN_DISCOUNT[]] =&gt; Array
+        (
+            [0] =&gt; 0.00
+        )
+
+    [IPN_PROMONAME[]] =&gt; Array
+        (
+            [0] =&gt; 
+        )
+
+    [IPN_PROMOCODE[]] =&gt; Array
+        (
+            [0] =&gt; 
+        )
+
+    [IPN_ORDER_COSTS[]] =&gt; Array
+        (
+            [0] =&gt; 0
+        )
+
+    [IPN_DELIVEREDCODES[]] =&gt; Array
+        (
+            [52580647] =&gt; 
+        )
+
+    [IPN_DOWNLOAD_LINK] =&gt; 
+    [IPN_TOTAL[]] =&gt; Array
+        (
+            [0] =&gt; 5.90
+        )
+
+    [IPN_TOTALGENERAL] =&gt; 10.90
+    [IPN_SHIPPING] =&gt; 5.00
+    [IPN_COMMISSION] =&gt; 0.26
+    [IPN_DATE] =&gt; 20171004224020
+    [IPN_PAID_AMOUNT] =&gt; 10.90
+    [IPN_INSTALLMENTS_PROGRAM] =&gt; Axess
+    [IPN_INSTALLMENTS_NUMBER] =&gt; One time payment
+    [IPN_INSTALLMENTS_PROFIT] =&gt; 0.00
+    [AUTH_CODE] =&gt; 380978
+    [BANK_MERCHANT_ID] =&gt; 100100000
+    [BANK_RRN] =&gt; 727722200216
+    [CARD_BIN] =&gt; 435508
+    [CARD_HOLDER_NAME] =&gt; Ad Soyad
+    [CARD_MASK] =&gt; 4355-xxxx-xxxx-4358
+    [ISSUING_BANK] =&gt; AKBA
+    [NUMBER_OF_INSTALLMENTS] =&gt; 0
+    [TERMINAL_BANK] =&gt; AKBA
+    [HASH] =&gt; d7e0e21f9a890a5bfcaa2cda50ece7bf
+</code></pre><pre class="highlight python tab-python"><code>    <span class="p">[</span><span class="n">SALEDATE</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2017</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">04</span> <span class="mi">22</span><span class="p">:</span><span class="mi">40</span><span class="p">:</span><span class="mi">12</span>
+    <span class="p">[</span><span class="n">PAYMENTDATE</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">2017</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">04</span> <span class="mi">22</span><span class="p">:</span><span class="mi">40</span><span class="p">:</span><span class="mi">20</span>
+    <span class="p">[</span><span class="n">REFNO</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">41666419</span>
+    <span class="p">[</span><span class="n">REFNOEXT</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">4159</span>
+    <span class="p">[</span><span class="n">ORDERNO</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">461</span>
+    <span class="p">[</span><span class="n">ORDERSTATUS</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">PAYMENT_AUTHORIZED</span>
+    <span class="p">[</span><span class="n">PAYMETHOD</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">CreditCard</span>
+    <span class="p">[</span><span class="n">PAYMETHOD_CODE</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">CCVISAMC</span>
+    <span class="p">[</span><span class="n">FIRSTNAME</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">Ad</span>
+    <span class="p">[</span><span class="n">LASTNAME</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">Soyad</span>
+    <span class="p">[</span><span class="n">IDENTITY_NO</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="o">-</span>
+    <span class="p">[</span><span class="n">IDENTITY_ISSUER</span><span class="p">]</span> <span class="o">=&gt;</span> 
+    <span class="p">[</span><span class="n">CARD_TYPE</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">Visa</span>
+    <span class="p">[</span><span class="n">IDENTITY_CNP</span><span class="p">]</span> <span class="o">=&gt;</span> 
+    <span class="p">[</span><span class="n">COMPANY</span><span class="p">]</span> <span class="o">=&gt;</span> 
+    <span class="p">[</span><span class="n">REGISTRATIONNUMBER</span><span class="p">]</span> <span class="o">=&gt;</span> 
+    <span class="p">[</span><span class="n">FISCALCODE</span><span class="p">]</span> <span class="o">=&gt;</span> 
+    <span class="p">[</span><span class="n">CBANKNAME</span><span class="p">]</span> <span class="o">=&gt;</span> 
+    <span class="p">[</span><span class="n">CBANKACCOUNT</span><span class="p">]</span> <span class="o">=&gt;</span> 
+    <span class="p">[</span><span class="n">ADDRESS1</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">Birinci</span> <span class="n">Adres</span> <span class="n">sat</span><span class="err">ı</span><span class="n">r</span><span class="err">ı</span>
+    <span class="p">[</span><span class="n">ADDRESS2</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="err">İ</span><span class="n">kinci</span> <span class="n">Adres</span> <span class="n">sat</span><span class="err">ı</span><span class="n">r</span><span class="err">ı</span>
+    <span class="p">[</span><span class="n">CITY</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">ISTANBUL</span>
+    <span class="p">[</span><span class="n">STATE</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">Ayaza</span><span class="err">ğ</span><span class="n">a</span>
+    <span class="p">[</span><span class="n">ZIPCODE</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">34000</span>
+    <span class="p">[</span><span class="n">COUNTRY</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">Turkey</span>
+    <span class="p">[</span><span class="n">COUNTRY_CODE</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">tr</span>
+    <span class="p">[</span><span class="n">PHONE</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mo">0212</span><span class="mi">9003711</span>
+    <span class="p">[</span><span class="n">FAX</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mo">0212</span><span class="mi">9003711</span>
+    <span class="p">[</span><span class="n">CUSTOMEREMAIL</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">mail</span><span class="nd">@mail.com</span>
+    <span class="p">[</span><span class="n">FIRSTNAME_D</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">Ad</span>
+    <span class="p">[</span><span class="n">LASTNAME_D</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">Soyad</span>
+    <span class="p">[</span><span class="n">COMPANY_D</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">PayU</span> <span class="err">Ö</span><span class="n">deme</span> <span class="n">Kurulu</span><span class="err">ş</span><span class="n">u</span> <span class="n">A</span><span class="o">.</span><span class="err">Ş</span><span class="o">.</span>
+    <span class="p">[</span><span class="n">ADDRESS1_D</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">Birinci</span> <span class="n">Adres</span> <span class="n">sat</span><span class="err">ı</span><span class="n">r</span><span class="err">ı</span>
+    <span class="p">[</span><span class="n">ADDRESS2_D</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="err">İ</span><span class="n">kinci</span> <span class="n">Adres</span> <span class="n">sat</span><span class="err">ı</span><span class="n">r</span><span class="err">ı</span>
+    <span class="p">[</span><span class="n">CITY_D</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">ISTANBUL</span>
+    <span class="p">[</span><span class="n">STATE_D</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">TR</span>
+    <span class="p">[</span><span class="n">ZIPCODE_D</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">34000</span>
+    <span class="p">[</span><span class="n">COUNTRY_D</span><span class="p">]</span> <span class="o">=&gt;</span> 
+    <span class="p">[</span><span class="n">COUNTRY_D_CODE</span><span class="p">]</span> <span class="o">=&gt;</span> 
+    <span class="p">[</span><span class="n">PHONE_D</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mo">0212</span><span class="mi">9003711</span>
+    <span class="p">[</span><span class="n">EMAIL_D</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">mail</span><span class="nd">@mail.com</span>
+    <span class="p">[</span><span class="n">IPADDRESS</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">127.0</span><span class="o">.</span><span class="mf">0.1</span>
+    <span class="p">[</span><span class="n">IPCOUNTRY</span><span class="p">]</span> <span class="o">=&gt;</span> 
+    <span class="p">[</span><span class="n">COMPLETE_DATE</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mo">0000</span><span class="o">-</span><span class="mo">00</span><span class="o">-</span><span class="mo">00</span> <span class="mo">00</span><span class="p">:</span><span class="mo">00</span><span class="p">:</span><span class="mo">00</span>
+    <span class="p">[</span><span class="n">CURRENCY</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">TRY</span>
+    <span class="p">[</span><span class="n">LANGUAGE</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">tr</span>
+    <span class="p">[</span><span class="n">IPN_PID</span><span class="p">[]]</span> <span class="o">=&gt;</span> <span class="n">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">52580647</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="n">IPN_PNAME</span><span class="p">[]]</span> <span class="o">=&gt;</span> <span class="n">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">Test</span> <span class="err">Ü</span><span class="n">r</span><span class="err">ü</span><span class="n">n</span><span class="err">ü</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="n">IPN_PCODE</span><span class="p">[]]</span> <span class="o">=&gt;</span> <span class="n">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">Test</span> <span class="n">Kodu</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="n">IPN_INFO</span><span class="p">[]]</span> <span class="o">=&gt;</span> <span class="n">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">Test</span> <span class="n">A</span><span class="err">çı</span><span class="n">klamas</span><span class="err">ı</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="n">IPN_QTY</span><span class="p">[]]</span> <span class="o">=&gt;</span> <span class="n">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">1</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="n">IPN_PRICE</span><span class="p">[]]</span> <span class="o">=&gt;</span> <span class="n">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">5.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="n">IPN_VAT</span><span class="p">[]]</span> <span class="o">=&gt;</span> <span class="n">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.90</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="n">IPN_VER</span><span class="p">[]]</span> <span class="o">=&gt;</span> <span class="n">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=&gt;</span> 
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="n">IPN_DISCOUNT</span><span class="p">[]]</span> <span class="o">=&gt;</span> <span class="n">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="n">IPN_PROMONAME</span><span class="p">[]]</span> <span class="o">=&gt;</span> <span class="n">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=&gt;</span> 
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="n">IPN_PROMOCODE</span><span class="p">[]]</span> <span class="o">=&gt;</span> <span class="n">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=&gt;</span> 
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="n">IPN_ORDER_COSTS</span><span class="p">[]]</span> <span class="o">=&gt;</span> <span class="n">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">0</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="n">IPN_DELIVEREDCODES</span><span class="p">[]]</span> <span class="o">=&gt;</span> <span class="n">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="mi">52580647</span><span class="p">]</span> <span class="o">=&gt;</span> 
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="n">IPN_DOWNLOAD_LINK</span><span class="p">]</span> <span class="o">=&gt;</span> 
+    <span class="p">[</span><span class="n">IPN_TOTAL</span><span class="p">[]]</span> <span class="o">=&gt;</span> <span class="n">Array</span>
+        <span class="p">(</span>
+            <span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">5.90</span>
+        <span class="p">)</span>
+
+    <span class="p">[</span><span class="n">IPN_TOTALGENERAL</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">10.90</span>
+    <span class="p">[</span><span class="n">IPN_SHIPPING</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">5.00</span>
+    <span class="p">[</span><span class="n">IPN_COMMISSION</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.26</span>
+    <span class="p">[</span><span class="n">IPN_DATE</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">20171004224020</span>
+    <span class="p">[</span><span class="n">IPN_PAID_AMOUNT</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">10.90</span>
+    <span class="p">[</span><span class="n">IPN_INSTALLMENTS_PROGRAM</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">Axess</span>
+    <span class="p">[</span><span class="n">IPN_INSTALLMENTS_NUMBER</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">One</span> <span class="n">time</span> <span class="n">payment</span>
+    <span class="p">[</span><span class="n">IPN_INSTALLMENTS_PROFIT</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mf">0.00</span>
+    <span class="p">[</span><span class="n">AUTH_CODE</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">380978</span>
+    <span class="p">[</span><span class="n">BANK_MERCHANT_ID</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">100100000</span>
+    <span class="p">[</span><span class="n">BANK_RRN</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">727722200216</span>
+    <span class="p">[</span><span class="n">CARD_BIN</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">435508</span>
+    <span class="p">[</span><span class="n">CARD_HOLDER_NAME</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">Ad</span> <span class="n">Soyad</span>
+    <span class="p">[</span><span class="n">CARD_MASK</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">4355</span><span class="o">-</span><span class="n">xxxx</span><span class="o">-</span><span class="n">xxxx</span><span class="o">-</span><span class="mi">4358</span>
+    <span class="p">[</span><span class="n">ISSUING_BANK</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">AKBA</span>
+    <span class="p">[</span><span class="n">NUMBER_OF_INSTALLMENTS</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="mi">0</span>
+    <span class="p">[</span><span class="n">TERMINAL_BANK</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">AKBA</span>
+    <span class="p">[</span><span class="n">HASH</span><span class="p">]</span> <span class="o">=&gt;</span> <span class="n">d7e0e21f9a890a5bfcaa2cda50ece7bf</span>
+</code></pre><pre class="highlight php tab-php"><code>    [SALEDATE] =&gt; 2017-10-04 22:40:12
+    [PAYMENTDATE] =&gt; 2017-10-04 22:40:20
+    [REFNO] =&gt; 41666419
+    [REFNOEXT] =&gt; 4159
+    [ORDERNO] =&gt; 461
+    [ORDERSTATUS] =&gt; PAYMENT_AUTHORIZED
+    [PAYMETHOD] =&gt; CreditCard
+    [PAYMETHOD_CODE] =&gt; CCVISAMC
+    [FIRSTNAME] =&gt; Ad
+    [LASTNAME] =&gt; Soyad
+    [IDENTITY_NO] =&gt; -
+    [IDENTITY_ISSUER] =&gt; 
+    [CARD_TYPE] =&gt; Visa
+    [IDENTITY_CNP] =&gt; 
+    [COMPANY] =&gt; 
+    [REGISTRATIONNUMBER] =&gt; 
+    [FISCALCODE] =&gt; 
+    [CBANKNAME] =&gt; 
+    [CBANKACCOUNT] =&gt; 
+    [ADDRESS1] =&gt; Birinci Adres satırı
+    [ADDRESS2] =&gt; İkinci Adres satırı
+    [CITY] =&gt; ISTANBUL
+    [STATE] =&gt; Ayazağa
+    [ZIPCODE] =&gt; 34000
+    [COUNTRY] =&gt; Turkey
+    [COUNTRY_CODE] =&gt; tr
+    [PHONE] =&gt; 02129003711
+    [FAX] =&gt; 02129003711
+    [CUSTOMEREMAIL] =&gt; mail@mail.com
+    [FIRSTNAME_D] =&gt; Ad
+    [LASTNAME_D] =&gt; Soyad
+    [COMPANY_D] =&gt; PayU Ödeme Kuruluşu A.Ş.
+    [ADDRESS1_D] =&gt; Birinci Adres satırı
+    [ADDRESS2_D] =&gt; İkinci Adres satırı
+    [CITY_D] =&gt; ISTANBUL
+    [STATE_D] =&gt; TR
+    [ZIPCODE_D] =&gt; 34000
+    [COUNTRY_D] =&gt; 
+    [COUNTRY_D_CODE] =&gt; 
+    [PHONE_D] =&gt; 02129003711
+    [EMAIL_D] =&gt; mail@mail.com
+    [IPADDRESS] =&gt; 127.0.0.1
+    [IPCOUNTRY] =&gt; 
+    [COMPLETE_DATE] =&gt; 0000-00-00 00:00:00
+    [CURRENCY] =&gt; TRY
+    [LANGUAGE] =&gt; tr
+    [IPN_PID[]] =&gt; Array
+        (
+            [0] =&gt; 52580647
+        )
+
+    [IPN_PNAME[]] =&gt; Array
+        (
+            [0] =&gt; Test Ürünü
+        )
+
+    [IPN_PCODE[]] =&gt; Array
+        (
+            [0] =&gt; Test Kodu
+        )
+
+    [IPN_INFO[]] =&gt; Array
+        (
+            [0] =&gt; Test Açıklaması
+        )
+
+    [IPN_QTY[]] =&gt; Array
+        (
+            [0] =&gt; 1
+        )
+
+    [IPN_PRICE[]] =&gt; Array
+        (
+            [0] =&gt; 5.00
+        )
+
+    [IPN_VAT[]] =&gt; Array
+        (
+            [0] =&gt; 0.90
+        )
+
+    [IPN_VER[]] =&gt; Array
+        (
+            [0] =&gt; 
+        )
+
+    [IPN_DISCOUNT[]] =&gt; Array
+        (
+            [0] =&gt; 0.00
+        )
+
+    [IPN_PROMONAME[]] =&gt; Array
+        (
+            [0] =&gt; 
+        )
+
+    [IPN_PROMOCODE[]] =&gt; Array
+        (
+            [0] =&gt; 
+        )
+
+    [IPN_ORDER_COSTS[]] =&gt; Array
+        (
+            [0] =&gt; 0
+        )
+
+    [IPN_DELIVEREDCODES[]] =&gt; Array
+        (
+            [52580647] =&gt; 
+        )
+
+    [IPN_DOWNLOAD_LINK] =&gt; 
+    [IPN_TOTAL[]] =&gt; Array
+        (
+            [0] =&gt; 5.90
+        )
+
+    [IPN_TOTALGENERAL] =&gt; 10.90
+    [IPN_SHIPPING] =&gt; 5.00
+    [IPN_COMMISSION] =&gt; 0.26
+    [IPN_DATE] =&gt; 20171004224020
+    [IPN_PAID_AMOUNT] =&gt; 10.90
+    [IPN_INSTALLMENTS_PROGRAM] =&gt; Axess
+    [IPN_INSTALLMENTS_NUMBER] =&gt; One time payment
+    [IPN_INSTALLMENTS_PROFIT] =&gt; 0.00
+    [AUTH_CODE] =&gt; 380978
+    [BANK_MERCHANT_ID] =&gt; 100100000
+    [BANK_RRN] =&gt; 727722200216
+    [CARD_BIN] =&gt; 435508
+    [CARD_HOLDER_NAME] =&gt; Ad Soyad
+    [CARD_MASK] =&gt; 4355-xxxx-xxxx-4358
+    [ISSUING_BANK] =&gt; AKBA
+    [NUMBER_OF_INSTALLMENTS] =&gt; 0
+    [TERMINAL_BANK] =&gt; AKBA
+    [HASH] =&gt; d7e0e21f9a890a5bfcaa2cda50ece7bf
 </code></pre>
 <p>PayU sisteminden herhangi bir başarılı sipariş gerçekleştiğinde, eğer IPN servisi kurulumu yapılmış ise, sistem sizin tarafınızdan belirlenen URL’ye siparişe ait detayları içeren bir bildirim gönderecektir. Bu bildirim HTTP POST metodu ile gönderilir</p>
 
@@ -2347,146 +2773,7 @@ Bildirimin ulaştığını <EPAYMENT> tagleri ile yanıt dönerek onaylayana kad
 <td>PayU tarafından gönderilen salt IPN bildirimi için hesaplanan Hash bilgisidir.</td>
 </tr>
 </tbody></table>
-
-<blockquote>
-<p>Örnek IPN Bildirimi</p>
-</blockquote>
-<pre class="highlight xml tab-xml"><code>    [SALEDATE] =&gt; 2017-10-04 22:40:12
-    [PAYMENTDATE] =&gt; 2017-10-04 22:40:20
-    [REFNO] =&gt; 41666419
-    [REFNOEXT] =&gt; 4159
-    [ORDERNO] =&gt; 461
-    [ORDERSTATUS] =&gt; PAYMENT_AUTHORIZED
-    [PAYMETHOD] =&gt; CreditCard
-    [PAYMETHOD_CODE] =&gt; CCVISAMC
-    [FIRSTNAME] =&gt; Ad
-    [LASTNAME] =&gt; Soyad
-    [IDENTITY_NO] =&gt; -
-    [IDENTITY_ISSUER] =&gt; 
-    [CARD_TYPE] =&gt; Visa
-    [IDENTITY_CNP] =&gt; 
-    [COMPANY] =&gt; 
-    [REGISTRATIONNUMBER] =&gt; 
-    [FISCALCODE] =&gt; 
-    [CBANKNAME] =&gt; 
-    [CBANKACCOUNT] =&gt; 
-    [ADDRESS1] =&gt; Birinci Adres satırı
-    [ADDRESS2] =&gt; İkinci Adres satırı
-    [CITY] =&gt; ISTANBUL
-    [STATE] =&gt; Ayazağa
-    [ZIPCODE] =&gt; 34000
-    [COUNTRY] =&gt; Turkey
-    [COUNTRY_CODE] =&gt; tr
-    [PHONE] =&gt; 02129003711
-    [FAX] =&gt; 02129003711
-    [CUSTOMEREMAIL] =&gt; mail@mail.com
-    [FIRSTNAME_D] =&gt; Ad
-    [LASTNAME_D] =&gt; Soyad
-    [COMPANY_D] =&gt; PayU Ödeme Kuruluşu A.Ş.
-    [ADDRESS1_D] =&gt; Birinci Adres satırı
-    [ADDRESS2_D] =&gt; İkinci Adres satırı
-    [CITY_D] =&gt; ISTANBUL
-    [STATE_D] =&gt; TR
-    [ZIPCODE_D] =&gt; 34000
-    [COUNTRY_D] =&gt; 
-    [COUNTRY_D_CODE] =&gt; 
-    [PHONE_D] =&gt; 02129003711
-    [EMAIL_D] =&gt; mail@mail.com
-    [IPADDRESS] =&gt; 127.0.0.1
-    [IPCOUNTRY] =&gt; 
-    [COMPLETE_DATE] =&gt; 0000-00-00 00:00:00
-    [CURRENCY] =&gt; TRY
-    [LANGUAGE] =&gt; tr
-    [IPN_PID[]] =&gt; Array
-        (
-            [0] =&gt; 52580647
-        )
-
-    [IPN_PNAME[]] =&gt; Array
-        (
-            [0] =&gt; Test Ürünü
-        )
-
-    [IPN_PCODE[]] =&gt; Array
-        (
-            [0] =&gt; Test Kodu
-        )
-
-    [IPN_INFO[]] =&gt; Array
-        (
-            [0] =&gt; Test Açıklaması
-        )
-
-    [IPN_QTY[]] =&gt; Array
-        (
-            [0] =&gt; 1
-        )
-
-    [IPN_PRICE[]] =&gt; Array
-        (
-            [0] =&gt; 5.00
-        )
-
-    [IPN_VAT[]] =&gt; Array
-        (
-            [0] =&gt; 0.90
-        )
-
-    [IPN_VER[]] =&gt; Array
-        (
-            [0] =&gt; 
-        )
-
-    [IPN_DISCOUNT[]] =&gt; Array
-        (
-            [0] =&gt; 0.00
-        )
-
-    [IPN_PROMONAME[]] =&gt; Array
-        (
-            [0] =&gt; 
-        )
-
-    [IPN_PROMOCODE[]] =&gt; Array
-        (
-            [0] =&gt; 
-        )
-
-    [IPN_ORDER_COSTS[]] =&gt; Array
-        (
-            [0] =&gt; 0
-        )
-
-    [IPN_DELIVEREDCODES[]] =&gt; Array
-        (
-            [52580647] =&gt; 
-        )
-
-    [IPN_DOWNLOAD_LINK] =&gt; 
-    [IPN_TOTAL[]] =&gt; Array
-        (
-            [0] =&gt; 5.90
-        )
-
-    [IPN_TOTALGENERAL] =&gt; 10.90
-    [IPN_SHIPPING] =&gt; 5.00
-    [IPN_COMMISSION] =&gt; 0.26
-    [IPN_DATE] =&gt; 20171004224020
-    [IPN_PAID_AMOUNT] =&gt; 10.90
-    [IPN_INSTALLMENTS_PROGRAM] =&gt; Axess
-    [IPN_INSTALLMENTS_NUMBER] =&gt; One time payment
-    [IPN_INSTALLMENTS_PROFIT] =&gt; 0.00
-    [AUTH_CODE] =&gt; 380978
-    [BANK_MERCHANT_ID] =&gt; 100100000
-    [BANK_RRN] =&gt; 727722200216
-    [CARD_BIN] =&gt; 435508
-    [CARD_HOLDER_NAME] =&gt; Ad Soyad
-    [CARD_MASK] =&gt; 4355-xxxx-xxxx-4358
-    [ISSUING_BANK] =&gt; AKBA
-    [NUMBER_OF_INSTALLMENTS] =&gt; 0
-    [TERMINAL_BANK] =&gt; AKBA
-    [HASH] =&gt; d7e0e21f9a890a5bfcaa2cda50ece7bf
-</code></pre><h2 id='hash-hesaplama-2'>Hash Hesaplama</h2>
+<h2 id='ipn-hash-hesaplama'>IPN Hash Hesaplama</h2>
 <aside class="notice">
 PayU IPN bildiriminin iletildiğini onaylamak için EPAYMENT tagleri aşağıda ki gibi bir yanıt bekler.
 </aside>
@@ -2537,6 +2824,238 @@ Parametre değerlerinin uzunluğu UTF-8 byte olarak alınmalıdır.
 <h2 id='bildirime-yanit-verme'>Bildirime Yanıt Verme</h2>
 <p>Elde edilen değer ve DATE değeri EPAYMENT Taglerinin arasına <code>&lt;EPAYMENT&gt;DATE|HASH&lt;/EPAYMENT&gt;</code> formatına eklenerek HTTP POST alındığı sırada yanıt dönülmelidir.
 <code>&lt;EPAYMENT&gt;20171004224017|79db0725ecdc57decf9982b3917b3ff4&lt;/EPAYMENT&gt;</code></p>
+<h1 id='islem-sorgu-servisi-ios'>İşlem Sorgu Servisi(IOS)</h1><h3 id='ios-sorgusu-istek-parametreleri'>IOS Sorgusu İstek Parametreleri</h3>
+<blockquote>
+<p>IOS Sorgu Örneği</p>
+</blockquote>
+<pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span> 
+<span class="k">function</span> <span class="nf">hmac</span> <span class="p">(</span><span class="nv">$key</span><span class="p">,</span> <span class="nv">$data</span><span class="p">){</span>
+   <span class="nv">$b</span> <span class="o">=</span> <span class="mi">64</span><span class="p">;</span> <span class="c1">// byte length for md5
+</span>   <span class="k">if</span> <span class="p">(</span><span class="nb">strlen</span><span class="p">(</span><span class="nv">$key</span><span class="p">)</span> <span class="o">&gt;</span> <span class="nv">$b</span><span class="p">)</span> <span class="p">{</span>
+       <span class="nv">$key</span> <span class="o">=</span> <span class="nb">pack</span><span class="p">(</span><span class="s2">"H*"</span><span class="p">,</span><span class="nb">md5</span><span class="p">(</span><span class="nv">$key</span><span class="p">));</span>
+   <span class="p">}</span>
+   <span class="nv">$key</span>  <span class="o">=</span> <span class="nb">str_pad</span><span class="p">(</span><span class="nv">$key</span><span class="p">,</span> <span class="nv">$b</span><span class="p">,</span> <span class="nb">chr</span><span class="p">(</span><span class="mh">0x00</span><span class="p">));</span>
+   <span class="nv">$ipad</span> <span class="o">=</span> <span class="nb">str_pad</span><span class="p">(</span><span class="s1">''</span><span class="p">,</span> <span class="nv">$b</span><span class="p">,</span> <span class="nb">chr</span><span class="p">(</span><span class="mh">0x36</span><span class="p">));</span>
+   <span class="nv">$opad</span> <span class="o">=</span> <span class="nb">str_pad</span><span class="p">(</span><span class="s1">''</span><span class="p">,</span> <span class="nv">$b</span><span class="p">,</span> <span class="nb">chr</span><span class="p">(</span><span class="mh">0x5c</span><span class="p">));</span>
+   <span class="nv">$k_ipad</span> <span class="o">=</span> <span class="nv">$key</span> <span class="o">^</span> <span class="nv">$ipad</span> <span class="p">;</span>
+   <span class="nv">$k_opad</span> <span class="o">=</span> <span class="nv">$key</span> <span class="o">^</span> <span class="nv">$opad</span><span class="p">;</span>
+   <span class="k">return</span> <span class="nb">md5</span><span class="p">(</span><span class="nv">$k_opad</span>  <span class="o">.</span> <span class="nb">pack</span><span class="p">(</span><span class="s2">"H*"</span><span class="p">,</span><span class="nb">md5</span><span class="p">(</span><span class="nv">$k_ipad</span> <span class="o">.</span> <span class="nv">$data</span><span class="p">)));</span>
+<span class="p">}</span>
+    <span class="nv">$url</span><span class="o">=</span><span class="s2">"https://secure.payu.com.tr/order/ios.php"</span><span class="p">;</span>
+    <span class="nv">$merchant</span><span class="o">=</span><span class="s2">"OPU_TEST"</span><span class="p">;</span>
+    <span class="nv">$secret</span><span class="o">=</span><span class="s2">"SECRET_KEY"</span><span class="p">;</span>
+    <span class="nv">$refno</span><span class="o">=</span><span class="s2">"7304"</span><span class="p">;</span>
+
+
+     <span class="nv">$hash_string</span> <span class="o">=</span> <span class="nb">strlen</span><span class="p">(</span><span class="s2">"</span><span class="nv">$merchant</span><span class="s2">"</span><span class="p">)</span><span class="o">.</span><span class="nv">$merchant</span><span class="p">;</span>
+     <span class="nv">$hash_string</span><span class="o">.=</span> <span class="nb">strlen</span><span class="p">(</span><span class="s2">"</span><span class="nv">$refno</span><span class="s2">"</span><span class="p">)</span><span class="o">.</span><span class="nv">$refno</span><span class="p">;</span>
+
+
+  <span class="nv">$hash</span><span class="o">=</span><span class="nx">hmac</span><span class="p">(</span><span class="nv">$secret</span><span class="p">,</span><span class="nv">$hash_string</span><span class="p">);</span>
+
+
+    <span class="nv">$request_string</span>  <span class="o">=</span> <span class="s2">"MERCHANT=</span><span class="nv">$merchant</span><span class="s2">&amp;"</span><span class="p">;</span>
+    <span class="nv">$request_string</span> <span class="o">.=</span> <span class="s2">"SECRET_KEY=</span><span class="nv">$secret</span><span class="s2">&amp;"</span><span class="p">;</span> 
+    <span class="nv">$request_string</span> <span class="o">.=</span> <span class="s2">"REFNOEXT=</span><span class="nv">$refno</span><span class="s2">&amp;"</span><span class="p">;</span>  
+    <span class="nv">$request_string</span> <span class="o">.=</span> <span class="s2">"HASH=</span><span class="nv">$hash</span><span class="s2">"</span><span class="p">;</span> 
+
+    <span class="nv">$ch</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">();</span>
+    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_URL</span><span class="p">,</span> <span class="nv">$url</span><span class="p">);</span>
+    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_SSL_VERIFYPEER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
+    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_TIMEOUT</span><span class="p">,</span> <span class="mi">60</span><span class="p">);</span>
+    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$ch</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$request_string</span><span class="p">);</span>
+    <span class="nv">$response</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$ch</span><span class="p">);</span>
+
+    <span class="k">echo</span> <span class="s2">"&lt;f color=red&gt;RESULT:"</span><span class="o">.</span><span class="nv">$response</span><span class="o">.</span><span class="s2">"&lt;/f&gt;"</span><span class="p">;</span>
+
+
+<span class="cp">?&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="c"># Importing required libraries.</span>
+<span class="kn">import</span> <span class="nn">hmac</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urlencode</span>
+<span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+
+<span class="c">#Endpoint</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">'https://secure.payu.com.tr/order/ios.php'</span>
+
+<span class="c">#Secret Key</span>
+<span class="n">secret</span> <span class="o">=</span> <span class="s">'SECRET_KEY'</span>
+
+<span class="n">array</span> <span class="o">=</span> <span class="p">{</span>
+<span class="s">'MERCHANT'</span><span class="p">:</span> <span class="s">'OPU_TEST'</span><span class="p">,</span>
+<span class="s">'REFNOEXT'</span><span class="p">:</span> <span class="s">'7304'</span><span class="p">,</span>
+<span class="p">}</span>
+<span class="c"># Initializing the hashstring @param</span>
+<span class="n">hashstring</span> <span class="o">=</span> <span class="s">''</span>
+
+<span class="c"># Sorting Array @params</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">array</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+
+<span class="c"># Adding the length of each field value at the beginning of field value</span>
+    <span class="n">hashstring</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">hashstring</span><span class="p">)</span>
+
+<span class="c"># Calculating ORDER_HASH</span>
+<span class="n">signature</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">secret</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashstring</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+
+<span class="c"># Adding ORDER_HASH @param to request array</span>
+<span class="n">array</span><span class="p">[</span><span class="s">'HASH'</span><span class="p">]</span> <span class="o">=</span> <span class="n">signature</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">signature</span><span class="p">)</span>
+
+<span class="c"># Sending Request to Endpoint</span>
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">urlencode</span><span class="p">(</span><span class="n">array</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+
+<span class="c"># Printing result/response</span>
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+</code></pre>
+<p>IOS servisi ile, siparişlerin PayU tarafında ki durumlarını API aracılığı ile anlık olarak sorgulayabilirsiniz.</p>
+
+<table><thead>
+<tr>
+<th>Parametre</th>
+<th>Açıklama</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>MERCHANT</td>
+<td>Üye işyeri entegrasyon ismi bilgisidir.</td>
+</tr>
+<tr>
+<td>REFNOEXT</td>
+<td>Satış sırasında ORDER_REF olarak belirtilen üye işyerine ait sipariş numarasının değeridir.</td>
+</tr>
+<tr>
+<td>HASH</td>
+<td>Sorgu sırasında gönderilen değerlerin Key&#39;e göre sıralanıp, başlarına uzunlukları eklendikten sonra HMAC_MD5 algoritması ile hash oluşturulan değerdir.</td>
+</tr>
+</tbody></table>
+
+<blockquote>
+<p>Örnek IOS Sorgu Cevabı</p>
+</blockquote>
+<pre class="highlight php tab-php"><code><span class="nt">&lt;Order&gt;</span>
+    <span class="nt">&lt;ORDER</span><span class="na">_DATE</span><span class="nt">&gt;</span>2017-03-08 18:33:47<span class="err">&lt;</span>/ORDER_DATE&gt;
+    <span class="nt">&lt;REFNO&gt;</span>28179507<span class="nt">&lt;/REFNO&gt;</span>
+    <span class="nt">&lt;REFNOEXT&gt;</span>7304<span class="nt">&lt;/REFNOEXT&gt;</span>
+    <span class="nt">&lt;ORDER</span><span class="na">_STATUS</span><span class="nt">&gt;</span>COMPLETE<span class="err">&lt;</span>/ORDER_STATUS&gt;
+    <span class="nt">&lt;PAYMETHOD&gt;</span>CreditCard<span class="nt">&lt;/PAYMETHOD&gt;</span>
+    <span class="nt">&lt;HASH&gt;</span>30670ee9e64a8b6658fd2c752f79be37<span class="nt">&lt;/HASH&gt;</span>
+<span class="nt">&lt;/Order&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="o">&lt;</span><span class="n">Order</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">ORDER_DATE</span><span class="o">&gt;</span><span class="mi">2017</span><span class="o">-</span><span class="mo">03</span><span class="o">-</span><span class="mi">08</span> <span class="mi">18</span><span class="p">:</span><span class="mi">33</span><span class="p">:</span><span class="mi">47</span><span class="o">&lt;/</span><span class="n">ORDER_DATE</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">REFNO</span><span class="o">&gt;</span><span class="mi">28179507</span><span class="o">&lt;/</span><span class="n">REFNO</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">REFNOEXT</span><span class="o">&gt;</span><span class="mi">7304</span><span class="o">&lt;/</span><span class="n">REFNOEXT</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">ORDER_STATUS</span><span class="o">&gt;</span><span class="n">COMPLETE</span><span class="o">&lt;/</span><span class="n">ORDER_STATUS</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">PAYMETHOD</span><span class="o">&gt;</span><span class="n">CreditCard</span><span class="o">&lt;/</span><span class="n">PAYMETHOD</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="n">HASH</span><span class="o">&gt;</span><span class="mi">30670</span><span class="n">ee9e64a8b6658fd2c752f79be37</span><span class="o">&lt;/</span><span class="n">HASH</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">Order</span><span class="o">&gt;</span>
+</code></pre><pre class="highlight xml tab-xml"><code><span class="nt">&lt;Order&gt;</span>
+    <span class="nt">&lt;ORDER_DATE&gt;</span>2017-03-08 18:33:47<span class="nt">&lt;/ORDER_DATE&gt;</span>
+    <span class="nt">&lt;REFNO&gt;</span>28179507<span class="nt">&lt;/REFNO&gt;</span>
+    <span class="nt">&lt;REFNOEXT&gt;</span>7304<span class="nt">&lt;/REFNOEXT&gt;</span>
+    <span class="nt">&lt;ORDER_STATUS&gt;</span>COMPLETE<span class="nt">&lt;/ORDER_STATUS&gt;</span>
+    <span class="nt">&lt;PAYMETHOD&gt;</span>CreditCard<span class="nt">&lt;/PAYMETHOD&gt;</span>
+    <span class="nt">&lt;HASH&gt;</span>30670ee9e64a8b6658fd2c752f79be37<span class="nt">&lt;/HASH&gt;</span>
+<span class="nt">&lt;/Order&gt;</span>
+</code></pre><h3 id='ios-sorgusu-yanit-parametreleri'>IOS Sorgusu Yanıt Parametreleri</h3>
+<p>PayU sistemi, yapılan isteğe XML formatında bir yanıt dönmektedir. 
+İşyeri XML formatındaki bu datayı ayrıştırıp kendi sisteminde işlemelidir.</p>
+
+<table><thead>
+<tr>
+<th>Parametre</th>
+<th>Açıklama</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>ORDER_DATE</td>
+<td>İşlem yapılan zaman bilgisinin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>REFNO</td>
+<td>İşlemin PayU referans numarasının iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>REFNOEXT</td>
+<td>İşyerinin kendi belirlediği sipariş/işlem numarasınnın iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>PAYMETHOD</td>
+<td>İşleminde kullanılan ödeme yönteminin iletildiği parametredir.</td>
+</tr>
+<tr>
+<td>ORDER_STATUS</td>
+<td>Siparişin anlık durumunun iletildiği parametredir. Dönen değerler dokümanın aşağısında detaylı olarak iletilmiştir.</td>
+</tr>
+<tr>
+<td>ORDER_HASH</td>
+<td>Siparişin HASH değerinin iletildiği parametredir.</td>
+</tr>
+</tbody></table>
+<h3 id='sorgu-sonuc-mesajlari'>Sorgu Sonuç Mesajları</h3>
+<table><thead>
+<tr>
+<th>Mesaj</th>
+<th>Açıklama</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>NOT_FOUND</td>
+<td>Sorgulanan Değerler ile işlem bulunamadığında karşılaşılan durum mesajıdır.</td>
+</tr>
+<tr>
+<td>CARD_NOTAUTHORIZED</td>
+<td>Kullanılan kart ile otorizasyon alınamadığında karşılaşılan durum mesajıdır.</td>
+</tr>
+<tr>
+<td>IN_PROGRESS</td>
+<td>İşlem incele aşamasında olduğunda karşılaşılan durum mesajıdır</td>
+</tr>
+<tr>
+<td>PAYMENT_AUTHORIZED</td>
+<td>İşlemin otorizasyonunun başarı ile yapıldığında karşılaşılan durum mesajıdır.</td>
+</tr>
+<tr>
+<td>COMPLETE</td>
+<td>İşlem başarı ile tamamlandığında karşılaşılan durum mesajıdır.</td>
+</tr>
+<tr>
+<td>FRAUD</td>
+<td>İşlem fraud olarak değerlendirildiğinde karşılaşılan durum mesajıdır.</td>
+</tr>
+<tr>
+<td>INVALID</td>
+<td>Müşteri tarafından geçersiz bilgi girildiği için onaylanmayan siparişlerde karşılaşılan durum mesajıdır.</td>
+</tr>
+<tr>
+<td>REVERSED</td>
+<td>İşlem iptal edildiğinde karşılaşılan durum mesajıdır.</td>
+</tr>
+<tr>
+<td>REFUND</td>
+<td>İşlem iade edildiğinde karşılaşılan durum mesajıdır.</td>
+</tr>
+</tbody></table>
+<h2 id='islem-sorgu-servisi-hash-hesaplama'>İşlem Sorgu Servisi Hash Hesaplama</h2>
+<p><strong>Örnek IOS bildirimindeki HASH hesaplama için kullanılacak değerler aşağıdaki gibidir.</strong>
+<code>MERCHANT = OPU_TEST</code>
+<code>REFNOEXT = 7305</code></p>
+
+<p><strong>Bu değerlerin uzunluğu alınarak Key&#39;e göre sıralanmalıdır.</strong>
+<code>8OPU_TEST47305</code></p>
+
+<p><strong>Değerler üye işyeri kodlama anahtarınız kullanılarak HMAC_MD5 algoritması ile haslenmelidir.</strong></p>
+
+<ul>
+<li>Kullanılan Kodlama Anahtarı: SECRET_KEY</li>
+</ul>
+
+<p><strong>Elde edilen değer:</strong> <code>24d86799c6ba0083ceba1f40053cd499</code></p>
 <h1 id='test-bilgileri'>Test Bilgileri</h1><h2 id='uye-isyeri-kontrol-paneli-giris-bilgileri'>Üye İşyeri Kontrol Paneli Giriş Bilgileri</h2>
 <p>Üye İşyeri Kontrol Paneli’ne girişlerde IP kısıtı uygulanmaktadır. Test hesabının üye işyeri paneline giriş yapabilmek için IP adreslerinizi destek@payu.com.tr adresimizden bize iletmeniz gerekmektedir.</p>
 
