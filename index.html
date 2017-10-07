@@ -300,6 +300,23 @@
               </ul>
           </li>
           <li>
+            <a href="#puan-sorgu-servisi-ve-puan-kullanimi" class="toc-h1 toc-link" data-title="Puan Sorgu Servisi ve Puan Kullanımı">Puan Sorgu Servisi ve Puan Kullanımı</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#puan-sorgusu" class="toc-h2 toc-link" data-title="Puan Sorgu Servisi ve Puan Kullanımı">Puan Sorgusu</a>
+                  </li>
+                  <li>
+                    <a href="#puan-sorgusu-hash-hesaplama" class="toc-h2 toc-link" data-title="Puan Sorgu Servisi ve Puan Kullanımı">Puan Sorgusu Hash Hesaplama</a>
+                  </li>
+                  <li>
+                    <a href="#puan-kullanim-sorgusu-yaniti" class="toc-h2 toc-link" data-title="Puan Sorgu Servisi ve Puan Kullanımı">Puan Kullanım Sorgusu Yanıtı</a>
+                  </li>
+                  <li>
+                    <a href="#puan-kullanimi" class="toc-h2 toc-link" data-title="Puan Sorgu Servisi ve Puan Kullanımı">Puan Kullanımı</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#test-bilgileri" class="toc-h1 toc-link" data-title="Test Bilgileri">Test Bilgileri</a>
               <ul class="toc-list-h2">
                   <li>
@@ -315,7 +332,7 @@
           </li>
       </div>
         <ul class="toc-footer">
-            <li><a>Doküman:v1.5</a></li>
+            <li><a>Doküman:v1.6</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -4034,6 +4051,358 @@ Parametre değerlerinin uzunluğu UTF-8 byte olarak alınmalıdır.
 </ul>
 
 <p><strong>Elde edilen değer:</strong> <code>33aa1398ab81a62af53de5481f2958316b051621230d548aad1600f0f0709d6e</code></p>
+
+<blockquote>
+<p>Örnek Puan Sorgusu</p>
+</blockquote>
+<pre class="highlight php tab-php"><code><span class="cp">&lt;?php</span>
+
+    <span class="nv">$apiEndPoint</span> <span class="o">=</span> <span class="s1">'https://secure.payu.com.tr/api/loyalty-points/check'</span><span class="p">;</span>
+
+ <span class="nv">$data</span> <span class="o">=</span> <span class="k">array</span><span class="p">(</span>
+                <span class="s1">'CC_OWNER'</span> <span class="o">=&gt;</span> <span class="s1">'Ad Soyad'</span><span class="p">,</span>
+                <span class="s1">'MERCHANT'</span> <span class="o">=&gt;</span> <span class="s1">'OPU_TEST'</span><span class="p">,</span>
+                <span class="s1">'CC_NUMBER'</span> <span class="o">=&gt;</span> <span class="s1">'4355084355084358'</span><span class="p">,</span>
+                <span class="s1">'EXP_MONTH'</span> <span class="o">=&gt;</span> <span class="s1">'12'</span><span class="p">,</span>
+                <span class="s1">'EXP_YEAR'</span> <span class="o">=&gt;</span> <span class="s1">'2018'</span><span class="p">,</span>
+                <span class="s1">'CC_CVV'</span> <span class="o">=&gt;</span> <span class="s1">'000'</span><span class="p">,</span>
+                <span class="s1">'CURRENCY'</span> <span class="o">=&gt;</span> <span class="s1">'TRY'</span><span class="p">,</span>
+                <span class="s1">'DATE'</span> <span class="o">=&gt;</span> <span class="nb">gmdate</span><span class="p">(</span><span class="s1">'Y-m-d H:i:s'</span><span class="p">),</span>
+            <span class="p">);</span>
+
+
+    <span class="nb">ksort</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+
+    <span class="nv">$hashString</span> <span class="o">=</span> <span class="s1">''</span><span class="p">;</span>
+
+    <span class="k">foreach</span> <span class="p">(</span><span class="nv">$data</span> <span class="k">as</span> <span class="nv">$currentData</span><span class="p">)</span> <span class="p">{</span>
+            <span class="nv">$hashString</span> <span class="o">.=</span> <span class="nb">strlen</span><span class="p">(</span><span class="nb">stripslashes</span><span class="p">(</span><span class="nv">$currentData</span><span class="p">));</span>
+            <span class="nv">$hashString</span> <span class="o">.=</span> <span class="nb">stripslashes</span><span class="p">(</span><span class="nv">$currentData</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="k">print</span> <span class="nv">$hashString</span><span class="p">;</span>
+<span class="nv">$data</span><span class="p">[</span><span class="s1">'HASH'</span><span class="p">]</span> <span class="o">=</span> <span class="nb">hash_hmac</span><span class="p">(</span><span class="s1">'MD5'</span><span class="p">,</span><span class="nv">$hashString</span><span class="p">,</span><span class="s1">'SECRET_KEY'</span><span class="p">);</span>
+<span class="k">echo</span> <span class="s2">"&lt;pre&gt;"</span><span class="p">;</span>
+<span class="nb">print_r</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+
+<span class="nv">$handler</span> <span class="o">=</span> <span class="nb">curl_init</span><span class="p">();</span>
+    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$handler</span><span class="p">,</span> <span class="nx">CURLOPT_CONNECTTIMEOUT</span><span class="p">,</span> <span class="mi">120</span><span class="p">);</span>
+    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$handler</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$handler</span><span class="p">,</span> <span class="nx">CURLOPT_SSL_VERIFYPEER</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
+    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$handler</span><span class="p">,</span> <span class="nx">CURLOPT_URL</span><span class="p">,</span> <span class="nv">$apiEndPoint</span><span class="p">);</span>
+    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$handler</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
+    <span class="nb">curl_setopt</span><span class="p">(</span><span class="nv">$handler</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nv">$data</span><span class="p">);</span>
+    <span class="nv">$result</span> <span class="o">=</span> <span class="nb">curl_exec</span><span class="p">(</span><span class="nv">$handler</span><span class="p">);</span>
+    <span class="nv">$resultInfo</span> <span class="o">=</span> <span class="nb">curl_getinfo</span><span class="p">(</span><span class="nv">$handler</span><span class="p">);</span>
+    <span class="nv">$error</span> <span class="o">=</span> <span class="nb">curl_error</span><span class="p">(</span><span class="nv">$handler</span><span class="p">);</span>
+    <span class="nb">curl_close</span><span class="p">(</span><span class="nv">$handler</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="mi">200</span> <span class="o">==</span> <span class="nv">$resultInfo</span><span class="p">[</span><span class="s1">'http_code'</span><span class="p">])</span> <span class="p">{</span>
+         <span class="nv">$resultXML</span> <span class="o">=</span> <span class="p">(</span><span class="k">array</span><span class="p">)</span><span class="nb">simplexml_load_string</span><span class="p">(</span><span class="nv">$result</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="nb">isset</span><span class="p">(</span><span class="nv">$resultXML</span><span class="p">[</span><span class="s1">'STATUS'</span><span class="p">])</span> <span class="o">&amp;&amp;</span> <span class="s1">'SUCCESS'</span> <span class="o">==</span> <span class="nv">$resultXML</span><span class="p">[</span><span class="s1">'STATUS'</span><span class="p">])</span> <span class="p">{</span>
+            <span class="k">echo</span> <span class="s1">'Api call succeeded. There are '</span> <span class="o">.</span> <span class="nv">$resultXML</span><span class="p">[</span><span class="s1">'POINTS'</span><span class="p">]</span> <span class="o">.</span> <span class="s1">' points available worthing '</span> <span class="o">.</span> <span class="nv">$resultXML</span><span class="p">[</span><span class="s1">'AMOUNT'</span><span class="p">]</span> <span class="o">.</span> <span class="s1">' '</span> <span class="o">.</span> <span class="nv">$resultXML</span><span class="p">[</span><span class="s1">'CURRENCY'</span><span class="p">];</span>
+            <span class="nb">var_dump</span><span class="p">(</span><span class="nv">$resultXML</span><span class="p">);</span>
+
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="k">echo</span> <span class="s2">"&lt;pre&gt;"</span><span class="p">;</span>
+            <span class="k">echo</span> <span class="s1">'Api call failed. &lt;br&gt;Result: '</span><span class="p">;</span>
+            <span class="k">echo</span> <span class="s1">'&lt;pre&gt;'</span> <span class="o">.</span> <span class="nb">htmlentities</span><span class="p">(</span><span class="nv">$result</span><span class="p">)</span> <span class="o">.</span> <span class="s1">'&lt;/pre&gt;'</span><span class="p">;</span>
+            <span class="k">echo</span><span class="p">(</span><span class="nv">$data</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="k">echo</span> <span class="s1">'Api call failed. &lt;br&gt;Error: '</span><span class="p">;</span>
+        <span class="k">echo</span> <span class="s1">'&lt;pre&gt;'</span><span class="p">;</span>
+        <span class="nb">print_r</span><span class="p">(</span><span class="nv">$error</span><span class="p">);</span>
+        <span class="k">echo</span> <span class="s1">'&lt;/pre&gt;'</span><span class="p">;</span>
+    <span class="p">}</span>
+
+<span class="cp">?&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code>
+<span class="c"># Importing required libraries.</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">hmac</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+<span class="kn">from</span> <span class="nn">urllib.parse</span> <span class="kn">import</span> <span class="n">urlencode</span>
+<span class="kn">from</span> <span class="nn">urllib.request</span> <span class="kn">import</span> <span class="n">Request</span><span class="p">,</span> <span class="n">urlopen</span>
+
+<span class="c"># Endpoint</span>
+<span class="n">url</span> <span class="o">=</span> <span class="s">"https://secure.payu.com.tr/api/loyalty-points/check"</span>
+
+<span class="c"># PayU Merchant's Secret Key</span>
+<span class="n">secret</span> <span class="o">=</span> <span class="s">'SECRET_KEY'</span>
+
+<span class="c"># Request @params Begin</span>
+<span class="n">array</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="c"># PayU Merchant's Merchant ID</span>
+    <span class="s">'MERCHANT'</span><span class="p">:</span> <span class="s">'OPU_TEST'</span><span class="p">,</span>
+    <span class="s">'CC_OWNER'</span><span class="p">:</span> <span class="s">'Gokturk Enez'</span><span class="p">,</span>
+    <span class="s">'CC_NUMBER'</span><span class="p">:</span> <span class="s">'4355084355084358'</span><span class="p">,</span>
+    <span class="s">'EXP_MONTH'</span><span class="p">:</span> <span class="s">'12'</span><span class="p">,</span>
+    <span class="s">'EXP_YEAR'</span><span class="p">:</span> <span class="s">'2018'</span><span class="p">,</span>
+    <span class="s">'CC_CVV'</span><span class="p">:</span> <span class="s">'000'</span><span class="p">,</span>
+    <span class="s">'CURRENCY'</span><span class="p">:</span><span class="s">'TRY'</span><span class="p">,</span>
+    <span class="s">'DATE'</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">'</span><span class="si">%</span><span class="s">Y-</span><span class="si">%</span><span class="s">m-</span><span class="si">%</span><span class="s">d </span><span class="si">%</span><span class="s">H:</span><span class="si">%</span><span class="s">M:</span><span class="si">%</span><span class="s">S'</span><span class="p">)</span>
+
+<span class="p">}</span>
+
+<span class="c"># Initializing the hashstring @param</span>
+<span class="n">hashstring</span> <span class="o">=</span> <span class="s">''</span>
+
+<span class="c"># Sorting Array @params</span>
+<span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">array</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+
+<span class="c"># Adding the length of each field value at the beginning of field value</span>
+    <span class="n">hashstring</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="k">print</span><span class="p">(</span><span class="n">hashstring</span><span class="p">)</span>
+
+<span class="c"># Calculating ORDER_HASH</span>
+<span class="n">signature</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">secret</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashstring</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+
+<span class="c"># Adding ORDER_HASH @param to request array</span>
+<span class="n">array</span><span class="p">[</span><span class="s">'HASH'</span><span class="p">]</span> <span class="o">=</span> <span class="n">signature</span>
+
+<span class="k">print</span><span class="p">(</span><span class="n">signature</span><span class="p">)</span>
+
+<span class="c"># Sending Request to Endpoint</span>
+<span class="n">request</span> <span class="o">=</span> <span class="n">Request</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">urlencode</span><span class="p">(</span><span class="n">array</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">())</span>
+<span class="n">response</span> <span class="o">=</span> <span class="n">urlopen</span><span class="p">(</span><span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">decode</span><span class="p">()</span>
+
+<span class="c"># Printing result/response</span>
+<span class="k">print</span><span class="p">(</span><span class="n">response</span><span class="p">)</span>
+</code></pre><h1 id='puan-sorgu-servisi-ve-puan-kullanimi'>Puan Sorgu Servisi ve Puan Kullanımı</h1>
+<p>BIN API v2 ile puan sorgusu yapılabileceği gibi, işlem sırasında kullanılan kartın puan bilgisinin alınabileceği ek bir servis bulunmaktadır.</p>
+<h2 id='puan-sorgusu'>Puan Sorgusu</h2>
+<p>Puan sorgu servisinde <code>https://secure.payu.com.tr/api/loyalty-points/check</code> adresine  gönderilmesi gereken parametreler aşağıdaki gibidir. </p>
+<h3 id='kart-bilgileri-ile-sorgulama'>Kart Bilgileri ile Sorgulama</h3>
+<table><thead>
+<tr>
+<th>Parametre</th>
+<th>Açıklama</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>MERCHANT</td>
+<td>Üye iş yeri entegrasyon ismi.</td>
+</tr>
+<tr>
+<td>CURRENCY</td>
+<td>Para birimi</td>
+</tr>
+<tr>
+<td>DATE</td>
+<td>UTC/GMT formatı ile ayarlanmalı ve Türkiye saatine göre 3 saat geri olacak şekilde gönderilmelidir. YYYY-MM-DD HH:MM:SS</td>
+</tr>
+<tr>
+<td>CC_CVV</td>
+<td>Sorgusu yapılacak kartın güvenlik kodu</td>
+</tr>
+<tr>
+<td>CC_OWNER</td>
+<td>Sorgusu yapılacak kart sahibinin Ad Soyad bilgisi</td>
+</tr>
+<tr>
+<td>EXP_YEAR</td>
+<td>Sorgusu yapılacak kartın son kullanma yılı</td>
+</tr>
+<tr>
+<td>EXP_MONTH</td>
+<td>Sorgusu yapılacak kartın son kullanma ayı</td>
+</tr>
+<tr>
+<td>CC_NUMBER</td>
+<td>Sorgusu yapılacak kartın kart numarası</td>
+</tr>
+<tr>
+<td>HASH</td>
+<td>İstek sırasında gönderilen değerlerin Key&#39;e göre sıralanıp, başlarına uzunlukları eklendikten sonra HMAC_MD5 algoritması ile hash oluşturulan değerdir.</td>
+</tr>
+</tbody></table>
+<h3 id='saklanmis-kart-token-ile-sorgulama'>Saklanmış Kart (Token) ile Sorgulama</h3>
+<table><thead>
+<tr>
+<th>Parametre</th>
+<th>Açıklama</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>MERCHANT</td>
+<td>Üye iş yeri entegrasyon ismi.</td>
+</tr>
+<tr>
+<td>CURRENCY</td>
+<td>Para birimi</td>
+</tr>
+<tr>
+<td>DATE</td>
+<td>Sorgunun siteme gönderildiği tarih bilgisi YYYY-MM-DD HH:MM:SS</td>
+</tr>
+<tr>
+<td>TOKEN</td>
+<td>Sorgusu yapılacak kartın token değeri</td>
+</tr>
+<tr>
+<td>HASH</td>
+<td>İstek sırasında gönderilen değerlerin Key&#39;e göre sıralanıp, başlarına uzunlukları eklendikten sonra HMAC_SHA256 algoritması ile hash oluşturulan değerdir.</td>
+</tr>
+</tbody></table>
+<h2 id='puan-sorgusu-hash-hesaplama'>Puan Sorgusu Hash Hesaplama</h2>
+<p><strong>Örnek Puan Sorgusu servisinde HASH hesaplama için kullanılacak değerler aşağıdaki gibidir.</strong></p>
+
+<ul>
+<li><code>MERCHANT = OPU_TEST</code></li>
+<li><code>DATE = 2017-10-07 11:58:03</code></li>
+<li><code>CC_CVV = 000</code></li>
+<li><code>CC_NUMBER = 4355084355084358</code></li>
+<li><code>CC_OWNER = Ad Soyad</code></li>
+<li><code>CURRENCY = TRY</code></li>
+<li><code>EXP_MONTH = 12</code></li>
+<li><code>EXP_YEAR = 2018</code></li>
+</ul>
+
+<p><strong>Key&#39;e göre sıralayıp başlarına UTF-8 Bayt uzunlukları eklenmeli.</strong>
+<code>30001643550843550843588Ad Soyad3TRY192017-10-07 12:00:42212420188OPU_TEST</code></p>
+
+<p><strong>Değerler üye işyeri kodlama anahtarınız kullanılarak HMAC_MD5 algoritması ile haslenmelidir.</strong></p>
+
+<ul>
+<li>Kullanılan Kodlama Anahtarı: SECRET_KEY</li>
+</ul>
+
+<p><strong>Elde edilen değer:</strong> <code>d76b740e36ddc1948b256a40c8e656f7</code></p>
+<h2 id='puan-kullanim-sorgusu-yaniti'>Puan Kullanım Sorgusu Yanıtı</h2>
+<blockquote>
+<p>Başarılı Puan Sorgusu Yanıtı</p>
+</blockquote>
+<pre class="highlight php tab-php"><code><span class="nt">&lt;EPAYMENT&gt;</span>
+  <span class="nt">&lt;STATUS&gt;</span>SUCCESS<span class="nt">&lt;/STATUS&gt;</span>
+  <span class="nt">&lt;MESSAGE&gt;</span>SUCCESS<span class="nt">&lt;/MESSAGE&gt;</span>
+  <span class="nt">&lt;POINTS&gt;</span>75273<span class="nt">&lt;/POINTS&gt;</span>
+  <span class="nt">&lt;AMOUNT&gt;</span>752.73<span class="nt">&lt;/AMOUNT&gt;</span>
+  <span class="nt">&lt;CURRENCY&gt;</span>TRY<span class="nt">&lt;/CURRENCY&gt;</span>
+  <span class="nt">&lt;BANK&gt;</span>AKBANK<span class="nt">&lt;/BANK&gt;</span>
+  <span class="nt">&lt;CARD</span><span class="na">_PROGRAM_NAME</span><span class="nt">&gt;</span>Axess<span class="err">&lt;</span>/CARD_PROGRAM_NAME&gt;
+  <span class="nt">&lt;DATE&gt;</span>2017-10-07 12:10:27<span class="nt">&lt;/DATE&gt;</span>
+  <span class="nt">&lt;HASH&gt;</span>ac3e9fc10649dbf04afc739bbc39c3bb<span class="nt">&lt;/HASH&gt;</span>
+<span class="nt">&lt;/EPAYMENT&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="o">&lt;</span><span class="n">EPAYMENT</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">STATUS</span><span class="o">&gt;</span><span class="n">SUCCESS</span><span class="o">&lt;/</span><span class="n">STATUS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">MESSAGE</span><span class="o">&gt;</span><span class="n">SUCCESS</span><span class="o">&lt;/</span><span class="n">MESSAGE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">POINTS</span><span class="o">&gt;</span><span class="mi">75273</span><span class="o">&lt;/</span><span class="n">POINTS</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">AMOUNT</span><span class="o">&gt;</span><span class="mf">752.73</span><span class="o">&lt;/</span><span class="n">AMOUNT</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">CURRENCY</span><span class="o">&gt;</span><span class="n">TRY</span><span class="o">&lt;/</span><span class="n">CURRENCY</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">BANK</span><span class="o">&gt;</span><span class="n">AKBANK</span><span class="o">&lt;/</span><span class="n">BANK</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">CARD_PROGRAM_NAME</span><span class="o">&gt;</span><span class="n">Axess</span><span class="o">&lt;/</span><span class="n">CARD_PROGRAM_NAME</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">DATE</span><span class="o">&gt;</span><span class="mi">2017</span><span class="o">-</span><span class="mi">10</span><span class="o">-</span><span class="mo">07</span> <span class="mi">12</span><span class="p">:</span><span class="mi">10</span><span class="p">:</span><span class="mi">27</span><span class="o">&lt;/</span><span class="n">DATE</span><span class="o">&gt;</span>
+  <span class="o">&lt;</span><span class="n">HASH</span><span class="o">&gt;</span><span class="n">ac3e9fc10649dbf04afc739bbc39c3bb</span><span class="o">&lt;/</span><span class="n">HASH</span><span class="o">&gt;</span>
+<span class="o">&lt;/</span><span class="n">EPAYMENT</span><span class="o">&gt;</span>
+</code></pre>
+<table><thead>
+<tr>
+<th>Parametre</th>
+<th>Açıklama</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>STATUS</td>
+<td>Sorgu sonuç statüsü.</td>
+</tr>
+<tr>
+<td>MESSAGE</td>
+<td>Sorgu sonuç statü mesajı.</td>
+</tr>
+<tr>
+<td>POINTS</td>
+<td>Kullanılabilir puan bilgisi.</td>
+</tr>
+<tr>
+<td>AMOUNT</td>
+<td>Kullanılabilir puanın para cinsinden değeri.</td>
+</tr>
+<tr>
+<td>CURRENCY</td>
+<td>Kullanılabilir puanın para birimi.</td>
+</tr>
+<tr>
+<td>BANK</td>
+<td>Kart banka bilgisi.</td>
+</tr>
+<tr>
+<td>CARD_PROGRAM_NAME</td>
+<td>Kartın bağlılık program bilgisi.</td>
+</tr>
+<tr>
+<td>DATE</td>
+<td>Sorgu yanıt tarih bilgisi.</td>
+</tr>
+<tr>
+<td>HASH</td>
+<td>Sorgu yanıtlarının hash değeri.</td>
+</tr>
+</tbody></table>
+<h2 id='puan-kullanimi'>Puan Kullanımı</h2>
+<p>HTTPSPOST metodu ile gönderilen ALU requesti içerisine,
+<code>USE_LOYALTY_POINTS =’YES’</code>, parametresi ile ödemede puan kullanılacağı,
+<code>LOYALTY_POINTS_AMOUNT</code> parametresinin değeri ile de kullanılacak olan puan miktarını belirtilmesi yeterli olacaktır.</p>
+
+<p>Aşağıdaki taboda parçalı puan kullanımını destekleyen bankaların listesi paylaşılmıştır.</p>
+
+<table><thead>
+<tr>
+<th>Banka</th>
+<th>Tamamı Puanla Ödeme</th>
+<th>Parçalı Puanlı Ödeme</th>
+<th>3D / Non-3D</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>TEB</td>
+<td>Destekliyor</td>
+<td>Desteklemiyor</td>
+<td>3D / Non-3D</td>
+</tr>
+<tr>
+<td>Akbank</td>
+<td>Destekliyor</td>
+<td>Destekliyor</td>
+<td>3D / Non-3D</td>
+</tr>
+<tr>
+<td>Finansbank</td>
+<td>Destekliyor</td>
+<td>Desteklemiyor</td>
+<td>3D / Non-3D</td>
+</tr>
+<tr>
+<td>İşbank</td>
+<td>Destekliyor</td>
+<td>Destekliyor</td>
+<td>3D / Non-3D</td>
+</tr>
+<tr>
+<td>Halkbank</td>
+<td>Destekliyor</td>
+<td>Desteklemiyor</td>
+<td>3D / Non-3D</td>
+</tr>
+<tr>
+<td>HSBC</td>
+<td>Destekliyor</td>
+<td>Desteklemiyor</td>
+<td>Non-3D</td>
+</tr>
+<tr>
+<td>YKB</td>
+<td>Destekliyor</td>
+<td>Destekliyor</td>
+<td>3D</td>
+</tr>
+<tr>
+<td>Garanti</td>
+<td>Destekliyor</td>
+<td>Destekliyor</td>
+<td>3D / Non-3D</td>
+</tr>
+</tbody></table>
 <h1 id='test-bilgileri'>Test Bilgileri</h1><h2 id='uye-isyeri-kontrol-paneli-giris-bilgileri'>Üye İşyeri Kontrol Paneli Giriş Bilgileri</h2>
 <p>Üye İşyeri Kontrol Paneli’ne girişlerde IP kısıtı uygulanmaktadır. Test hesabının üye işyeri paneline giriş yapabilmek için IP adreslerinizi destek@payu.com.tr adresimizden bize iletmeniz gerekmektedir.</p>
 
