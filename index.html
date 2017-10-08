@@ -393,9 +393,12 @@
                   </li>
               </ul>
           </li>
+          <li>
+            <a href="#islem-mesajlari" class="toc-h1 toc-link" data-title="İşlem Mesajları">İşlem Mesajları</a>
+          </li>
       </div>
         <ul class="toc-footer">
-            <li><a>Doküman:v1.8</a></li>
+            <li><a>Doküman:v1.9</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -5334,6 +5337,267 @@ https://secure.payu.com.tr/reports/products?merchant=OPU_TEST&amp;startDate=2017
 <li>Güvenlik Numarası : 000</li>
 <li>Kart 3D Secure Şifresi : a</li>
 </ul>
+<h1 id='islem-mesajlari'>İşlem Mesajları</h1>
+<p>Aşağıdaki listeden entegrasyon sırasında ve işlem sırasında alınma ihtimali olan tüm hata kodları ve açıklamalarına ulaşılabilir. Karşılaşılan hata kodunu bulamıyor ya da başka bir konuda destek ihtiyacınız varsa, bizlere help@payu.com.tr adresinden e-posta ile ulaşabilirsiniz.</p>
+
+<table><thead>
+<tr>
+<th>RETURN_CODE</th>
+<th>RETURN_MESSAGE</th>
+<th>Açıklama</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>AUTHORIZED</td>
+<td>Authorized.</td>
+<td>Önotorizasyon başarılı.</td>
+</tr>
+<tr>
+<td>ALREADY_AUTHORIZED</td>
+<td>ALREADY_AUTHORIZED</td>
+<td>Bu işlemde otorizasyon yapılmış. Aynı ORDER_REF ve aynı Hash ile işlem gönderildi. Mükerrer işlem.</td>
+</tr>
+<tr>
+<td>HASH_MISTMATCH</td>
+<td>HASH_MISTMATCH</td>
+<td>Hash uyuşmazlığı. Bu hata entegrasyonla ilgili ciddi bir hatadır. Yazılımcınızla görüşmeniz gerekmektedir.</td>
+</tr>
+<tr>
+<td>INVALID SIGNATURE</td>
+<td>Invalid Signature</td>
+<td>Hatalı hash hesaplaması, işlem gönderdiğiniz yapının encoding ayarlarının UTF-8 without bom olarak ayarlı olduğundan ve hash değerlerini doğru hesapladığınızdan emin olunuz.</td>
+</tr>
+<tr>
+<td>INVALID_ACCOUNT</td>
+<td>INVALID_ACCOUNT</td>
+<td>Merchant ID (İşyeri entegrasyon ismi) hatalı ya da eksik gönderilmektedir. Kontol ediniz.</td>
+</tr>
+<tr>
+<td>INVALID_CC_TOKEN</td>
+<td>INVALID_CC_TOKEN</td>
+<td>Geçersiz token bilgisi. Token numarası doğru değil ya da bu token aktif değil.</td>
+</tr>
+<tr>
+<td>INVALID_CURRENCY</td>
+<td>INVALID_CURRENCY</td>
+<td>Geçersiz para birimi ya da işlem yapmak istediğiniz para birimi hesabınız için aktif edilmemiş.</td>
+</tr>
+<tr>
+<td>INVALID_CUSTOMER_INFO</td>
+<td>Invalid field [PARAMETRE İSMİ]</td>
+<td>RETURN_MESSAGE parametresi içerisinde detayı belirtilen zorunlu parametrenin hatalı gönderildiği veya gönderilmediği durumlarda alınmaktadır.</td>
+</tr>
+<tr>
+<td>INVALID_PAYMENT_INFO</td>
+<td>INVALID_PAYMENT_INFO</td>
+<td>Geçersiz kart bilgileri. Girmiş olduğunuz kart bilgilerini kontrol ediniz.</td>
+</tr>
+<tr>
+<td>INVALID_PAYMENT_METHOD_CODE</td>
+<td>INVALID_PAYMENT_METHOD_CODE</td>
+<td>Geçersiz ödeme metodu. &quot;PAYMETHOD&quot; parametresini kontrol ediniz.</td>
+</tr>
+<tr>
+<td>ORDER_TIMEOUT</td>
+<td>ORDER_TIMEOUT</td>
+<td>Sipariş zaman aşımına uğradı. Tekrar deneyiniz.</td>
+</tr>
+<tr>
+<td>REQUEST_EXPIRED</td>
+<td>REQUEST_EXPIRED</td>
+<td>REQUEST_EXPIRED 1) ORDER_DATE parametresinde belirtilen zaman ile ödeme zamanı arasında 10 dakika ve ya daha fazla zaman geçmesi durumunda alınan hatadır. 2) ORDER_DATE parametresinin yanlış kullanımı durumunda alınan hatadır. ORDER_DATE parametresi UTC/GMT formatı ile Türkiye saatine göre 3 saati geri olacak şekilde gönderilmelidir.</td>
+</tr>
+<tr>
+<td>WRONG_VERSION</td>
+<td>WRONG_VERSION</td>
+<td>Geçersiz ALU versiyonuna işlem göndermektesiniz, işlem gönderdiğiniz Endpointini kontrol ediniz.</td>
+</tr>
+<tr>
+<td>AUTHORIZED</td>
+<td>Authorized.</td>
+<td>Önotorizasyon başarılı.</td>
+</tr>
+<tr>
+<td>-9999</td>
+<td>Banned Operation</td>
+<td>Göndermiş olduğunuz alanlardan biri ya da birkaçı PayU sistemlerinde yasaklanmıştır. help@payu.com.tr&#39;den bizimle iletişime geçerek detaylı bilgi alabilirsiniz.</td>
+</tr>
+<tr>
+<td>INVALID_RESPONSE</td>
+<td>Invalid response from gateway</td>
+<td>Banka tarafında yaşanılan anlık sorun veya anlık yoğunluktan dolayı işlem hata almıştır, bir süre sonra tekrar deneyiniz, help@payu.com.tr&#39;den bizimle iletişime geçerek detaylı bilgi alabilirsiniz.</td>
+</tr>
+<tr>
+<td>1</td>
+<td>Call acquirer support call number</td>
+<td>Kart hamili işlem detayları ile birlikte bankasıyla iletişime geçerek hata açıklaması ve çözüm talep etmelidir.</td>
+</tr>
+<tr>
+<td>NEW_ERROR</td>
+<td>Message flow error</td>
+<td>Mesaj akış hatasını(message flow error) bir ödeme hatası değlidir, bu hata bankadan dönen hata kodu ile PayU sistemlerinde ki hata kodunun eşleşmemesi durumunda üretilen bir mesajdır. Örn: RED cevabı beklenirken REDD01 gibi bir cevap gelmesinden dolayı bu hata mesajıgetirmekte ve bu durumlarda işlemin aldığı asıl hata mesajı ve kodu <ProcReturnCode></ProcReturnCode> ve <ErrorMessage></ErrorMessage> parametrelerinde gönderilmektedir. Bu parametreler varsayılan olarak pasiftir, help@payu.com.tr üzerinden ekiplerimiz ile iletişime geçerek aktivasyonunu sağlayabilirsiniz.</td>
+</tr>
+<tr>
+<td>GW_ERROR_GENERIC</td>
+<td>No or Invalid response received</td>
+<td>Banka tarafında yaşanılan anlık sorun veya anlık yoğunluktan dolayı işlem hata almıştır, bir süre sonra tekrar deneyiniz, help@payu.com.tr&#39;den bizimle iletişime geçerek detaylı bilgi alabilirsiniz.</td>
+</tr>
+<tr>
+<td>GW_ERROR_GENERIC_3D</td>
+<td>An error occurred during 3DS processing</td>
+<td>3D doğrulaması yapılamadı, 3D şifresinin doğru girildiğinden, kartın 3D işlem yapma yetkisi olduğundan emin olunuz, kart hamili bankası ile iletişime geçerek detaylı bilgi alabilir ve çözüm sağlayabilir.</td>
+</tr>
+<tr>
+<td>GWERROR_-2</td>
+<td>An error occurred during processing. Please retry the operation</td>
+<td>Banka tarafında yaşanılan anlık sorun veya anlık yoğunluktan dolayı işlem hata almıştır, bir süre sonra tekrar deneyiniz, help@payu.com.tr&#39;den bizimle iletişime geçerek detaylı bilgi alabilirsiniz.</td>
+</tr>
+<tr>
+<td>GWERROR_-3</td>
+<td>No or Invalid response received</td>
+<td>Banka tarafında yaşanılan anlık sorun veya anlık yoğunluktan dolayı işlem hata almıştır, bir süre sonra tekrar deneyiniz, help@payu.com.tr&#39;den bizimle iletişime geçerek detaylı bilgi alabilirsiniz.</td>
+</tr>
+<tr>
+<td>GWERROR_05</td>
+<td>Authorization declined</td>
+<td>Genel Red, kart hamili bankası ile iletişime geçerek red sebebini öğrenebilir ve çözüm sağlayabilir.</td>
+</tr>
+<tr>
+<td>GWERROR_-8</td>
+<td>AInvalid card number</td>
+<td>Kart numarası hatalı girilmiş veya geçersiz kart.</td>
+</tr>
+<tr>
+<td>GWERROR_-9</td>
+<td>Error in card expiration date field</td>
+<td>Kartın son kullanma tarihi hatalı girilmiş.</td>
+</tr>
+<tr>
+<td>GWERROR_13</td>
+<td>Invalid amount</td>
+<td>Bankanın işlem yapma hacminden yüksek işlem gönderimi veya geçersiz taksit tutarı gönderimi.</td>
+</tr>
+<tr>
+<td>GWERROR_14</td>
+<td>No such card</td>
+<td>İşleme kapalı veya geçersiz kart.</td>
+</tr>
+<tr>
+<td>GWERROR_15</td>
+<td>No such card/issuer</td>
+<td>İşleme kapalı veya geçersiz kart.</td>
+</tr>
+<tr>
+<td>GWERROR_-18</td>
+<td>Error in CVC2 or CVC2 Description fields</td>
+<td>Hatalı CVV.</td>
+</tr>
+<tr>
+<td>GWERROR_19</td>
+<td>Re-enter transaction</td>
+<td>Banka tarafında yaşanılan anlık sorun veya anlık yoğunluktan dolayı işlem hata almıştır, bir süre sonra tekrar deneyiniz, help@payu.com.tr&#39;den bizimle iletişime geçerek detaylı bilgi alabilirsiniz.</td>
+</tr>
+<tr>
+<td>GWERROR_34</td>
+<td>Credit card number failed the fraud</td>
+<td>Fraud şüphesi , işlem kart bankası tarafından fraud olarak değerlendirilmiştir.Detaylı bilgi için kart hamili bankası ile iletişime geçmelidir.</td>
+</tr>
+<tr>
+<td>GWERROR_41</td>
+<td>Lost card</td>
+<td>Kayıp kart, işlem kart bankası tarafından çalıntı olarak değerlendirilmiştir.Detaylı bilgi için kart hamili bankası ile iletişime geçmelidir.</td>
+</tr>
+<tr>
+<td>GWERROR_43</td>
+<td>Stolen card, pick up</td>
+<td>Çalıntı kart, işlem kart bankası tarafından çalıntı olarak değerlendirilmiştir.Detaylı bilgi için kart hamili bankası ile iletişime geçmelidir.</td>
+</tr>
+<tr>
+<td>GWERROR_51</td>
+<td>Insufficient funds</td>
+<td>Limit yetersiz.</td>
+</tr>
+<tr>
+<td>GWERROR_54</td>
+<td>Expired card</td>
+<td>İşleme kapalı, geçersiz kart.</td>
+</tr>
+<tr>
+<td>GWERROR_57</td>
+<td>Transaction not permitted on card</td>
+<td>Kart sahibine açık olmayan işlem, kart hamili bankası ile görüşerek kart yetkilerini kontrol ettirmelidir.</td>
+</tr>
+<tr>
+<td>GWERROR_58</td>
+<td>Not permitted to merchant</td>
+<td>Üye işyerinin bu işlemi yapmaya yetkisi yok.</td>
+</tr>
+<tr>
+<td>GWERROR_61</td>
+<td>Exceeds amount limit</td>
+<td>İşlem yapma limitini aşıyor.</td>
+</tr>
+<tr>
+<td>GWERROR_62</td>
+<td>Restricted card</td>
+<td>Kart yetkileri bu işlemi yapmaya uygun değil, kart hamili bankası ile görüşerek kart yetkilerini kontrol ettirmelidir.</td>
+</tr>
+<tr>
+<td>GWERROR_65</td>
+<td>Exceeds frequency limit</td>
+<td>Kartın günlük işlem limiti aşılmış.</td>
+</tr>
+<tr>
+<td>GWERROR_75</td>
+<td>PIN tries exceeded</td>
+<td>Kartın günlük işlem limiti aşılmış veya kart bloke edilmiş.</td>
+</tr>
+<tr>
+<td>GWERROR_82</td>
+<td>Time-out at issuer</td>
+<td>İşlem banka tarafında zaman aşımına uğramış, banka tarafında yoğunluk veya anlık teknik sorun yaşanıyor olabilir, bir süre sonra tekrar deneyiniz.</td>
+</tr>
+<tr>
+<td>GWERROR_84</td>
+<td>Invalid cvv</td>
+<td>Hatalı CVV.</td>
+</tr>
+<tr>
+<td>GWERROR_91</td>
+<td>A technical problem occurred. Issuer cannot process</td>
+<td>Banka tarafında yaşanılan anlık sorun veya anlık yoğunluktan dolayı işlem hata almıştır, bir süre sonra tekrar deneyiniz, help@payu.com.tr&#39;den bizimle iletişime geçerek detaylı bilgi alabilirsiniz.</td>
+</tr>
+<tr>
+<td>GWERROR_96</td>
+<td>System malfunction</td>
+<td>Banka tarafında yaşanılan anlık sorun veya anlık yoğunluktan dolayı işlem hata almıştır, bir süre sonra tekrar deneyiniz, help@payu.com.tr&#39;den bizimle iletişime geçerek detaylı bilgi alabilirsiniz.</td>
+</tr>
+<tr>
+<td>GWERROR_101</td>
+<td>Invalid installments number</td>
+<td>Sanal posun işlemde gönderilen taksit sayısını işlemek için yetkisi yok, pos bankanız ile iletişime geçerek taksit yetkilerinizi kontrol ediniz.</td>
+</tr>
+<tr>
+<td>GWERROR_105</td>
+<td>3DS authentication error</td>
+<td>3D doğrulaması yapılamadı, 3D şifresinin doğru girildiğinden, kartın 3D işlem yapma yetkisi olduğundan emin olunuz, kart hamili bankası ile iletişime geçerek detaylı bilgi alabilir ve çözüm sağlayabilir.</td>
+</tr>
+<tr>
+<td>GWERROR_0876</td>
+<td>One of card no, expire date or CVC is wrong or credit card has exceeded daily limit of maximum e-commerce transactions.</td>
+<td>Kart bilgileri hatalı tuşlanmış veya böyle bir kart yok veya kartın günlük işlem limiti dolmuş.</td>
+</tr>
+<tr>
+<td>GWERROR_2204</td>
+<td>No permission to process the card installment.</td>
+<td>Kartın veya üye işyerinin taksitli işlem yapma yetkisi yok.</td>
+</tr>
+<tr>
+<td>GWERROR_2304</td>
+<td>There is an ongoing process your order.</td>
+<td>Aynı hash veya sipariş numarası ile devam eden işlem var, mükerrer işlem.</td>
+</tr>
+</tbody></table>
 
       </div>
       <div class="dark-box">
