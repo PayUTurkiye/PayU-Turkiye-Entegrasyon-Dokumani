@@ -401,7 +401,7 @@
             <li><a>Teknik Destek:</a></li>
             <li><a>Telefon:0212 900 37 11</a></li>
             <li><a>Mail:help@payu.com.tr</a></li>
-            <li><a>Doküman:v1.9.3</a></li>
+            <li><a>Doküman:v1.9.4</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -2560,6 +2560,52 @@ Eğer tek tıklama modeli ile çalışıyor ve güvenlik için CVV değerini tek
 <span class="p">}</span>
 
 <span class="cp">?&gt;</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">collections</span>
+<span class="kn">import</span> <span class="nn">flask</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">import</span> <span class="nn">hmac</span>
+<span class="kn">import</span> <span class="nn">hashlib</span>
+
+<span class="n">ipn</span> <span class="o">=</span> <span class="n">flask</span><span class="o">.</span><span class="n">Flask</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+<span class="n">date</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">'</span><span class="si">%</span><span class="s">Y</span><span class="si">%</span><span class="s">m</span><span class="si">%</span><span class="s">d</span><span class="si">%</span><span class="s">H</span><span class="si">%</span><span class="s">M</span><span class="si">%</span><span class="s">S'</span><span class="p">)</span>
+<span class="c"># Your Merchant's Secret key</span>
+<span class="n">secretkey</span> <span class="o">=</span> <span class="s">"SECRET_KEY"</span>
+
+
+<span class="c"># You can change IPN URL with editing "/ipn"</span>
+<span class="nd">@ipn.route</span><span class="p">(</span><span class="s">"/ipn"</span><span class="p">,</span> <span class="n">methods</span><span class="o">=</span><span class="p">(</span><span class="s">"POST"</span><span class="p">,</span> <span class="s">"GET"</span><span class="p">))</span>
+<span class="k">def</span> <span class="nf">webhook_post_handler</span><span class="p">():</span>
+    <span class="c"># You can reach IPN requets's all @params with ipnparams</span>
+    <span class="n">ipnparams</span> <span class="o">=</span> <span class="n">flask</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">values</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">ipnparams</span><span class="p">)</span>
+
+    <span class="c"># Creating array for hash calculation</span>
+    <span class="n">array</span> <span class="o">=</span> <span class="n">collections</span><span class="o">.</span><span class="n">OrderedDict</span><span class="p">()</span>
+    <span class="n">array</span><span class="p">[</span><span class="s">'IPN_PID'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ipnparams</span><span class="p">[</span><span class="s">"IPN_PID[]"</span><span class="p">]</span>
+    <span class="n">array</span><span class="p">[</span><span class="s">'IPN_PNAME'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ipnparams</span><span class="p">[</span><span class="s">"IPN_PNAME[]"</span><span class="p">]</span>
+    <span class="n">array</span><span class="p">[</span><span class="s">'IPN_DATE'</span><span class="p">]</span> <span class="o">=</span> <span class="n">ipnparams</span><span class="p">[</span><span class="s">"IPN_DATE"</span><span class="p">]</span>
+    <span class="n">array</span><span class="p">[</span><span class="s">'DATE'</span><span class="p">]</span> <span class="o">=</span> <span class="n">date</span>
+
+    <span class="c"># Initializing the hashstring @param</span>
+    <span class="n">hashstring</span> <span class="o">=</span> <span class="s">''</span>
+
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">array</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="c"># Adding the UTF-8 byte length of each field value at the beginning of field value</span>
+        <span class="n">hashstring</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">hashstring</span><span class="p">)</span>
+
+    <span class="c"># Signature Calculation</span>
+    <span class="n">signature</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">secretkey</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashstring</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+    <span class="k">print</span><span class="p">(</span><span class="n">signature</span><span class="p">)</span>
+
+    <span class="c"># Printing response</span>
+    <span class="k">return</span> <span class="n">flask</span><span class="o">.</span><span class="n">Response</span><span class="p">(</span><span class="s">"&lt;EPAYMENT&gt;{0}|{1}&lt;/EPAYMENT&gt;"</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">date</span><span class="p">,</span> <span class="n">signature</span><span class="p">))</span>
+
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+    <span class="c"># You can edit or delete port and debug mode.</span>
+    <span class="n">ipn</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">port</span><span class="o">=</span><span class="mi">8080</span><span class="p">,</span> <span class="n">debug</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
 </code></pre>
 <blockquote>
 <p>Örnek IPN Bildirimi</p>
