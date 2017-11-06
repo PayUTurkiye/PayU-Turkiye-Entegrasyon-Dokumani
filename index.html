@@ -3240,6 +3240,14 @@ Parametre değerlerinin uzunluğu UTF-8 byte olarak alınmalıdır.
 </tr>
 </thead><tbody>
 <tr>
+<td>IPN_PID[0]</td>
+<td>IPN bildirimindeki ilk ürünün PID değeri.</td>
+</tr>
+<tr>
+<td>IPN_PNAME[0]</td>
+<td>IPN bildirimindeki ilk ürününün ismi.</td>
+</tr>
+<tr>
 <td>DATE</td>
 <td>Bu parametre kullanılarak bildirim zamanını (YmdGis) (Y-year-4 digits, m-month-2 digits, d-day-2 digits, G-hour-2 digits, i-minutes-2 digits, s-seconds-2 digits) formatında iletilmeli.</td>
 </tr>
@@ -3249,14 +3257,14 @@ Parametre değerlerinin uzunluğu UTF-8 byte olarak alınmalıdır.
 </tr>
 </tbody></table>
 
-<p><strong>Örnek IPN bildirimindeki HASH hesaplama için kullanılacak değerler aşağıdaki gibidir.</strong>
-<code>IPN_PID[] = 52580647</code>
-<code>IPN_PNAME[] = Test Ürünü</code>
-<code>IPN_DATE = 20171004224020</code>
-<code>DATE= 20171004224020</code></p>
+<p><strong>Örnek IPN bildirimindeki HASH hesaplama için kullanılacak değerler aşağıdaki gibidir.</strong> <br>
+<code>IPN_PID[0] = 52580647</code> <br>
+<code>IPN_PNAME[0] = Test Ürünü</code> <br>
+<code>IPN_DATE = 20171004224020</code> <br>
+<code>DATE= 20171004224020</code> <br></p>
 
-<p><strong>Bu değerlerin uzunluğu alınarak Key&#39;e göre sıralanmalıdır.</strong>
-<code>()IPN_PID()IPN_PNAME()IPN_DATE()DATE</code>
+<p><strong>Bu değerlerin uzunluğu alınarak Key&#39;e göre sıralanmalıdır.</strong> <br>
+<code>(len)IPN_PID(len)IPN_PNAME(len)IPN_DATE(len)DATE</code><br>
 <code>85258064713Test Ürünü14201710042240201420171004224017</code></p>
 
 <p><strong>Değerler üye işyeri kodlama anahtarınız kullanılarak HMAC_MD5 algoritması ile haslenmelidir.</strong></p>
@@ -3267,7 +3275,7 @@ Parametre değerlerinin uzunluğu UTF-8 byte olarak alınmalıdır.
 
 <p><strong>Elde edilen değer:</strong> <code>79db0725ecdc57decf9982b3917b3ff4</code></p>
 <h3 id='bildirime-yanit-verme'>Bildirime Yanıt Verme</h3>
-<p>Elde edilen değer ve DATE değeri EPAYMENT Taglerinin arasına <code>&lt;EPAYMENT&gt;DATE|HASH&lt;/EPAYMENT&gt;</code> formatına eklenerek HTTP POST alındığı sırada yanıt dönülmelidir.
+<p>Elde edilen değer ve DATE değeri EPAYMENT Taglerinin arasına <code>&lt;EPAYMENT&gt;DATE|HASH&lt;/EPAYMENT&gt;</code> formatına eklenerek HTTP POST alındığı sırada yanıt dönülmelidir.<br>
 <code>&lt;EPAYMENT&gt;20171004224017|79db0725ecdc57decf9982b3917b3ff4&lt;/EPAYMENT&gt;</code></p>
 <h1 id='islem-sorgu-servisi-ios'>İşlem Sorgu Servisi(IOS)</h1><h3 id='ios-sorgusu-istek-parametreleri'>IOS Sorgusu İstek Parametreleri</h3>
 <blockquote>
