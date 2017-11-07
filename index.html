@@ -401,7 +401,7 @@
             <li><a>Teknik Destek:</a></li>
             <li><a>Telefon:0212 900 37 11</a></li>
             <li><a>Mail:help@payu.com.tr</a></li>
-            <li><a>Doküman:v1.9.4</a></li>
+            <li><a>Doküman:v1.9.5</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -2560,7 +2560,9 @@ Eğer tek tıklama modeli ile çalışıyor ve güvenlik için CVV değerini tek
 <span class="p">}</span>
 
 <span class="cp">?&gt;</span>
-</code></pre><pre class="highlight python tab-python"><code><span class="kn">import</span> <span class="nn">collections</span>
+</code></pre><pre class="highlight python tab-python"><code><span class="c"># Importing required libraries</span>
+
+<span class="kn">import</span> <span class="nn">collections</span>
 <span class="kn">import</span> <span class="nn">flask</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">import</span> <span class="nn">hmac</span>
@@ -2591,8 +2593,8 @@ Eğer tek tıklama modeli ile çalışıyor ve güvenlik için CVV değerini tek
 
     <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">array</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
         <span class="c"># Adding the UTF-8 byte length of each field value at the beginning of field value</span>
-        <span class="n">hashstring</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="p">))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
-    <span class="k">print</span><span class="p">(</span><span class="n">hashstring</span><span class="p">)</span>
+        <span class="n">hashstring</span> <span class="o">+=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">v</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">"utf8"</span><span class="p">)))</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+        <span class="k">print</span><span class="p">(</span><span class="n">hashstring</span><span class="p">)</span>
 
     <span class="c"># Signature Calculation</span>
     <span class="n">signature</span> <span class="o">=</span> <span class="n">hmac</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">secretkey</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashstring</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s">'utf-8'</span><span class="p">),</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">md5</span><span class="p">)</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
