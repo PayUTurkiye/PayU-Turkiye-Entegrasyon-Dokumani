@@ -401,7 +401,7 @@
             <li><a>Teknik Destek:</a></li>
             <li><a>Telefon:0212 900 37 11</a></li>
             <li><a>Mail:help@payu.com.tr</a></li>
-            <li><a>Doküman:v1.9.5</a></li>
+            <li><a>Doküman:v1.9.6</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -416,11 +416,10 @@
 <li>Entegrasyonunu yaptığınız ödeme yöntemleri (BKM, UPT, COMPAY, WIRE vb.), bazı iş modelleri (TEK TIKLA ÖDEME, PAZARYERİ vb.), döviz tipleri, opsiyonel 3D özelliği gibi işyerine özel durumlar için PayU tarafından hesabınıza tanımlamalar yapılması gerekmektedir. Bu tanımlar ile ilgili satış temsilcinizle ya da help@payu.com.tr adresimizden bizimle iletişime geçebilirsiniz.</li>
 <li>Üye İşyeri Kontrol Paneli’ne giriş için https://secure.payu.com.tr/cpanel/ linkini takip edebilirsiniz.</li>
 <li>Test ortam bilgileri ve test kartları, entegrasyon dokümanının son bölümünde yer almaktadır.</li>
-<li>Teknik destek almak ve örnek kodlarımız için help@payu.com.tr adresimizden bizimle iletişime geçebilirsiniz.</li>
 <li>Çalışma şeklinin 3D olmaması durumunda da bazı işlemler (ör: debit kartlar, 3D zorunlu ülkelerin kartları vb.) 3D’ye yönlendirileceğinden 3D entegrasyonunun da dokümanda tarif edildiği şekilde yapılması gerekmektedir.</li>
-<li>PayU sisteminin döndüğü hatalar tüm bankalardan dönen yanıtlarla birlikte konsolide olmuş (birleştirilmiş) şekilde dönmektedir. Bu hata kodlarına https://www.payu.com.tr/hata-kodları linkini takip ederek erişilebilmektedir.</li>
 <li>API entegrasyonunda hata bilgisi konsolide şekilde dönebildiği gibi, PayU tarafından aktifleştirilmesi durumunda banka cevabı doğrudan PROCRETURNCODE ve ERRORMESSAGE içerisinde belirtilmektedir.</li>
 <li>ORDER_DATE parametresi ile İşlem / sipariş saati UTC/GMT formatında gönderilmelidir. Sipariş saati (ORDER_DATE) kaynaklı saat (REQUEST_EXPIRED) hatasının önüne geçebilmek için; saat fonksiyonu UTC/GMT formatı ile ayarlanmalı ve Türkiye saatine göre 3 saat geri olacak şekilde gönderilmelidir.</li>
+<li>Türk lirasını koruma kanunu gereği, Türk bankalarına ait kartlar ile Türk bankalarının sanal poslarında dövizli işlem yapılamamaktadır. Türk bankalarının sanal posları üzerinden sadece yabancı kartlar dövizli işlem yapabilmektedir.</li>
 </ol>
 <h1 id='api-ile-odeme-alma'>API ile Ödeme Alma</h1><h3 id='istek-parametreleri'>İstek Parametreleri</h3>
 <blockquote>
@@ -715,7 +714,7 @@
 <td>Hayır</td>
 </tr>
 <tr>
-<td>PRICES_CURRENCY[]</td>
+<td>PRICES_CURRENCY</td>
 <td>string</td>
 <td>İşlemin gerçekleşeceği para birimini belirleyen parametredir (TRY, EUR, USD, GBP). Türk kartlar için dövizli işlem gönderilmemelidir.</td>
 <td>Hayır</td>
@@ -4700,7 +4699,7 @@ Konfirmasyon servisi sadece önotorizasyon modeline çalışan üye işyerleri i
 <code>IDN_DATE = 2017-10-07 13:25:45</code> <br> 
 <code>CHARGE_AMOUNT = 10.90</code> <br></p>
 
-<p><strong>Key&#39;e göre sıralayıp başlarına UTF-8 Bayt uzunlukları eklenmeli.</strong>
+<p><strong>Bu değerlerin uzunluğu alınarak, değerin başına eklendikten sonra yukarıdaki sıra ile sıralanmalıdır.</strong>
 <code>8OPU_TEST841838239510.903TRY192017-10-07 13:25:45510.90</code></p>
 
 <p><strong>Değerler üye işyeri kodlama anahtarınız kullanılarak HMAC_MD5 algoritması ile haslenmelidir.</strong></p>
@@ -5401,6 +5400,12 @@ https://secure.payu.com.tr/reports/products?merchant=OPU_TEST&amp;startDate=2017
 <li>Son Kullanma Tarihi :12/18</li>
 <li>Güvenlik Numarası : 000</li>
 <li>Kart 3D Secure Şifresi : a</li>
+</ul>
+<h3 id='yabanci-test-karti'>Yabancı Test Kartı</h3>
+<ul>
+<li>Kart Numarası (Visa) : 4111 1111 1111 1111</li>
+<li>Son Kullanma Tarihi :12/18</li>
+<li>Güvenlik Numarası : 000</li>
 </ul>
 <h1 id='islem-mesajlari'>İşlem Mesajları</h1>
 <p>Aşağıdaki listeden entegrasyon sırasında ve işlem sırasında alınma ihtimali olan tüm hata kodları ve açıklamalarına ulaşılabilir. Karşılaşılan hata kodunu bulamıyor ya da başka bir konuda destek ihtiyacınız varsa, bizlere help@payu.com.tr adresinden e-posta ile ulaşabilirsiniz.</p>
