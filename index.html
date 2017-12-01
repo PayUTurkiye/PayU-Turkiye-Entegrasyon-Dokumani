@@ -401,7 +401,7 @@
             <li><a>Teknik Destek:</a></li>
             <li><a>Telefon:0212 900 37 11</a></li>
             <li><a>Mail:help@payu.com.tr</a></li>
-            <li><a>Doküman:v1.9.6</a></li>
+            <li><a>Doküman:v1.9.7</a></li>
         </ul>
     </div>
     <div class="page-wrapper">
@@ -743,6 +743,12 @@
 <td>Sepet tutarında genel indirim yapılabilmesini sağlayan parametredir .</td>
 <td>Hayır</td>
 </tr>
+<tr>
+<td>ORDER_TIMEOUT</td>
+<td>int</td>
+<td>Belirli bir süre cevap alınamadığı durumlarda işlemin sonlandırılması için saniye belirtebileceğiniz parametre.</td>
+<td>Hayır</td>
+</tr>
 </tbody></table>
 <h3 id='urun-parametereleri'>Ürün Parametereleri</h3>
 <table><thead>
@@ -751,55 +757,64 @@
 <th>Değer</th>
 <th>Açıklama</th>
 <th>Zorunlu</th>
+<th>Karakter Sınırı</th>
 </tr>
 </thead><tbody>
 <tr>
 <td>ORDER_PNAME[]</td>
-<td>string</td>
+<td>varchar</td>
 <td>Minimum 2, maksimum 155 karakterden oluşan ürün isminin gönderildiği parametredir.</td>
 <td>Evet</td>
+<td>400</td>
 </tr>
 <tr>
 <td>ORDER_PCODE[]</td>
-<td>string</td>
+<td>varchar</td>
 <td>Maksimum 50 karakterden oluşan ürün kodunun gönderildiği parametredir.</td>
 <td>Evet</td>
+<td>50</td>
 </tr>
 <tr>
 <td>ORDER_PINFO[]</td>
-<td>string</td>
+<td>varchar</td>
 <td>Ürün bilgisinin belirtildiği parametredir.</td>
 <td>Hayır</td>
+<td>1000</td>
 </tr>
 <tr>
 <td>ORDER_VER[]</td>
-<td>string</td>
+<td>varchar</td>
 <td>Ürün versiyonunun belirtildiği parametredir.</td>
 <td>Hayır</td>
+<td></td>
 </tr>
 <tr>
 <td>ORDER_PRICE[]</td>
-<td>string</td>
+<td>dobule</td>
 <td>Ürün fiyatının gönderildiği parametredir. Ondalık simgesi olarak &quot;.&quot;(nokta) kullanılmalıdır. &quot;,&quot;(virgül) kullanımında hata alınacaktır.</td>
 <td>Evet</td>
+<td></td>
 </tr>
 <tr>
 <td>ORDER_VAT[]</td>
-<td>int</td>
+<td>dobule</td>
 <td>Üründe uygulanan verginin belirlendiği parametredir 1, 8 veya 18 olarak belirlenmelidir.</td>
 <td>Evet</td>
+<td></td>
 </tr>
 <tr>
 <td>ORDER_PRICE_TYPE[]</td>
 <td>string</td>
 <td>KDV tipinin belirlendiği parametredir. &quot;GROSS&quot; değeri ile gönderilmesi durumunda ürün fiyatına KDV dahil kabul edilecektir. &quot;NET&quot; gönderilmesi durumunda KDV, PayU tarafından ürünün tutarına eklenecektir.</td>
 <td>Evet</td>
+<td></td>
 </tr>
 <tr>
 <td>ORDER_QTY[]</td>
 <td>int</td>
 <td>Ürün adedinin belirlendiği parametredir.</td>
 <td>Evet</td>
+<td>3</td>
 </tr>
 </tbody></table>
 <h3 id='kart-bilgileri'>Kart Bilgileri</h3>
@@ -849,73 +864,85 @@
 <th>Değer</th>
 <th>Açıklama</th>
 <th>Zorunlu</th>
+<th>Karakter Sınırı</th>
 </tr>
 </thead><tbody>
 <tr>
 <td>BILL_FNAME</td>
-<td>string</td>
+<td>varchar</td>
 <td>Fatura düzenlenecek kişinin adı.</td>
 <td>Evet</td>
+<td>40</td>
 </tr>
 <tr>
 <td>BILL_LNAME</td>
-<td>string</td>
+<td>varchar</td>
 <td>Fatura düzenlenecek kişinin soyadı.</td>
 <td>Evet</td>
+<td>40</td>
 </tr>
 <tr>
 <td>BILL_EMAIL</td>
-<td>string</td>
+<td>varchar</td>
 <td>Fatura düzenlenecek kişinin email adresi.</td>
 <td>Evet</td>
+<td>120</td>
 </tr>
 <tr>
 <td>BILL_PHONE</td>
-<td>string</td>
+<td>varchar</td>
 <td>Fatura düzenlenecek kişinin telefon numarası.</td>
 <td>Evet</td>
+<td>40</td>
 </tr>
 <tr>
 <td>BILL_FAX</td>
-<td>string</td>
+<td>varchar</td>
 <td>Fatura düzenlenecek kişinin faks numarasının belirtildiği parametredir.</td>
 <td>Hayır</td>
+<td>40</td>
 </tr>
 <tr>
 <td>BILL_ADDRESS</td>
-<td>string</td>
+<td>varchar</td>
 <td>Fatura düzenlenecek kişinin adresinin belirtildiği parametredir.</td>
 <td>Hayır</td>
+<td>100</td>
 </tr>
 <tr>
 <td>BILL_ADDRESS2</td>
-<td>string</td>
+<td>varchar</td>
 <td>Fatura düzenlenecek kişinin adresinin belirtildiği parametredir. (ikinci satır için)</td>
 <td>Hayır</td>
+<td>100</td>
 </tr>
 <tr>
 <td>BILL_ZIPCODE</td>
-<td>string</td>
+<td>varchar</td>
 <td>Fatura düzenlenecek kişinin posta kodunun belirtildiği parametredir.</td>
 <td>Hayır</td>
+<td>15</td>
 </tr>
 <tr>
 <td>BILL_CITY</td>
-<td>string</td>
+<td>varchar</td>
 <td>Fatura düzenlenecek kişinin şehir bilgisinin belirtildiği parametredir.</td>
 <td>Hayır</td>
+<td>40</td>
 </tr>
 <tr>
 <td>BILL_COUNTRYCODE</td>
-<td>string</td>
+<td>varchar</td>
 <td>Fatura düzenlenecek kişinin iki karakterli ülke kodu. (ISO Alpha-2 formatında)</td>
 <td>Evet</td>
+<td>3</td>
 </tr>
 <tr>
 <td>BILL_STATE</td>
-<td>string</td>
+<td>varchar</td>
 <td>Fatura düzenlenecek kişinin semt/ilçe bilgisinin belirtildiği parametredir.</td>
 <td>Hayır</td>
+<td>30</td>
 </tr>
 </tbody></table>
 <h3 id='teslimat-parametereleri'>Teslimat Parametereleri</h3>
@@ -925,73 +952,85 @@
 <th>Değer</th>
 <th>Açıklama</th>
 <th>Zorunlu</th>
+<th>Karakter Sınırı</th>
 </tr>
 </thead><tbody>
 <tr>
 <td>DELIVERY_FNAME</td>
-<td>string</td>
+<td>varchar</td>
 <td>Teslim edilecek kişinin adı.</td>
 <td>Hayır</td>
+<td>40</td>
 </tr>
 <tr>
 <td>DELIVERY_LNAME</td>
-<td>string</td>
+<td>varchar</td>
 <td>Teslim edilecek kişinin soyadı.</td>
 <td>Hayır</td>
+<td>40</td>
 </tr>
 <tr>
 <td>DELIVERY_EMAIL</td>
-<td>string</td>
+<td>varchar</td>
 <td>Teslim edilecek kişinin email adresi.</td>
 <td>Hayır</td>
+<td>80</td>
 </tr>
 <tr>
 <td>DELIVERY_PHONE</td>
-<td>string</td>
+<td>varchar</td>
 <td>Teslim edilecek kişinin telefon numarası.</td>
 <td>Hayır</td>
+<td>40</td>
 </tr>
 <tr>
 <td>DELIVERY_COMPANY</td>
-<td>string</td>
+<td>varchar</td>
 <td>Teslim edilecek kişinin şirket bilgisi.</td>
 <td>Hayır</td>
+<td>50</td>
 </tr>
 <tr>
 <td>DELIVERY_ADDRESS</td>
-<td>string</td>
+<td>varchar</td>
 <td>Teslim edilecek kişinin adresi.</td>
 <td>Hayır</td>
+<td>100</td>
 </tr>
 <tr>
 <td>DELIVERY_ADDRESS2</td>
-<td>string</td>
+<td>varchar</td>
 <td>Teslim edilecek kişinin adresi. (ikinci satır için)</td>
 <td>Hayır</td>
+<td>100</td>
 </tr>
 <tr>
 <td>DELIVERY_ZIPCODE</td>
-<td>string</td>
+<td>varchar</td>
 <td>Teslim edilecek kişinin posta kodu.</td>
 <td>Hayır</td>
+<td>20</td>
 </tr>
 <tr>
 <td>DELIVERY_CITY</td>
-<td>string</td>
+<td>varchar</td>
 <td>Teslim edilecek kişinin şehir bilgisi.</td>
 <td>Hayır</td>
+<td>30</td>
 </tr>
 <tr>
 <td>DELIVERY_STATE</td>
-<td>string</td>
+<td>varchar</td>
 <td>Teslim edilecek kişinin semt/ilçe bilgisi.</td>
 <td>Hayır</td>
+<td>30</td>
 </tr>
 <tr>
 <td>DELIVERY_COUNTRYCODE</td>
-<td>string</td>
+<td>varchar</td>
 <td>Teslim edilecek kişinin iki karakterli ülke kodu. (ISO Alpha-2 formatında).</td>
 <td>Hayır</td>
+<td>3</td>
 </tr>
 </tbody></table>
 <h3 id='fraud-icin-ekstra-parametreler'>Fraud için Ekstra Parametreler</h3>
@@ -5511,6 +5550,16 @@ https://secure.payu.com.tr/reports/products?merchant=OPU_TEST&amp;startDate=2017
 <td>1</td>
 <td>Call acquirer support call number</td>
 <td>Kart hamili işlem detayları ile birlikte bankasıyla iletişime geçerek hata açıklaması ve çözüm talep etmelidir.</td>
+</tr>
+<tr>
+<td>10101</td>
+<td>NOT_CREDITCARD</td>
+<td>Kredi kartı olmayan bir kart ile taksitli ödeme alınmaya çalışıldığı sırada alınan hatadır.</td>
+</tr>
+<tr>
+<td>10102</td>
+<td>UNSUPPORTED_LOYALTY_PROGRAM</td>
+<td>Desteklenmeyen bir kart programı ile taksitli ödeme alınmaya çalışıldığı sırada alınan hatadır.</td>
 </tr>
 <tr>
 <td>NEW_ERROR</td>
