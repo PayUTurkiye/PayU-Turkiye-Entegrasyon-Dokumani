@@ -652,7 +652,7 @@
 
     <span class="s1">'CC_NUMBER'</span><span class="p">:</span><span class="s1">'4355084355084358'</span><span class="p">,</span>
     <span class="s1">'EXP_MONTH'</span><span class="p">:</span><span class="s1">'12'</span><span class="p">,</span>
-    <span class="s1">'EXP_YEAR'</span><span class="p">:</span><span class="s1">'2018'</span><span class="p">,</span>
+    <span class="s1">'EXP_YEAR'</span><span class="p">:</span><span class="s1">'2022'</span><span class="p">,</span>
     <span class="s1">'CC_CVV'</span><span class="p">:</span><span class="s1">'000'</span><span class="p">,</span>
     <span class="s1">'CC_OWNER'</span><span class="p">:</span><span class="s1">'000'</span><span class="p">,</span>
 
@@ -749,7 +749,7 @@
 
     <span class="s">'CC_NUMBER'</span><span class="p">:</span><span class="s">'4355084355084358'</span><span class="p">,</span>
     <span class="s">'EXP_MONTH'</span><span class="p">:</span><span class="s">'12'</span><span class="p">,</span>
-    <span class="s">'EXP_YEAR'</span><span class="p">:</span><span class="s">'2018'</span><span class="p">,</span>
+    <span class="s">'EXP_YEAR'</span><span class="p">:</span><span class="s">'2022'</span><span class="p">,</span>
     <span class="s">'CC_CVV'</span><span class="p">:</span><span class="s">'000'</span><span class="p">,</span>
     <span class="s">'CC_OWNER'</span><span class="p">:</span><span class="s">'000'</span><span class="p">,</span>
 
@@ -845,7 +845,7 @@
 
    <span class="s2">"CC_NUMBER"</span> <span class="o">=&gt;</span> <span class="s2">"4355084355084358"</span><span class="p">,</span>
    <span class="s2">"EXP_MONTH"</span> <span class="o">=&gt;</span> <span class="s2">"12"</span><span class="p">,</span>
-   <span class="s2">"EXP_YEAR"</span> <span class="o">=&gt;</span> <span class="s2">"2018"</span><span class="p">,</span>
+   <span class="s2">"EXP_YEAR"</span> <span class="o">=&gt;</span> <span class="s2">"2022"</span><span class="p">,</span>
    <span class="s2">"CC_CVV"</span> <span class="o">=&gt;</span> <span class="s2">"000"</span><span class="p">,</span>
    <span class="s2">"CC_OWNER"</span> <span class="o">=&gt;</span> <span class="s2">"000"</span><span class="p">,</span>
 
@@ -2433,7 +2433,7 @@ Ekstra parametre olarak işaretlenen parametrelerin aktifleştirilmesi için üy
      <code>DELIVERY_STATE : TR</code> </br>
      <code>DELIVERY_ZIPCODE : 34000</code> </br>
      <code>EXP_MONTH : 12</code> </br>
-     <code>EXP_YEAR : 2018</code> </br>
+     <code>EXP_YEAR : 2022</code> </br>
      <code>LANGUAGE : TR</code> </br>
      <code>MERCHANT : OPU_TEST</code> </br>
      <code>ORDER_DATE : 2017-10-04 11:10:23</code> </br>
@@ -2458,7 +2458,7 @@ Ekstra parametre olarak işaretlenen parametrelerin aktifleştirilmesi için üy
 
 <p><b> 2.Adım Keye göre sıralanan parametrelerin değerlerinin başına uzunlukları eklenerek HASH string oluşturulmalı (UTF-8 Bayt olarak).</b> </br></p>
 
-<p><code>25http://www.backref.com.tr22Birinci Adres satırı22İkinci Adres satırı8ISTANBUL2TR13mail@mail.com11021290037112Ad5Soyad11021290037118Ayazağa53400030001643550843550843588Ad Soyad9127.0.0.122Birinci Adres satırı22İkinci Adres satırı8ISTANBUL27PayU Ödeme Kuruluşu A.Ş.8Ayazağa13mail@mail.com2Ad5Soyad11021290037112TR534000212420182TR8OPU_TEST192017-10-04 11:10:239Test Kodu11Test Kodu-218Test Açıklaması20Test Açıklaması-213Test Ürünü15Test Ürünü-2152153NET5GROSS111343245152182248CCVISAMC3TRY11</code> </br></p>
+<p><code>25http://www.backref.com.tr22Birinci Adres satırı22İkinci Adres satırı8ISTANBUL2TR13mail@mail.com11021290037112Ad5Soyad11021290037118Ayazağa53400030001643550843550843588Ad Soyad9127.0.0.122Birinci Adres satırı22İkinci Adres satırı8ISTANBUL27PayU Ödeme Kuruluşu A.Ş.8Ayazağa13mail@mail.com2Ad5Soyad11021290037112TR534000212420222TR8OPU_TEST192017-10-04 11:10:239Test Kodu11Test Kodu-218Test Açıklaması20Test Açıklaması-213Test Ürünü15Test Ürünü-2152153NET5GROSS111343245152182248CCVISAMC3TRY11</code> </br></p>
 
 <p><b>3.Adım Oluşturulan dizi PayU üye işyeri hesabınızın Hesap Yönetimi / Hesap Ayarları bölümünde yer alan kodlama anahtarı bilgisi kullanılarak HMAC_MD5 algoritması ile hashlenmeli ve elde edilen değer ORDER_HASH parametresine atayarak işlem isteği endpointe gönderilmelidir. </b> </br></p>
 
@@ -2531,7 +2531,7 @@ Yukarıdaki geliştirme ile yönlendirme sağlandığında, 3D işlem gerçekle�
 <code>&lt;STATUS&gt;SUCCESS&lt;/STATUS&gt;</code>  </br>
 <code>&lt;RETURN_CODE&gt;PENDING_AUTHORIZATION&lt;/RETURN_CODE&gt;</code>  </br>
 <code>&lt;RETURN_MESSAGE&gt;Order saved and pending authorization.&lt;/RETURN_MESSAGE&gt;</code>  </br>
-<code>&lt;DATE&gt;2018-03-26 11:04:24&lt;/DATE&gt;</code>  </br>
+<code>&lt;DATE&gt;2022-03-26 11:04:24&lt;/DATE&gt;</code>  </br>
 <code>&lt;ORDER_REF&gt;Test303&lt;/ORDER_REF&gt;</code>  </br>
 <code>&lt;URL_REDIRECT&gt;https://secure.payu.com.tr/order/pbl/redirect.php?hash=385af76c05ba92ff1ce38276e4be2c02&lt;/URL_REDIRECT&gt;</code>  </br>
 <code>&lt;HASH&gt;079330a56b5ca62a4112553506df1b08&lt;/HASH&gt;</code>  </br>
@@ -2555,7 +2555,7 @@ Yukarıdaki geliştirme ile yönlendirme sağlandığında, 3D işlem gerçekle�
 <code>&lt;STATUS&gt;SUCCESS&lt;/STATUS&gt;</code>  </br>
 <code>&lt;RETURN_CODE&gt;PENDING_AUTHORIZATION&lt;/RETURN_CODE&gt;</code>  </br>
 <code>&lt;RETURN_MESSAGE&gt;Order saved and pending authorization.&lt;/RETURN_MESSAGE&gt;</code>  </br>
-<code>&lt;DATE&gt;2018-03-26 11:04:24&lt;/DATE&gt;</code>  </br>
+<code>&lt;DATE&gt;2022-03-26 11:04:24&lt;/DATE&gt;</code>  </br>
 <code>&lt;ORDER_REF&gt;Test303&lt;/ORDER_REF&gt;</code>  </br>
 <code>&lt;URL_REDIRECT&gt;https://secure.payu.com.tr/order/pbl/redirect.php?hash=385af76c05ba92ff1ce38276e4be2c02&lt;/URL_REDIRECT&gt;</code>  </br>
 <code>&lt;HASH&gt;079330a56b5ca62a4112553506df1b08&lt;/HASH&gt;</code>  </br>
@@ -2848,7 +2848,7 @@ Bu isteğin içeriği aşağıdaki zorunlu parametrelerden oluşmalıdır. </p>
 
 <p><code>&#39;MERCHANT&#39;: &#39;OPU_TEST&#39;,</code> </br>
         <code>&#39;ORDER_REF&#39;: &quot;21831832&quot;,</code> </br>
-        <code>&#39;ORDER_DATE&#39;: 2018-03-28,</code> </br>
+        <code>&#39;ORDER_DATE&#39;: 2022-03-28,</code> </br>
         <code>&#39;ORDER_PNAME[0]&#39;: &#39;Test Urun&#39;,</code> </br>
         <code>&#39;ORDER_PNAME[1]&#39;: &#39;Test Urun-2&#39;,</code> </br>
         <code>&#39;ORDER_PCODE[0]&#39;:&#39;Test Urun Kodu-2&#39;,</code> </br>
@@ -2874,7 +2874,7 @@ ORDER_PNAME, ORDER_PCODE, ORDER_PINFO, ORDER_PRICE and ORDER_QTY parametreleri k
 
 <p><b> 2. Adım: Sıralanan parametrelerin değerlerinin başına uzunlukları eklenerek HASH string oluşturulmalıdır (UTF-8 Bayt olarak). </b></p>
 
-<p><code>8OPU_TEST821831832102018-03-289Test Urun11Test Urun-216Test Urun Kodu-214Test Urun Kodu22Test urun Aciklamasi-220Test urun Aciklamasi2102201112218218153TRY8CCVISAMC5GROSS3NET261,2,3,4,5,6,7,8,9,10,11,12</code> </p>
+<p><code>8OPU_TEST821831832102022-03-289Test Urun11Test Urun-216Test Urun Kodu-214Test Urun Kodu22Test urun Aciklamasi-220Test urun Aciklamasi2102201112218218153TRY8CCVISAMC5GROSS3NET261,2,3,4,5,6,7,8,9,10,11,12</code> </p>
 
 <p><b>3. Adım: Oluşturulan dizi PayU üye işyeri hesabınızın Hesap Yönetimi / Hesap Ayarları bölümünde yer alan kodlama anahtarı bilgisi kullanılarak HMAC_MD5 algoritması ile hashlenmeli ve ORDER_HASH parametresine eklenerek post işlemi gerçekleştirilmelidir. </b></p>
 
@@ -2887,7 +2887,7 @@ Eğer ödeme başarısız olursa kart sahibi ortak ödeme sayfasına kalacak ve 
 <h3 id='ctrl-degiskeninin-hesaplamasi'>CTRL Değişkeninin Hesaplaması</h3>
 <aside class="warning">
 Üye işyerinin talep etmesi durumunda, geri dönüş sırasında opsiyonel parametreler aktifleştirilebilir. Bu aktivasyon ile birlikte geri dönüş sırasında 3d secure durumu, Date, PayU Ref No değerleri URL'sonuna aşağıdaki örnek gibi PayU tarafından otomatik olarak eklenir.</br>
-<b>https://www.backref.com.tr/return.php?3dsecure=NO&date=2018-03-28%2021%3A26%3A44&payrefno=56390894&ctrl=2df7a648b80ab5dc62f195141b8ba454</b>
+<b>https://www.backref.com.tr/return.php?3dsecure=NO&date=2022-03-28%2021%3A26%3A44&payrefno=56390894&ctrl=2df7a648b80ab5dc62f195141b8ba454</b>
 </aside>
 
 <p><b> 1. Adım: BACK_REF parametresine atadığımız URL&#39;imizin karakter uzunluğunu almalı ve başına eklenmeli.</b> </br>
@@ -3359,7 +3359,7 @@ ZweUQS5LCyl5VdtlgZelHjSC3p7q3rdOvZIcjTstK6fy6lyFEe/UKJNKpikuAo+BvLQTe6Dg3C8iS2qt
 
     <span class="s1">'CC_NUMBER'</span><span class="p">:</span><span class="s1">'4355084355084358'</span><span class="p">,</span>
     <span class="s1">'EXP_MONTH'</span><span class="p">:</span><span class="s1">'12'</span><span class="p">,</span>
-    <span class="s1">'EXP_YEAR'</span><span class="p">:</span><span class="s1">'2018'</span><span class="p">,</span>
+    <span class="s1">'EXP_YEAR'</span><span class="p">:</span><span class="s1">'2022'</span><span class="p">,</span>
     <span class="s1">'CC_CVV'</span><span class="p">:</span><span class="s1">'000'</span><span class="p">,</span>
     <span class="s1">'CC_OWNER'</span><span class="p">:</span><span class="s1">'000'</span><span class="p">,</span>
 
@@ -3443,7 +3443,7 @@ ZweUQS5LCyl5VdtlgZelHjSC3p7q3rdOvZIcjTstK6fy6lyFEe/UKJNKpikuAo+BvLQTe6Dg3C8iS2qt
    <span class="s2">"LU_ENABLE_TOKEN"</span> <span class="o">=&gt;</span> <span class="mi">1</span><span class="p">,</span>
    <span class="s2">"CC_NUMBER"</span> <span class="o">=&gt;</span> <span class="s2">"4355084355084358"</span><span class="p">,</span>
    <span class="s2">"EXP_MONTH"</span> <span class="o">=&gt;</span> <span class="s2">"12"</span><span class="p">,</span>
-   <span class="s2">"EXP_YEAR"</span> <span class="o">=&gt;</span> <span class="s2">"2018"</span><span class="p">,</span>
+   <span class="s2">"EXP_YEAR"</span> <span class="o">=&gt;</span> <span class="s2">"2022"</span><span class="p">,</span>
    <span class="s2">"CC_CVV"</span> <span class="o">=&gt;</span> <span class="s2">"000"</span><span class="p">,</span>
    <span class="s2">"CC_OWNER"</span> <span class="o">=&gt;</span> <span class="s2">"Ad Soyad"</span><span class="p">,</span>
 
@@ -3573,7 +3573,7 @@ ZweUQS5LCyl5VdtlgZelHjSC3p7q3rdOvZIcjTstK6fy6lyFEe/UKJNKpikuAo+BvLQTe6Dg3C8iS2qt
     <span class="s">'ORDER_QTY[0]'</span><span class="p">:</span> <span class="s">"1"</span><span class="p">,</span>
     <span class="s">'CC_NUMBER'</span><span class="p">:</span> <span class="s">"4355084355084358"</span><span class="p">,</span>
     <span class="s">'EXP_MONTH'</span><span class="p">:</span> <span class="s">"12"</span><span class="p">,</span>
-    <span class="s">'EXP_YEAR'</span><span class="p">:</span> <span class="s">"2018"</span><span class="p">,</span>
+    <span class="s">'EXP_YEAR'</span><span class="p">:</span> <span class="s">"2022"</span><span class="p">,</span>
     <span class="s">'CC_CVV'</span><span class="p">:</span> <span class="s">"000"</span><span class="p">,</span>
     <span class="s">'CC_OWNER'</span><span class="p">:</span> <span class="s">"Ad Soyad"</span><span class="p">,</span>
     <span class="s">'BILL_FNAME'</span><span class="p">:</span> <span class="s">"Ad"</span><span class="p">,</span>
@@ -6791,7 +6791,7 @@ var response = IOSRequest.Execute(request, options);
 <span class="nx">LoyaltyPoints</span> <span class="o">=</span> <span class="s1">'true'</span><span class="p">;</span>
 <span class="nx">cardCVV</span> <span class="o">=</span> <span class="s1">'000'</span><span class="p">;</span>
 <span class="nx">cardHolder</span> <span class="o">=</span> <span class="s1">'Dummy Dummy'</span><span class="p">;</span>
-<span class="nx">ExpYear</span> <span class="o">=</span> <span class="s1">'2018'</span><span class="p">;</span>
+<span class="nx">ExpYear</span> <span class="o">=</span> <span class="s1">'2022'</span><span class="p">;</span>
 <span class="nx">ExpMonth</span> <span class="o">=</span> <span class="s1">'12'</span><span class="p">;</span>
 <span class="nx">CardNumber</span> <span class="o">=</span> <span class="s1">'4355084355084358'</span><span class="p">;</span>
 
@@ -6850,7 +6850,7 @@ var response = IOSRequest.Execute(request, options);
     <span class="s">'dateTime'</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">'</span><span class="si">%</span><span class="s">Y-</span><span class="si">%</span><span class="s">m-</span><span class="si">%</span><span class="s">dT</span><span class="si">%</span><span class="s">X+00:00'</span><span class="p">),</span>
     <span class="s">'cc_cvv'</span><span class="p">:</span> <span class="s">'000'</span><span class="p">,</span>
     <span class="s">'cc_owner'</span><span class="p">:</span> <span class="s">'Ad Soyad'</span><span class="p">,</span>
-    <span class="s">'exp_year'</span><span class="p">:</span> <span class="s">'2018'</span><span class="p">,</span>
+    <span class="s">'exp_year'</span><span class="p">:</span> <span class="s">'2022'</span><span class="p">,</span>
     <span class="s">'exp_month'</span><span class="p">:</span> <span class="s">'12'</span><span class="p">,</span>
     <span class="s">'cc_number'</span><span class="p">:</span> <span class="s">'4355084355084358'</span><span class="p">,</span>
 <span class="p">}</span>
@@ -7082,11 +7082,11 @@ var response = IOSRequest.Execute(request, options);
 <code>cc_cvv = 000</code> <br>
 <code>cc_owner = Ad Soyad</code> <br>
 <code>exp_month = 12</code> <br>
-<code>exp_year = 2018</code> <br>
+<code>exp_year = 2022</code> <br>
 <code>cc_number = 4355 0843 5508 4358</code> <br></p>
 
 <p><strong>Parametreler Key&#39;e göre sıralanıp ardından uzunluğu alınarak, değerin başına eklenmeli.</strong>
-<code>30001643550843550843588Ad Soyad252017-10-06T07:09:38+00:00212420184true8OPU_TEST</code></p>
+<code>30001643550843550843588Ad Soyad252017-10-06T07:09:38+00:00212420224true8OPU_TEST</code></p>
 
 <p><strong>Değerler üye işyeri kodlama anahtarınız kullanılarak HMAC_SHA256 algoritması ile haslenmelidir.</strong></p>
 
@@ -7130,7 +7130,7 @@ var response = IOSRequest.Execute(request, options);
     <span class="s1">'CC_OWNER'</span><span class="p">:</span> <span class="s1">'John Doe'</span><span class="p">,</span>
     <span class="s1">'CC_NUMBER'</span><span class="p">:</span> <span class="s1">'4355084355084358'</span><span class="p">,</span>
     <span class="s1">'EXP_MONTH'</span><span class="p">:</span> <span class="s1">'12'</span><span class="p">,</span>
-    <span class="s1">'EXP_YEAR'</span><span class="p">:</span> <span class="s1">'2018'</span><span class="p">,</span>
+    <span class="s1">'EXP_YEAR'</span><span class="p">:</span> <span class="s1">'2022'</span><span class="p">,</span>
     <span class="s1">'CC_CVV'</span><span class="p">:</span> <span class="s1">'000'</span><span class="p">,</span>
     <span class="s1">'CURRENCY'</span><span class="p">:</span><span class="s1">'TRY'</span><span class="p">,</span>
     <span class="s1">'DATE'</span><span class="p">:</span> <span class="nx">date</span>
@@ -7178,7 +7178,7 @@ var response = IOSRequest.Execute(request, options);
                 <span class="s1">'CC_NUMBER'</span> <span class="o">=&gt;</span> <span class="s1">'4355084355084358'</span><span class="p">,</span>
                 <span class="s1">'CC_OWNER'</span> <span class="o">=&gt;</span> <span class="s1">'John Doe'</span><span class="p">,</span>
                 <span class="s1">'EXP_MONTH'</span> <span class="o">=&gt;</span> <span class="s1">'12'</span><span class="p">,</span>
-                <span class="s1">'EXP_YEAR'</span> <span class="o">=&gt;</span> <span class="s1">'2018'</span><span class="p">,</span>
+                <span class="s1">'EXP_YEAR'</span> <span class="o">=&gt;</span> <span class="s1">'2022'</span><span class="p">,</span>
                 <span class="s1">'CC_CVV'</span> <span class="o">=&gt;</span> <span class="s1">'000'</span><span class="p">,</span>
                 <span class="s1">'CURRENCY'</span> <span class="o">=&gt;</span> <span class="s1">'TRY'</span><span class="p">,</span>
                 <span class="s1">'DATE'</span> <span class="o">=&gt;</span> <span class="nb">gmdate</span><span class="p">(</span><span class="s1">'Y-m-d H:i:s'</span><span class="p">),</span>
@@ -7252,7 +7252,7 @@ var response = IOSRequest.Execute(request, options);
     <span class="s">'CC_OWNER'</span><span class="p">:</span> <span class="s">'John Doe'</span><span class="p">,</span>
     <span class="s">'CC_NUMBER'</span><span class="p">:</span> <span class="s">'4355084355084358'</span><span class="p">,</span>
     <span class="s">'EXP_MONTH'</span><span class="p">:</span> <span class="s">'12'</span><span class="p">,</span>
-    <span class="s">'EXP_YEAR'</span><span class="p">:</span> <span class="s">'2018'</span><span class="p">,</span>
+    <span class="s">'EXP_YEAR'</span><span class="p">:</span> <span class="s">'2022'</span><span class="p">,</span>
     <span class="s">'CC_CVV'</span><span class="p">:</span> <span class="s">'000'</span><span class="p">,</span>
     <span class="s">'CURRENCY'</span><span class="p">:</span><span class="s">'TRY'</span><span class="p">,</span>
     <span class="s">'DATE'</span><span class="p">:</span> <span class="n">datetime</span><span class="o">.</span><span class="n">utcnow</span><span class="p">()</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s">'</span><span class="si">%</span><span class="s">Y-</span><span class="si">%</span><span class="s">m-</span><span class="si">%</span><span class="s">d </span><span class="si">%</span><span class="s">H:</span><span class="si">%</span><span class="s">M:</span><span class="si">%</span><span class="s">S'</span><span class="p">)</span>
@@ -7371,10 +7371,10 @@ var response = IOSRequest.Execute(request, options);
 <code>CC_OWNER = Ad Soyad</code> <br> 
 <code>CURRENCY = TRY</code> <br>
 <code>EXP_MONTH = 12</code> <br>
-<code>EXP_YEAR = 2018</code> <br></p>
+<code>EXP_YEAR = 2022</code> <br></p>
 
 <p><strong>Key&#39;e göre sıralayıp başlarına UTF-8 Bayt uzunlukları eklenmeli.</strong>
-<code>30001643550843550843588Ad Soyad3TRY192017-10-07 12:00:42212420188OPU_TEST</code></p>
+<code>30001643550843550843588Ad Soyad3TRY192017-10-07 12:00:42212420228OPU_TEST</code></p>
 
 <p><strong>Değerler üye işyeri kodlama anahtarınız kullanılarak HMAC_MD5 algoritması ile haslenmelidir.</strong></p>
 
